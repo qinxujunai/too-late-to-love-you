@@ -40,3 +40,13 @@
 ## 回滚与替换
 
 主站基线 `6dfee7bf321cc69ebd241c862f46a937098c48f3`；文件级备份位于 `C:/Users/Praxis/Documents/Codex/2026-10-23/github-github/work/film/backups`。保留原始交接目录和原HEVC/H.264。影片站后续替换同名视频并更新manifest、时间码和静帧；不覆盖用户原件。公开仓库只存所选H.264，内部交接文档与相册数据库未上传。
+
+## 线上实测补充
+
+最终公开地址：https://qinxujunai.github.io/laibuji-aini/ 。独立仓库 qinxujunai/laibuji-aini；个人站 https://qinxujunai.github.io/#film 已接通，实际点击往返成功。
+
+- GitHub Pages 两站构建成功，页面、CSS/JS、封面线上字节与本地一致（文本仅规范CRLF）。
+- 实际读取线上全部102,796,406字节，SHA-256与提供文件完全相同，无再次编码。
+- 影片站完整15种配置线上重跑全部通过，Chrome/Edge播放到尾；9个时间码逐一复核，最大观测误差不足0.05秒。
+- 移动Lighthouse 13.5.0，影片站性能99/无障碍100/最佳实践100/SEO100；个人站四项100。测试为本次条件快照，不宣称所有网络都相同。
+- 1440×900桌面首屏播放按钮实际范围y=808.8–853.8，在首屏内；390/600/850宽下载入口几何再次通过。
