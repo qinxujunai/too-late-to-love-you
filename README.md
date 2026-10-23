@@ -1,6 +1,6 @@
 # 来不及爱你
 
-影片与创作手记。中文 `/laibuji-aini/`，英文 `/laibuji-aini/en/`，完整制作记录 `/laibuji-aini/archive/`。
+影片与创作手记。中文 `/too-late-to-love-you/`，英文 `/too-late-to-love-you/en/`，完整制作记录 `/too-late-to-love-you/archive/`。
 
 零运行时依赖、无外部资源请求的静态网站。系统字体，浅/深色，原生视频与描述文字。片名只使用经确认的中文标题。
 

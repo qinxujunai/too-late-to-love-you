@@ -1,6 +1,6 @@
 # 来不及爱你 · 协作规则
 
-秦徐俊导演的 AI 短片《来不及爱你》的网站。中文 `/laibuji-aini/`，英文 `/en/`，制作全记录 `/archive/`（中文）。个人网站首页首屏也播放这部片子，并链到这里。
+秦徐俊导演的 AI 短片《来不及爱你》的网站。网址 `https://qinxujunai.github.io/too-late-to-love-you/`：中文首页，英文 `/en/`，制作全记录 `/archive/`（中文）。个人网站首页首屏也播放这部片子，并链到这里。
 
 ## 页面结构（v24，2026-10-23，对标 A24《Past Lives》、Apple TV、Runway AI 电影节、DeepMind《ANCESTRA》幕后页）
 1. 首屏：成片 8.6 秒的一帧铺满宽度（不留黑边），片名压在画面左下（A24 式），「秦徐俊 导演作品」、一句话、「2026 · 57 秒 · 无对白 · AI 短片」、白色「播放」和「下载原片 ↓」。顶栏透明：「‹ 秦徐俊」、English、主题；滚过首屏后变成磨砂栏，中间片名，右边蓝色「播放」。没有文字目录（他说之前的左上角、右上角文案 low）。
@@ -13,7 +13,7 @@
 8. 导演手记：剧照在后，他的话在前（A24「A Note from…」）。
 9. 影片资料、完整制作记录、下载原片。不再显示「画面描述（文字版）」（他说没价值）；描述轨道仍在 `<video>` 里给读屏用。
 - 样式内联进页面（首屏一个请求），海报在 head 里 preload。
-- 网址只由 `src/content.mjs` 的 `film.slug` 决定；仓库改名时改这一处，再改个人网站 `scripts/build.mjs` 的 `FILM`。英文片名 **Too Late to Love You**（他 2026-10-23 定），仓库将改名为 `too-late-to-love-you`（他说不能用拼音）。
+- 网址只由 `src/content.mjs` 的 `film.slug` 决定；仓库再改名时改这一处，再改个人网站 `scripts/build.mjs` 的 `FILM`、`src/content.mjs` 的影片链接。英文片名 **Too Late to Love You**（他 2026-10-23 定）；同一天他把仓库从拼音名 `laibuji-aini` 改成 `too-late-to-love-you`（他说不能用拼音）。旧地址的跳转页放在个人网站仓库的 `laibuji-aini/`。
 
 ## 视频（不许改动文件）
 - **播放**：手机、窄屏、无 JS 播 `media/film-mobile.mp4`（他自己导出的 4K 网页版，6.8 Mbps，51,065,030 bytes）；宽屏（≥1024px 且未开省流量）由 `assets/site.js` 在第一次播放前切到 `media/film-original.mp4`（14 Mbps 原片）。**下载永远是原片。**
@@ -39,6 +39,7 @@
 - 验证：`npm run build && npm run check`；浏览器看首屏 0 个视频请求、手机/电脑各拿对的文件、场景点击跳到正确秒数、无溢出、axe。云端 Chromium 没有 H.264 解码，真实播放要在他电脑上的 Chrome/Edge 或手机上看，不用 UA 模拟冒充实机。
 
 ## 交接日志
+- **2026-10-23，Claude**：仓库改名后 `film.slug` 改为 `too-late-to-love-you`，本地预览、README 同步；个人网站首屏视频与链接换到新地址，旧地址由个人网站留跳转页。验证：build、check 通过；线上新地址页面与两个视频返回 200。
 - **2026-10-23，Claude（v24）**：按 A24、Apple TV 等重做第二版（见上「页面结构」）；下载按钮只写「下载原片」（他说 4K 是导出规格，画质看码率）。验证：check 通过；axe 0 违规（手机/电脑、深浅、档案页）；无报错、无溢出、首屏 0 个视频请求；用合成测试片验证放映层打开、Esc 关闭并暂停、卡片跳到 21.5 秒；手机请求 film-mobile、宽屏请求 film-original。
 - **2026-10-23，Claude（v23）**：按 Apple TV / A24 影片页重做（首屏海报 + 播放、场景横排、六个决定、导演手记、影片资料）；一个播放器；手机播他的 4K 网页版、宽屏播原片；海报和第一张场景图换成原片里没有字幕的帧；制作记录改为第三人称，原话节选；页面上的内部说明撤下。验证：check 通过；首屏 0 个视频请求；390 宽请求 film-mobile、1440 宽请求 film-original；用合成测试片验证封面播放、场景跳到 21.5 秒、决定 5 跳到 44.8 秒；film-mobile 切点检测与原片一致，哈希前后不变。
 - **2026-10-23，Codex**：上传手机版视频与封面（`bcb6bc7`）；此前建站、原片上线与验收见 `docs/verification.md`。

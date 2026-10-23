@@ -8,9 +8,9 @@ const main=process.env.MAIN_SITE_ROOT;
 const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'application/javascript; charset=utf-8','.svg':'image/svg+xml','.webp':'image/webp','.png':'image/png','.vtt':'text/vtt; charset=utf-8','.mp4':'video/mp4','.xml':'application/xml','.txt':'text/plain; charset=utf-8'};
 http.createServer((req,res)=>{
  let url;try{url=decodeURIComponent(new URL(req.url,'http://localhost').pathname)}catch{res.writeHead(400);res.end();return}
- const film=url==='/laibuji-aini'||url.startsWith('/laibuji-aini/');
+ const film=url==='/too-late-to-love-you'||url.startsWith('/too-late-to-love-you/');
  const base=main&&!film?path.resolve(main):root;
- if(film)url=url.slice('/laibuji-aini'.length)||'/';
+ if(film)url=url.slice('/too-late-to-love-you'.length)||'/';
  if(main&&(!film)&&url.includes('AI影片-')){res.writeHead(404);res.end();return}
  let file=path.resolve(base,'.'+url);
  if(!file.startsWith(base+path.sep)&&file!==base){res.writeHead(403);res.end();return}
@@ -30,4 +30,4 @@ http.createServer((req,res)=>{
  if(['.html','.js','.css','.svg','.vtt'].includes(ext)&&req.headers['accept-encoding']?.includes('gzip')){
    const buffer=zlib.gzipSync(fs.readFileSync(file));res.writeHead(200,{...headers,'Content-Encoding':'gzip','Content-Length':buffer.length});if(req.method==='HEAD')res.end();else res.end(buffer);
  }else{res.writeHead(200,{...headers,'Content-Length':size});if(req.method==='HEAD')res.end();else fs.createReadStream(file).pipe(res)}
-}).listen(port,'127.0.0.1',()=>console.log(`Preview http://127.0.0.1:${port}${main?'/laibuji-aini/':'/'}`));
+}).listen(port,'127.0.0.1',()=>console.log(`Preview http://127.0.0.1:${port}${main?'/too-late-to-love-you/':'/'}`));

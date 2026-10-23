@@ -1,3 +1,5 @@
+> 2026-10-23 仓库已改名为 `too-late-to-love-you`，下文的 `laibuji-aini` 地址是当时的记录，现在的网址是 https://qinxujunai.github.io/too-late-to-love-you/ 。
+
 # 发布验证 · 2026-10-23
 
 ## 最终输入
