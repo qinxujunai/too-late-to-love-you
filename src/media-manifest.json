@@ -1,0 +1,67 @@
+{
+  "verified": "2026-10-23",
+  "duration": 57.087,
+  "width": 3840,
+  "height": 2160,
+  "fps": 24,
+  "videoCodec": "H.264 (avc1)",
+  "audioCodec": "AAC",
+  "originalGeneration": "1280×720 / 24fps, according to production history; not a native 4K generation claim",
+  "transform": "Byte-identical copy of creator supplied replacement H.264; no processing",
+  "files": [
+    {
+      "role": "supplied-master",
+      "bytes": 102796406,
+      "sha256": "2e5547c7b3e209a6ac2b1c0393af8215f462ead887186c5cf04984db5bb71c45",
+      "decodedStreamHashes": [
+        "0,v,SHA256=03d219ac04855e15fbacc9f3d573e1746108cfabb7e026bab35ecfc599ccaf09",
+        "1,a,SHA256=aa3b0217fccba685d4cbf188303c04519811833ad30b0930aa177d7d9bc54dd5"
+      ]
+    },
+    {
+      "role": "web-original",
+      "bytes": 102796406,
+      "sha256": "2e5547c7b3e209a6ac2b1c0393af8215f462ead887186c5cf04984db5bb71c45",
+      "decodedStreamHashes": [
+        "0,v,SHA256=03d219ac04855e15fbacc9f3d573e1746108cfabb7e026bab35ecfc599ccaf09",
+        "1,a,SHA256=aa3b0217fccba685d4cbf188303c04519811833ad30b0930aa177d7d9bc54dd5"
+      ]
+    }
+  ],
+  "stills": {
+    "cabin": 0.8,
+    "gaze": 7.5,
+    "rise": 11.2,
+    "deck": 15,
+    "photo": 21.5,
+    "grief": 24,
+    "keep": 29.2,
+    "breathe": 35.4,
+    "sea": 44.8,
+    "arrival": 48.5,
+    "ending": 56.4,
+    "cut-1-before": 9.375,
+    "cut-1-after": 9.542,
+    "cut-2-before": 13.375,
+    "cut-2-after": 13.542
+  },
+  "permissions": {
+    "publicPublication": "User confirmed in this chat on 2026-10-23",
+    "recordingUse": "User confirmed permission for this recording in public film on 2026-10-23",
+    "transcoding": "User final instruction: do not transcode; video replacement handled by creator"
+  },
+  "sceneCuts": [
+    9.458333,
+    13.458333,
+    23.041667,
+    27.833333,
+    47.083333
+  ],
+  "replacementHistory": [
+    {
+      "previousCodec": "HEVC",
+      "previousSourceSHA256": "b61811de30ba45583d18cad4634e3c21ee049560ed57904a5e9891d7fac58482",
+      "reason": "Creator supplied new H.264 export and instructed replacement; no transcoding by agent"
+    }
+  ]
+}
