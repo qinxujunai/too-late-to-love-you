@@ -133,4 +133,3 @@ A cinematic 10–second video of a beautiful young Asian woman on a moving ferry
 **如何将它用作网站教学素材**：并排呈现英文原文与「人物 / 空间 / 光线 / 摄影机 / 环境运动 / 动作终点 / 声音」七个结构标签；观众点击每个标签时，可跳到正式片相关秒数。不要声称这份提示词能在任意模型里稳定复现所有细节。
 
 ---
-

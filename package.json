@@ -2,5 +2,5 @@
   "name": "laibuji-aini",
   "private": true,
   "type": "module",
-  "scripts": {"build":"node scripts/build.mjs","check":"node scripts/check.mjs","serve":"node scripts/serve.mjs"}
+  "scripts": {"build":"node scripts/build.mjs","check":"node scripts/check.mjs","qa":"node scripts/qa.cjs","serve":"node scripts/serve.mjs"}
 }

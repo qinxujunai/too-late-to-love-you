@@ -31,7 +31,7 @@
 
 ## 复现
 
-静态验证不需要依赖。浏览器验收使用Playwright与axe-core，运行时路径可由本机依赖环境提供；本次执行脚本与截图/JSON保存在本机 `.qa/`，未提交临时产物。个人站 `scripts/qa.mjs` 支持 CHROME_PATH。
+静态验证不需要依赖。浏览器验收使用Playwright与axe-core，运行时路径可由本机依赖环境提供；可复用浏览器验收脚本是 `scripts/qa.cjs`（`npm run qa`）；截图/JSON保存在本机 `.qa/`，未提交临时产物。个人站 `scripts/qa.mjs` 支持 CHROME_PATH。
 
 ## 限制
 

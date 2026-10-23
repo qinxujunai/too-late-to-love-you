@@ -14,7 +14,9 @@ npm run check
 npm run serve
 ```
 
-本地打开 http://127.0.0.1:4174/。无需安装依赖，Node 22+。
+本地打开 http://127.0.0.1:4174/。构建和静态检查无需安装依赖，Node 22+。
+
+完整浏览器验证：提供 Playwright 和 axe-core 后运行 `npm run qa`。`FILM_BASE` 设为待测网址；Playwright 模块、axe 脚本和浏览器可通过 `PLAYWRIGHT_MODULE_PATH`、`AXE_SOURCE_PATH`、`CHROME_PATH`、`EDGE_PATH` 指定，默认使用已安装模块与 Windows Chrome/Edge。测试涵盖中英、深浅、390/600/850/1440宽、播放/seek到尾、封面下载几何与axe，截图/JSON写入忽略的 `.qa/`。
 
 ## 替换影片
 
