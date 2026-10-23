@@ -20,6 +20,8 @@ npm run serve
 
 ## 替换影片
 
+**手机压缩版已上传（2026-10-23）**：用户提供的 [`media/film-mobile.mp4`](media/film-mobile.mp4)（约48.7MiB，H.264，仍为3840×2160）与 [`assets/poster-mobile.jpg`](assets/poster-mobile.jpg)。供 Claude Code 接手继续使用，路径、用途和哈希见 [手机压缩版交接](docs/mobile-video-handoff.md)；根目录 `CLAUDE.md` 也有入口。这次仅增加素材，以下当前播放器配置保持不变。
+
 网页只引用 `media/film-original.mp4`。当前文件是创作者提供文件的逐字节副本，没有转码、调色、剪切或无损重封装。3840×2160、24fps、57.087s、H.264/AAC，102,796,406 bytes（约98.03MiB）。这是用户后续亲自提供的 H.264 版本，替换了最初 HEVC 文件；本站未转码。播放失败时给出下载入口。
 
 以后替换同名文件即可切换视频；如果剪辑变动，必须重新核对 `src/content.mjs` 的时间码和 `src/media-manifest.json`，重新抽取封面、静帧并生成描述。不要仅改扩展名来冒充格式转换，也不要把生成源素材 720P 与 4K 导出规格混同。

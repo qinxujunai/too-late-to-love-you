@@ -1,0 +1,24 @@
+{
+  "providedOn": "2026-10-23",
+  "purpose": "Creator supplied compressed version for mobile use; available for Claude Code to integrate later",
+  "processedByAgent": false,
+  "activeInPlayer": false,
+  "video": {
+    "path": "media/film-mobile.mp4",
+    "bytes": 51065030,
+    "sha256": "bf20447b5b94491280cef9ade0b1cd5bdad553aa8183b2f3d60335cd154768a8",
+    "codec": "H.264",
+    "audioCodec": "AAC",
+    "width": 3840,
+    "height": 2160,
+    "fps": 24,
+    "durationSeconds": 57.087,
+    "videoBitrate": 6844642
+  },
+  "cover": {
+    "path": "assets/poster-mobile.jpg",
+    "bytes": 367993,
+    "sha256": "b4188f1f96a658cbc03075eaed17b12113b0399836b4cd762edaf1918fc54533"
+  },
+  "timecodes": "Not revalidated for this supplied compressed version; check before player integration"
+}

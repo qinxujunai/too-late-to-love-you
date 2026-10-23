@@ -1,5 +1,7 @@
 # 来不及爱你 · 协作规则
 
+- **手机压缩版已提供（2026-10-23）**：`media/film-mobile.mp4`（51,065,030 bytes / H.264 / 3840×2160 /24fps/57.087s）及随附 `assets/poster-mobile.jpg`。用户要求上传以供 Claude Code 继续使用，详见 `CLAUDE.md` 与 [手机素材交接](docs/mobile-video-handoff.md)。本次未切换网页播放器，不覆盖原片；接入前核对新文件时间码并完成相应验收。
+
 - 本片先有十秒暖光轮渡画面，后在探索中形成故事；不得倒写成一开始已有成熟剧本。
 - 数据在 src/content.mjs。主页、en、archive HTML、VTT 和 sitemap 由 scripts/build.mjs 生成，不手改。
 - 当前 media/film-original.mp4 为用户随后提供的新 H.264 文件的字节副本（102,796,406 bytes / 3840×2160 /24fps/57.087s），替换了早期 HEVC。最终用户要求不由智能体转码。SHA-256 见 src/media-manifest.json。
