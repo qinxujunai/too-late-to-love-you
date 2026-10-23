@@ -18,13 +18,11 @@ npm run serve
 
 完整浏览器验证：提供 Playwright 和 axe-core 后运行 `npm run qa`。`FILM_BASE` 设为待测网址；Playwright 模块、axe 脚本和浏览器可通过 `PLAYWRIGHT_MODULE_PATH`、`AXE_SOURCE_PATH`、`CHROME_PATH`、`EDGE_PATH` 指定，默认使用已安装模块与 Windows Chrome/Edge。测试涵盖中英、深浅、390/600/850/1440宽、播放/seek到尾、封面下载几何与axe，截图/JSON写入忽略的 `.qa/`。
 
-## 替换影片
+## 影片文件
 
-**手机压缩版已上传（2026-10-23）**：用户提供的 [`media/film-mobile.mp4`](media/film-mobile.mp4)（约48.7MiB，H.264，仍为3840×2160）与 [`assets/poster-mobile.jpg`](assets/poster-mobile.jpg)。供 Claude Code 接手继续使用，路径、用途和哈希见 [手机压缩版交接](docs/mobile-video-handoff.md)；根目录 `CLAUDE.md` 也有入口。这次仅增加素材，以下当前播放器配置保持不变。
-
-网页只引用 `media/film-original.mp4`。当前文件是创作者提供文件的逐字节副本，没有转码、调色、剪切或无损重封装。3840×2160、24fps、57.087s、H.264/AAC，102,796,406 bytes（约98.03MiB）。这是用户后续亲自提供的 H.264 版本，替换了最初 HEVC 文件；本站未转码。播放失败时给出下载入口。
-
-以后替换同名文件即可切换视频；如果剪辑变动，必须重新核对 `src/content.mjs` 的时间码和 `src/media-manifest.json`，重新抽取封面、静帧并生成描述。不要仅改扩展名来冒充格式转换，也不要把生成源素材 720P 与 4K 导出规格混同。
+- 播放：手机、窄屏播 `media/film-mobile.mp4`（他导出的 4K 网页版，约 48.7 MiB）；宽屏在第一次播放前切到 `media/film-original.mp4`（原片，约 98 MiB）。下载永远是原片。
+- 两个文件都是他提供的原件，不转码、不重封装、不压缩。哈希见 `src/media-manifest.json`、`src/mobile-media-manifest.json`，`npm run check` 会核对。
+- 以后换片：用同名文件覆盖，再核对 `src/content.mjs` 的时间码、两个 manifest，重新抽静帧（`assets/*.webp`，海报 `key-*`）。
 
 通过 Git 推送单文件上限 100 MiB，浏览器上传上限 25 MiB。GitHub Pages 不提供 Git LFS 文件内容。当前原片可直接用 Git 推送；播放器 `preload=none`，用户播放前不下载影片。
 

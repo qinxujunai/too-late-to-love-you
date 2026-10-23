@@ -1,8 +1,8 @@
 {
   "providedOn": "2026-10-23",
-  "purpose": "Creator supplied compressed version for mobile use; available for Claude Code to integrate later",
+  "purpose": "Creator supplied 4K web version. Plays on phones and narrow screens (and without JavaScript); wide screens switch to the full-bitrate original. Never re-encoded by an agent.",
   "processedByAgent": false,
-  "activeInPlayer": false,
+  "activeInPlayer": true,
   "video": {
     "path": "media/film-mobile.mp4",
     "bytes": 51065030,
@@ -18,7 +18,8 @@
   "cover": {
     "path": "assets/poster-mobile.jpg",
     "bytes": 367993,
-    "sha256": "b4188f1f96a658cbc03075eaed17b12113b0399836b4cd762edaf1918fc54533"
+    "sha256": "b4188f1f96a658cbc03075eaed17b12113b0399836b4cd762edaf1918fc54533",
+    "use": "Kept in the repository as supplied; the site key art is a clean frame (8.6 s) from the original, chosen in v23 because the play control covered the lettering on this cover."
   },
-  "timecodes": "Not revalidated for this supplied compressed version; check before player integration"
+  "timecodes": "Verified 2026-10-23: scene detection on this file finds cuts at 9.458 / 13.458 / 23.042 / 27.833 / 47.083 s, identical to the original; SHA-256 unchanged before and after."
 }

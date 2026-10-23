@@ -29,7 +29,7 @@
     }
   ],
   "stills": {
-    "cabin": 0.8,
+    "cabin": 6.0,
     "gaze": 7.5,
     "rise": 11.2,
     "deck": 15,
@@ -43,7 +43,8 @@
     "cut-1-before": 9.375,
     "cut-1-after": 9.542,
     "cut-2-before": 13.375,
-    "cut-2-after": 13.542
+    "cut-2-after": 13.542,
+    "key": 8.6
   },
   "permissions": {
     "publicPublication": "User confirmed in this chat on 2026-10-23",
@@ -63,5 +64,6 @@
       "previousSourceSHA256": "b61811de30ba45583d18cad4634e3c21ee049560ed57904a5e9891d7fac58482",
       "reason": "Creator supplied new H.264 export and instructed replacement; no transcoding by agent"
     }
-  ]
+  ],
+  "stillsNote": "cabin re-taken at 6.0 s (the 0.8 s frame carried the on-screen title); key art key-*.webp and key-share.jpg are the 8.6 s frame. All stills are frames of the original, resized only."
 }
