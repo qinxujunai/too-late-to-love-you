@@ -27,55 +27,9 @@
   // controls for full screen and rotation. Without JS the plain <video> with its own controls is shown.
   if (cover) cover.hidden = false;
   const reveal = () => { if (cover) cover.hidden = true; hero && hero.classList.add('playing'); };
-  // Two lines (v26.2): 原画 is the creator's file from this site; 国内 is his Bilibili upload in a sandboxed frame (no popups,
-  // no top navigation: it cannot open Bilibili). A China time zone starts on 国内 (faster there, keeps the film off
-  // GitHub's bandwidth); the choice is remembered. Nothing from Bilibili loads until Play.
-  const box = document.querySelector('[data-line-box]');
-  const screen = film.parentNode;
-  let frame = null;
-  let line = 'orig';
-  let started = false;
-  try {
-    const saved = localStorage.getItem('qxj.line');
-    if (saved === 'orig' || saved === 'cn') line = saved;
-    else if (/^Asia\/(Shanghai|Chongqing|Harbin|Urumqi)$/.test(Intl.DateTimeFormat().resolvedOptions().timeZone)) line = 'cn';
-  } catch {}
-  const openFrame = (t) => {
-    if (!frame) {
-      frame = document.createElement('iframe');
-      frame.className = 'mirror-frame';
-      frame.title = document.title;
-      frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation');
-      frame.setAttribute('allow', 'autoplay; fullscreen');
-      frame.setAttribute('allowfullscreen', '');
-      frame.setAttribute('referrerpolicy', 'no-referrer');
-      screen.appendChild(frame);
-    }
-    film.pause();
-    film.hidden = true;
-    reveal();
-    frame.src = box.dataset.src + (t ? '&t=' + Math.floor(t) : '');
-  };
-  const closeFrame = () => { if (frame) { frame.remove(); frame = null; } film.hidden = false; };
-  const mark = () => box && box.querySelectorAll('[data-line]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.line === line)));
-  if (box) {
-    box.hidden = false;
-    mark();
-    box.addEventListener('click', (e) => {
-      const b = e.target.closest('[data-line]');
-      if (!b || b.dataset.line === line) return;
-      line = b.dataset.line;
-      mark();
-      try { localStorage.setItem('qxj.line', line); } catch {}
-      if (!started) return;
-      if (line === 'cn') openFrame(film.currentTime);
-      else { closeFrame(); const p = film.play(); if (p && p.catch) p.catch(() => {}); }
-    });
-  }
-  film.addEventListener('play', () => { started = true; });
+  // v26.1–26.2 tried his Bilibili upload as a domestic line (sandboxed embed); on his phone it would not play, and he
+  // does not want a second line or a switch (2026-10-24). Removed: one player, one file.
   const play = (time) => {
-    started = true;
-    if (box && line === 'cn') { openFrame(typeof time === 'number' ? time : 0); if (scrollY > 0) scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); return; }
     reveal();
     const go = () => {
       if (typeof time === 'number') film.currentTime = Math.min(time, (film.duration || 57.087) - 0.1);

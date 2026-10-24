@@ -2,9 +2,7 @@
 // Stills and timecodes: the supplied 3840×2160 / 24fps master, rechecked locally.
 // First-person quotation is verbatim Chinese. English quotations are labelled translations.
 // slug: the repository name and the site path. Renaming the repository = change it here (and FILM in the homepage repo).
-// mirror (v26.1, 2026-10-24): his own Bilibili upload, the domestic line for slow links in China. Played inside the page in a
-// sandboxed frame that cannot open Bilibili (he does not want people sent to his Bilibili page). Loaded only on tap.
-export const film = {mirror:'https://player.bilibili.com/player.html?bvid=BV1BLn86TEC2&page=1&autoplay=1&danmaku=0&high_quality=1',title:'来不及爱你',titleEn:'Too Late to Love You',slug:'too-late-to-love-you',home:'https://qinxujunai.github.io/',duration:57.087};
+export const film = {title:'来不及爱你',titleEn:'Too Late to Love You',slug:'too-late-to-love-you',home:'https://qinxujunai.github.io/',duration:57.087};
 export const prompt = `A cinematic 10–second video of a beautiful young Asian woman on a moving ferry, wearing a beige trench coat and a thick oversized plaid scarf. Natural sunlight streams through the cabin windows, reflecting off the water outside. The camera starts with a medium shot, showing the melancholic and moody atmosphere of the boat cabin with blurred passengers in the background. The camera slowly pushes in for an extreme, highly detailed close–up of the woman's face. The wind gently blows her messy hair across her face, highlighting her melancholic, deep, and thoughtful eyes. No speaking. In the final seconds, she slowly turns her head to look over her shoulder directly at the camera with a profound gaze. Handheld camera feel, 4k, photorealistic, cinematic lighting, moody color grading, masterpiece.`;
 export const chapters = [
   {id:'cabin',start:0,end:9.458333,t:0,img:'cabin',zh:['船舱与回眸','风先动起来，镜头才慢慢靠近','蓝色座椅、米色风衣、格子围巾。镜头从中景推近，发丝掠过脸，她最终望向摄影机。','起点是一条让创作者有感觉的十秒视频，当时还没有完整故事。环境在动，人物只完成一次回眸。','让观众先靠近一个人的情绪，再去了解她的故事。'],en:['The cabin and the gaze','The wind moves before the camera draws close','Blue seats, a beige coat, a plaid scarf. The camera moves from a medium shot towards her face. Wind crosses her hair; she looks into the lens.','The starting point was a ten-second clip that felt worth pursuing, before there was a complete story. The environment moves; her action has one clear endpoint.','The viewer enters a feeling before being given its explanation.']},
@@ -25,7 +23,7 @@ export const chapters = [
 export const copy={
 zh:{lang:'zh-CN',home:'秦徐俊',language:'English',theme:'切换深色或浅色',skip:'跳到正文',footer:'秦徐俊的作品',
  title:'《来不及爱你》｜秦徐俊导演的 AI 短片',description:'分手以后，她带着两个人唯一的一张合照，乘轮渡回家。一部 57 秒、没有台词的 AI 短片，和它是怎么做出来的。',
- coverAlt:'《来不及爱你》：她在船舱里望向镜头，眼里含着泪',kicker:'秦徐俊 导演作品',lede:'分手以后，她带着两个人唯一的一张合照，乘轮渡回家。',meta:['2026','57 秒','无对白','AI 短片'],play:'播放',download:'下载原片',line:'线路',lineOrig:'原画',lineCn:'国内',
+ coverAlt:'《来不及爱你》：她在船舱里望向镜头，眼里含着泪',kicker:'秦徐俊 导演作品',lede:'分手以后，她带着两个人唯一的一张合照，乘轮渡回家。',meta:['2026','57 秒','无对白','AI 短片'],play:'播放',download:'下载原片',
  error:'这个浏览器没能播放影片。可以刷新再试，或下载原片观看。',textVersion:'画面描述（文字版）',
  whyLabel:'为什么拍',whyTitle:'用 AI 作为一种作品|去表达自己想表达的创作，|本身就很有意义。',
  why:[['起点','先有一个镜头，后有故事。','我觉得它做出来感觉比较好的一个镜头，然后我想要去尝试表达一个故事。……从第一个镜头开始，然后再去想故事。'],
@@ -49,7 +47,7 @@ zh:{lang:'zh-CN',home:'秦徐俊',language:'English',theme:'切换深色或浅�
  archiveHeading:'制作全记录',archiveIntro:'七段画面怎样一段段做出来，哪一版被否、为什么。整理自秦徐俊与 AI 协作时的工作记录；他的原话节选收在最后。',backFilm:'返回影片'},
 en:{lang:'en',home:'Qin Xujun',language:'中文',theme:'Switch light or dark appearance',skip:'Skip to content',footer:'Work by Qin Xujun',
  title:'《来不及爱你》 | A short film by Qin Xujun',description:'After the breakup, she takes the ferry home with the only photograph of the two of them. A 57-second AI short film without dialogue, and how it was made.',
- coverAlt:'来不及爱你: in the ferry cabin she looks into the lens, eyes wet with tears',kicker:'A film by Qin Xujun',lede:'After the breakup, she takes the ferry home with the only photograph of the two of them.',meta:['2026','57 sec','No dialogue','AI short'],play:'Play',download:'Download the original',line:'Source',lineOrig:'Original',lineCn:'China',
+ coverAlt:'来不及爱你: in the ferry cabin she looks into the lens, eyes wet with tears',kicker:'A film by Qin Xujun',lede:'After the breakup, she takes the ferry home with the only photograph of the two of them.',meta:['2026','57 sec','No dialogue','AI short'],play:'Play',download:'Download the original',
  error:'This browser couldn’t play the film. Reload and try again, or download the original.',textVersion:'Scene descriptions (text)',
  whyLabel:'Why he made it',whyTitle:'Using AI to make a piece that says what you want to say is worth doing in itself.',
  why:[['The start','A shot came first; the story came after.','There was one shot that turned out well, and I wanted to try telling a story with it. … Start from the first shot, then think about the story.'],
