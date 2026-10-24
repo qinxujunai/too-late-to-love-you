@@ -55,6 +55,10 @@ img{display:block;width:100%;height:auto}
 .play svg{width:15px;height:15px}
 .play:hover{text-decoration:none;background:#e8e8ed}
 .download{color:#fff;font-size:17px;opacity:.9}
+/* The domestic line (v26.1): a quiet text button, and the sandboxed Bilibili frame over the screen. */
+.mirror{min-height:44px;padding:0;border:0;background:none;color:#2997ff;font-size:17px}
+.mirror:hover{text-decoration:underline;text-underline-offset:4px}
+.mirror-frame{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
 
 /* Theatre: Play opens the film over a black screen; Esc or ✕ closes it. */
 

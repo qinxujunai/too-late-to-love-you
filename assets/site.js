@@ -27,7 +27,38 @@
   // controls for full screen and rotation. Without JS the plain <video> with its own controls is shown.
   if (cover) cover.hidden = false;
   const reveal = () => { if (cover) cover.hidden = true; hero && hero.classList.add('playing'); };
+  // The domestic line: his Bilibili copy, in a sandboxed frame (no popups, no top navigation: it cannot open Bilibili).
+  // Offered once the film has played or stalled for 2 s; it starts from the same second.
+  const mirror = document.querySelector('[data-mirror]');
+  const screen = film.parentNode;
+  let frame = null;
+  const openMirror = (t) => {
+    if (!frame) {
+      frame = document.createElement('iframe');
+      frame.className = 'mirror-frame';
+      frame.title = document.title;
+      frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation');
+      frame.setAttribute('allow', 'autoplay; fullscreen');
+      frame.setAttribute('allowfullscreen', '');
+      frame.setAttribute('referrerpolicy', 'no-referrer');
+      screen.appendChild(frame);
+    }
+    film.pause();
+    film.hidden = true;
+    reveal();
+    frame.src = mirror.dataset.src + (t ? '&t=' + Math.floor(t) : '');
+    mirror.textContent = mirror.dataset.off;
+  };
+  const closeMirror = () => { frame.remove(); frame = null; film.hidden = false; mirror.textContent = mirror.dataset.on; };
+  if (mirror) {
+    let stall;
+    film.addEventListener('play', () => { mirror.hidden = false; });
+    film.addEventListener('waiting', () => { clearTimeout(stall); stall = setTimeout(() => { mirror.hidden = false; }, 2000); });
+    film.addEventListener('playing', () => clearTimeout(stall));
+    mirror.addEventListener('click', () => (frame ? closeMirror() : openMirror(film.currentTime)));
+  }
   const play = (time) => {
+    if (frame) { openMirror(typeof time === 'number' ? time : 0); if (scrollY > 0) scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); return; }
     reveal();
     const go = () => {
       if (typeof time === 'number') film.currentTime = Math.min(time, (film.duration || 57.087) - 0.1);
