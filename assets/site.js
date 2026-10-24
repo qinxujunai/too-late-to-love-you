@@ -14,7 +14,7 @@
   const bar = document.querySelector('[data-bar]');
   const hero = document.querySelector('.hero');
   if (bar && hero && 'IntersectionObserver' in window) {
-    new IntersectionObserver(([e]) => { bar.classList.toggle('solid', !e.isIntersecting); const v = document.getElementById('film'); bar.classList.toggle('away', e.isIntersecting && v && !v.paused); }, { rootMargin: '-52px 0px 0px 0px' }).observe(hero);
+    new IntersectionObserver(([e]) => { bar.classList.toggle('solid', !e.isIntersecting); }, { rootMargin: '-52px 0px 0px 0px' }).observe(hero);
   }
 
   const film = document.getElementById('film');
@@ -36,11 +36,10 @@
     };
     if (typeof time === 'number' && film.readyState < 1) { film.addEventListener('loadedmetadata', go, { once: true }); film.load(); }
     else go();
-    if (scrollY > 40) document.getElementById('watch').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    if (scrollY > 0) scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
     film.focus({ preventScroll: true });
   };
-  film.addEventListener('play', () => { reveal(); if (bar && !bar.classList.contains('solid')) bar.classList.add('away'); });
-  ['pause', 'ended'].forEach((t) => film.addEventListener(t, () => bar && bar.classList.remove('away')));
+  film.addEventListener('play', reveal);
   film.addEventListener('error', () => { document.getElementById('video-error').hidden = false; });
   document.querySelectorAll('[data-play]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); play(); }));
   document.querySelectorAll('[data-seek]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); play(Number(a.dataset.seek)); }));
