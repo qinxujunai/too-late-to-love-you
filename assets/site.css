@@ -74,12 +74,14 @@ img{display:block;width:100%;height:auto}
 .why-k{font-size:15px;font-weight:600;color:var(--muted)}
 .why-list h3{margin-top:6px;font-size:21px;line-height:1.35}
 .why-list blockquote p{margin-top:12px;font-size:15px;line-height:1.75}
+.why-note{margin-top:10px;font-size:13px;color:var(--muted)}
 .why .signed{max-width:1080px;margin:24px auto 0;text-align:center;font-size:15px;color:var(--muted)}
 .seek{display:inline-flex;align-items:center;min-height:44px;font-size:15px;font-variant-numeric:tabular-nums}
 
-/* Making: seven shots as a rail of cards, paddles on wide screens. */
-.rail-wrap{position:relative}
-.rail{display:grid;grid-auto-flow:column;grid-auto-columns:min(82vw,400px);gap:20px;overflow-x:auto;padding:4px max(20px,calc((100% - 1200px)/2)) 12px;scroll-snap-type:x mandatory;scroll-padding:0 max(20px,calc((100% - 1200px)/2));scrollbar-width:none;margin:0 -20px}
+/* Making: a carousel inside the page width (v25.1: it used to bleed off the right edge with the paddles alone at the
+   bottom right). Three cards a page on wide screens, two on tablets; phones swipe with the next card peeking. */
+.rail-wrap{position:relative;max-width:1200px;margin:0 auto;padding:0 20px}
+.rail{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 40px)/3);gap:20px;overflow-x:auto;padding:4px 0 12px;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
 .rail::-webkit-scrollbar{display:none}
 .card{scroll-snap-align:start;display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:var(--soft)}
 .card-body{display:flex;flex-direction:column;flex:1;padding:22px 24px 18px}
@@ -88,9 +90,16 @@ img{display:block;width:100%;height:auto}
 .card h3{margin-top:6px;font-size:22px;line-height:1.25}
 .card-body>p:not(.card-kicker){margin-top:10px;font-size:15px;line-height:1.65}
 .card .seek{margin-top:auto;padding-top:10px;color:var(--link);font-size:14px}
-.paddles{display:flex;justify-content:flex-end;gap:12px;max-width:1200px;margin:20px auto 0}
-.paddles button{width:40px;height:40px;border:0;border-radius:50%;background:var(--soft);color:var(--ink);font-size:20px}
-.paddles button:disabled{opacity:.35;cursor:default}
+.arrow{position:absolute;top:calc(50% - 30px);display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:var(--card);color:var(--ink);font-size:24px;line-height:1;box-shadow:0 2px 12px rgba(0,0,0,.14);cursor:pointer;transition:opacity .25s ease}
+.arrow.prev{left:-34px}.arrow.next{right:-34px}
+.arrow[disabled]{opacity:0;pointer-events:none}
+.dots{display:flex;justify-content:center;gap:8px;margin-top:20px;min-height:8px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--muted);opacity:.35;transition:opacity .25s ease}
+.dots i.on{opacity:1}
+@media(max-width:1023px){.rail{grid-auto-columns:calc((100% - 20px)/2)}}
+@media(max-width:733px){.rail-wrap{padding:0}.rail{grid-auto-columns:82%;padding:4px 20px 12px;scroll-padding:0 20px}}
+@media(max-width:1279px){.arrow.prev{left:8px}.arrow.next{right:8px}}
+@media(hover:none){.arrow{display:none}}
 .more{max-width:1200px;margin:24px auto 0;text-align:center;font-size:17px}
 
 /* Lessons */

@@ -20,9 +20,9 @@
   const film = document.getElementById('film');
   const cover = document.querySelector('.cover');
   if (!film) return;
-  // Wide screens get the full-bitrate original; phones keep the creator's web version. Neither loads until Play.
-  const wide = film.dataset.wide;
-  if (wide && matchMedia('(min-width: 1024px)').matches && !(navigator.connection && navigator.connection.saveData)) film.src = wide;
+  // One file everywhere: the creator's 4K web version (about 7 Mbps); the 14 Mbps original is the download only.
+  // Tested 2026-10-24: on a fast link Chromium already downloads the whole film ahead (a service worker forcing a
+  // full-speed download changed nothing), so stalls come from links slower than the film's bitrate, not from buffering.
   // The film is the first screen (v24.1, as in v23): tap the picture and it plays right there, with the system
   // controls for full screen and rotation. Without JS the plain <video> with its own controls is shown.
   if (cover) cover.hidden = false;
@@ -44,14 +44,24 @@
   document.querySelectorAll('[data-play]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); play(); }));
   document.querySelectorAll('[data-seek]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); play(Number(a.dataset.seek)); }));
 
-  // Shot rail: paddles move one card at a time.
+  // Shot carousel: arrows turn a whole page; dots show where you are. Arrows vanish at either end.
   const rail = document.querySelector('[data-rail]');
   if (rail) {
-    const prev = document.querySelector('[data-rail-prev]'), next = document.querySelector('[data-rail-next]');
-    const step = () => (rail.querySelector('.card')?.getBoundingClientRect().width || 300) + 20;
-    const sync = () => { prev.disabled = rail.scrollLeft < 4; next.disabled = rail.scrollLeft + rail.clientWidth > rail.scrollWidth - 4; };
-    prev.addEventListener('click', () => rail.scrollBy({ left: -step(), behavior: reduce ? 'auto' : 'smooth' }));
-    next.addEventListener('click', () => rail.scrollBy({ left: step(), behavior: reduce ? 'auto' : 'smooth' }));
-    rail.addEventListener('scroll', sync, { passive: true }); sync();
+    const prev = document.querySelector('[data-rail-prev]'), next = document.querySelector('[data-rail-next]'), dots = document.querySelector('[data-dots]');
+    const pages = () => Math.max(1, Math.ceil((rail.scrollWidth - 4) / (rail.clientWidth + 20)));
+    const page = () => Math.round(rail.scrollLeft / (rail.clientWidth + 20));
+    const sync = () => {
+      prev.disabled = rail.scrollLeft < 4;
+      next.disabled = rail.scrollLeft + rail.clientWidth > rail.scrollWidth - 4;
+      const n = pages(), at = next.disabled ? n - 1 : page();
+      if (dots.children.length !== n) dots.innerHTML = '<i></i>'.repeat(n);
+      [...dots.children].forEach((d, i) => d.classList.toggle('on', i === at));
+    };
+    const turn = (dir) => rail.scrollBy({ left: dir * (rail.clientWidth + 20), behavior: reduce ? 'auto' : 'smooth' });
+    prev.addEventListener('click', () => turn(-1));
+    next.addEventListener('click', () => turn(1));
+    rail.addEventListener('scroll', sync, { passive: true });
+    addEventListener('resize', sync);
+    sync();
   }
 })();
