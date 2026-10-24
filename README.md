@@ -20,7 +20,7 @@ npm run serve
 
 ## 影片文件
 
-- 播放：手机、窄屏播 `media/film-mobile.mp4`（他导出的 4K 网页版，约 48.7 MiB）；宽屏在第一次播放前切到 `media/film-original.mp4`（原片，约 98 MiB）。下载永远是原片。
+- 播放和下载：只有一个文件 `media/film-mobile.mp4`（他导出的 4K 网页版，约 48.7 MiB）。100MB 的原片 2026-10-24 按他的要求删除。
 - 两个文件都是他提供的原件，不转码、不重封装、不压缩。哈希见 `src/media-manifest.json`、`src/mobile-media-manifest.json`，`npm run check` 会核对。
 - 以后换片：用同名文件覆盖，再核对 `src/content.mjs` 的时间码、两个 manifest，重新抽静帧（`assets/*.webp`，海报 `key-*`）。
 
