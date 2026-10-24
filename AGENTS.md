@@ -46,7 +46,7 @@
 
 ## 规矩
 - 数据在 `src/content.mjs`、`src/archive.md`；页面、VTT、sitemap 由 `scripts/build.mjs` 生成，不手改。
-- 系统字体、黑白浅灰、蓝链接；深浅色；手机优先；零外部请求；无强制动效；中文标题只在标点处换行（`word-break: keep-all`）。
+- 系统字体、黑白浅灰、蓝链接；深浅色；手机优先；零外部请求（唯一例外：视频本身从腾讯云、Cloudflare 播放，见「视频」）；无强制动效；中文标题只在标点处换行（`word-break: keep-all`）。
 - 提交只署 `qinxujunai <266454737+qinxujunai@users.noreply.github.com>`，不加 co-author 或工具署名。
 - 验证：`npm run build && npm run check`；浏览器看首屏 0 个视频请求、手机/电脑各拿对的文件、场景点击跳到正确秒数、无溢出、axe。云端 Chromium 没有 H.264 解码，真实播放要在他电脑上的 Chrome/Edge 或手机上看，不用 UA 模拟冒充实机。
 
