@@ -1,5 +1,5 @@
-// Theme, the bar, the theatre, the scene sequence and the shot rail. Without JS: the key art, a Play link that
-// opens the film file, every scene with its own picture, and a scrollable rail.
+// Theme, the bar, the film in the first screen, the scene sequence and the shot rail. Without JS: the plain video with its own controls,
+// every scene with its own picture, and a scrollable rail.
 (() => {
   const root = document.documentElement;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -14,32 +14,21 @@
   const bar = document.querySelector('[data-bar]');
   const hero = document.querySelector('.hero');
   if (bar && hero && 'IntersectionObserver' in window) {
-    new IntersectionObserver(([e]) => bar.classList.toggle('solid', !e.isIntersecting), { rootMargin: '-52px 0px 0px 0px' }).observe(hero);
+    new IntersectionObserver(([e]) => { bar.classList.toggle('solid', !e.isIntersecting); const v = document.getElementById('film'); bar.classList.toggle('away', e.isIntersecting && v && !v.paused); }, { rootMargin: '-52px 0px 0px 0px' }).observe(hero);
   }
 
   const film = document.getElementById('film');
-  const theatre = document.getElementById('theatre');
-  if (!film || !theatre) return;
+  const cover = document.querySelector('.cover');
+  if (!film) return;
   // Wide screens get the full-bitrate original; phones keep the creator's web version. Neither loads until Play.
   const wide = film.dataset.wide;
   if (wide && matchMedia('(min-width: 1024px)').matches && !(navigator.connection && navigator.connection.saveData)) film.src = wide;
-  let opener = null;
-  // Phones: straight into the system player, full screen; it rotates with the phone (iOS), or locks to landscape
-  // (Android). Leaving full screen closes the theatre. Wide screens keep the theatre.
-  const phone = matchMedia('(max-width: 1023px) and (pointer: coarse)').matches;
-  if (phone) film.removeAttribute('playsinline');
-  const fullscreen = () => {
-    if (!phone) return;
-    try {
-      if (film.requestFullscreen) film.requestFullscreen().then(() => screen.orientation?.lock?.('landscape').catch(() => {})).catch(() => {});
-      else if (film.webkitEnterFullscreen) film.webkitEnterFullscreen();
-    } catch {}
-  };
-  const open = (time) => {
-    opener = document.activeElement;
-    theatre.hidden = false;
-    document.body.classList.add('watching');
-    fullscreen();
+  // The film is the first screen (v24.1, as in v23): tap the picture and it plays right there, with the system
+  // controls for full screen and rotation. Without JS the plain <video> with its own controls is shown.
+  if (cover) cover.hidden = false;
+  const reveal = () => { if (cover) cover.hidden = true; hero && hero.classList.add('playing'); };
+  const play = (time) => {
+    reveal();
     const go = () => {
       if (typeof time === 'number') film.currentTime = Math.min(time, (film.duration || 57.087) - 0.1);
       const p = film.play();
@@ -47,21 +36,14 @@
     };
     if (typeof time === 'number' && film.readyState < 1) { film.addEventListener('loadedmetadata', go, { once: true }); film.load(); }
     else go();
-    theatre.querySelector('[data-close]').focus();
+    if (scrollY > 40) document.getElementById('watch').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    film.focus({ preventScroll: true });
   };
-  const close = () => {
-    film.pause();
-    theatre.hidden = true;
-    document.body.classList.remove('watching');
-    if (opener && opener.focus) opener.focus();
-  };
-  document.addEventListener('fullscreenchange', () => { if (phone && !document.fullscreenElement && !theatre.hidden) close(); });
-  film.addEventListener('webkitendfullscreen', () => { if (!theatre.hidden) close(); });
+  film.addEventListener('play', () => { reveal(); if (bar && !bar.classList.contains('solid')) bar.classList.add('away'); });
+  ['pause', 'ended'].forEach((t) => film.addEventListener(t, () => bar && bar.classList.remove('away')));
   film.addEventListener('error', () => { document.getElementById('video-error').hidden = false; });
-  document.querySelectorAll('[data-play]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); open(); }));
-  document.querySelectorAll('[data-seek]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); open(Number(a.dataset.seek)); }));
-  theatre.querySelector('[data-close]').addEventListener('click', close);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !theatre.hidden) close(); });
+  document.querySelectorAll('[data-play]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); play(); }));
+  document.querySelectorAll('[data-seek]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); play(Number(a.dataset.seek)); }));
 
   // Scenes: the step in the middle of the screen decides which frame shows.
   const frames = [...document.querySelectorAll('[data-frame]')];

@@ -1,6 +1,6 @@
 // Builds the film site: Chinese and English film pages, the production record, scene descriptions, sitemap.
-// v24 (2026-10-23): the film-page pattern of A24 and Apple TV — full-bleed key art with the title on it, Play opens
-// a dark theatre; then the story, a pinned scene sequence, seven shot cards, lessons, the two tools taken apart,
+// v24 (2026-10-23): the film-page pattern of A24 and Apple TV. v24.1: the film itself is the first screen again — tap the
+// picture and it plays right there with the system controls (full screen, rotate), as in v23; then the story, a pinned scene sequence, seven shot cards, lessons, the two tools taken apart,
 // the director's note. The stylesheet is inlined so the first screen needs one request.
 import fs from 'node:fs';
 import {film,copy,chapters,shots,lessons,skills,prompt} from '../src/content.mjs';
@@ -33,11 +33,10 @@ function page(lang){
 <header class="bar" data-bar><a class="bar-home" href="${film.home}${zh?'':'en/'}" rel="noopener">‹ ${c.home}</a><span class="bar-title">${film.title}</span><span class="bar-tools"><a href="${other}" lang="${zh?'en':'zh-CN'}">${c.language}</a><button type="button" data-theme-toggle aria-label="${c.theme}">${moon}</button><button class="bar-play" type="button" data-play>${playIcon}${c.play}</button></span></header>
 <main id="main">
 <section class="hero" id="top" aria-labelledby="film-title">
-<img class="hero-art" src="${r}assets/key-1280.webp" srcset="${r}assets/key-1280.webp 1280w, ${r}assets/key-2560.webp 2560w" sizes="100vw" width="1280" height="720" alt="${esc(c.coverAlt)}" fetchpriority="high" decoding="async">
+<div class="screen" id="watch"><video id="film" controls playsinline preload="none" poster="${r}assets/key-1280.webp" width="3840" height="2160" aria-label="${film.title}" src="${r}${PLAY}" data-wide="${r}${ORIGINAL}"><track kind="descriptions" src="${r}media/descriptions-${lang}.vtt" srclang="${c.lang}" label="${c.textVersion}"></video><button class="cover" type="button" data-play hidden aria-label="${esc(c.play)} ${film.title}"><img src="${r}assets/key-1280.webp" srcset="${r}assets/key-1280.webp 1280w, ${r}assets/key-2560.webp 2560w" sizes="100vw" width="1280" height="720" alt="${esc(c.coverAlt)}" fetchpriority="high" decoding="async"><span class="disc">${playIcon}</span></button><p class="video-error" id="video-error" role="status" hidden>${c.error}</p></div>
 <div class="hero-copy"><p class="kicker">${c.kicker}</p><h1 id="film-title">${film.title}</h1>${zh?'':`<p class="title-en">${film.titleEn}</p>`}<p class="lede">${c.lede}</p><p class="meta">${c.meta.join('<span aria-hidden="true"> · </span>')}</p>
 <p class="actions"><a class="play" href="${r}${PLAY}" data-play>${playIcon}${c.play}</a><a class="download" href="${r}${ORIGINAL}" download>${c.download} <span aria-hidden="true">↓</span></a></p></div>
 </section>
-<div class="theatre" id="theatre" hidden role="dialog" aria-modal="true" aria-label="${film.title}"><video id="film" controls playsinline preload="none" poster="${r}assets/key-1280.webp" width="3840" height="2160" src="${r}${PLAY}" data-wide="${r}${ORIGINAL}"><track kind="descriptions" src="${r}media/descriptions-${lang}.vtt" srclang="${c.lang}" label="${c.textVersion}"></video><button class="theatre-close" type="button" data-close aria-label="${c.close}">✕</button><p class="theatre-error" id="video-error" role="status" hidden>${c.error}</p></div>
 <section class="section story" aria-labelledby="story-title">${sectionHead('story',c.storyLabel,c.storyTitle)}<div class="prose">${c.story.map(p=>`<p>${p}</p>`).join('')}</div></section>
 <section class="scenes" id="scenes" aria-labelledby="scenes-title">${sectionHead('scenes',c.scenesLabel,c.scenesTitle,c.scenesLead)}
 <div class="sequence"><div class="stage" aria-hidden="true">${chapters.map((s,i)=>`<img src="${r}assets/${s.img}.webp" width="1440" height="810" alt="" loading="${i<2?'eager':'lazy'}" decoding="async" data-frame="${i}"${i===0?' class="on"':''}>`).join('')}</div>
