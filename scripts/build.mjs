@@ -1,8 +1,9 @@
 // Builds the film site: Chinese and English film pages, the production record, scene descriptions, sitemap.
-// v25 (2026-10-24): the film is the first screen; then why he made it, how (seven shots), what to take away, tools, credits.
+// v26 (2026-10-24): the film; why he made it; how (seven shots); the film basics that let him name each problem
+// (越轴 first); the tools, under his line about ideas being the limit; his closing words; credits.
 // The stylesheet is inlined so the first screen needs one request.
 import fs from 'node:fs';
-import {film,copy,chapters,shots,lessons,lessonFrames,skills,muse,prompt} from '../src/content.mjs';
+import {film,copy,chapters,shots,axis,craft,skills,muse,prompt} from '../src/content.mjs';
 
 const esc=s=>String(s).replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
 const tc=n=>`00:${n.toFixed(2).padStart(5,'0')}`;
@@ -32,10 +33,31 @@ const ICONS={
 const footer=c=>`<footer class="foot"><span>${film.title}</span><span>© 2026</span></footer>`;
 const seekLink=(r,t,text)=>`<a class="seek" href="${r}${PLAY}#t=${t}" data-seek="${t}">${text.replace('{t}',mmss(t))} ›</a>`;
 const sectionHead=(id,label,title,lead='')=>`<header class="head"><p class="eyebrow">${label}</p><h2 id="${id}-title">${title}</h2>${lead?`<p class="lead">${lead}</p>`:''}</header>`;
+// Chinese has no spaces: a '|' in a title marks where a line may break; each phrase stays whole.
+const phr=t=>t.includes('|')?t.split('|').map(x=>`<span class="ph">${x}</span>`).join(''):t;
+// A quoted title: the marks stay attached to the first and last phrase, never alone on a line.
+const qt=t=>phr(`“${t}”`);
+// 越轴, drawn from above: her line of action, two cameras on either side, and what each one sees.
+function axisDiagram(L){
+ const cam=(x,y,up)=>`<g transform="translate(${x} ${y})${up?'':' rotate(180)'}"><rect x="-17" y="-2" width="34" height="22" rx="4"/><path d="M-9 -2 L0 -16 L9 -2"/></g>`;
+ const fig=(x,dir)=>`<g transform="translate(${x} 0)"><circle cx="0" cy="-14" r="6"/><path d="M0 -8v18M-8 0h16M0 10l-6 12M0 10l6 12"/><path d="M${dir*16} 4H${dir*42}M${dir*35} -2L${dir*42} 4L${dir*35} 10" class="dir"/></g>`;
+ return `<svg class="axis-svg" viewBox="0 0 600 312" role="img" aria-label="${esc(L.walk)}: ${esc(L.seeA)}; ${esc(L.seeB)}"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M24 150H336" stroke-dasharray="6 8" class="muted"/>
+<circle cx="180" cy="150" r="9" fill="currentColor" stroke="none"/><path d="M196 150h44m-8-7 8 7-8 7" class="dir"/>
+<g class="cam-a">${cam(180,236,true)}</g><g class="cam-b muted">${cam(180,64,false)}</g>
+<path d="M180 222V172M180 78V128" stroke-dasharray="2 6" class="muted"/>
+<rect x="388" y="168" width="188" height="106" rx="10"/><g transform="translate(482 228)">${fig(-24,1)}</g>
+<rect x="388" y="26" width="188" height="106" rx="10" class="muted"/><g transform="translate(482 86)" class="muted">${fig(24,-1)}</g>
+</g><g font-size="15" fill="currentColor" class="labels">
+<text x="24" y="138" class="muted-t">${esc(L.line)}</text><text x="206" y="138">${esc(L.walk)}</text>
+<text x="210" y="262">${esc(L.a)}</text><text x="210" y="48" class="muted-t">${esc(L.b)}</text>
+<text x="482" y="304" text-anchor="middle">${esc(L.seeA)}</text><text x="482" y="18" text-anchor="middle" class="muted-t">${esc(L.seeB)}</text>
+</g></svg>`;
+}
 
 function page(lang){
  const c=copy[lang],r=lang==='zh'?'':'../',other=lang==='zh'?'en/':'../',zh=lang==='zh';
- const me=zh?'秦徐俊':'Qin Xujun';
+ const me=zh?'秦徐俊':'Qin Xujun, translated from Chinese';
  return `${head(c,zh?'':'en/',r,{hero:true})}<body><a class="skip" href="#main">${c.skip}</a>
 <header class="bar" data-bar><a class="bar-home" href="#top">${film.title}</a><span class="bar-tools"><a href="${other}" lang="${zh?'en':'zh-CN'}">${c.language}</a><button type="button" data-theme-toggle aria-label="${c.theme}">${moon}</button><button class="bar-play" type="button" data-play>${playIcon}${c.play}</button></span></header>
 <main id="main">
@@ -44,18 +66,20 @@ function page(lang){
 <div class="hero-copy"><p class="kicker">${c.kicker}</p><h1 id="film-title">${film.title}</h1>${zh?'':`<p class="title-en">${film.titleEn}</p>`}<p class="lede">${c.lede}</p><p class="meta">${c.meta.join('<span aria-hidden="true"> · </span>')}</p>
 <p class="actions"><a class="play" href="${r}${PLAY}" data-play>${playIcon}${c.play}</a><a class="download" href="${r}${ORIGINAL}" download>${c.download} <span aria-hidden="true">↓</span></a></p></div>
 </section>
-<section class="section why" id="why" aria-labelledby="why-title"><header class="head"><p class="eyebrow">${c.whyLabel}</p><h2 id="why-title">“${c.whyTitle.includes('|')?c.whyTitle.split('|').map(t=>`<span class="ph">${t}</span>`).join(''):c.whyTitle}”</h2></header>
+<section class="section why" id="why" aria-labelledby="why-title"><header class="head"><p class="eyebrow">${c.whyLabel}</p><h2 class="qh" id="why-title">${qt(c.whyTitle)}</h2></header>
 <ol class="why-list">${c.why.map(([k,h,q,n])=>`<li><p class="why-k">${k}</p><h3>${h}</h3><blockquote><p>“${q}”</p></blockquote>${n?`<p class="why-note">${n}</p>`:''}</li>`).join('')}</ol><p class="signed">— ${c.whySigned}</p></section>
 <section class="section making" id="making" aria-labelledby="making-title">${sectionHead('making',c.makeLabel,c.makeTitle,c.makeLead)}
 <div class="rail-wrap"><ol class="rail" tabindex="0" aria-label="${c.makeTitle}" data-rail>${shots.map(s=>`<li class="card"><figure>${still(s.img,s[lang][0],r)}</figure><div class="card-body"><p class="card-kicker">${c.seg.replace('{n}',s.n)} · ${s[lang][1]}</p><h3>${s[lang][0]}</h3><p>${s[lang][2]}</p>${seekLink(r,s.t,c.from)}</div></li>`).join('')}</ol>
 <button class="arrow prev" type="button" data-rail-prev aria-label="${zh?'上一页':'Previous'}">‹</button><button class="arrow next" type="button" data-rail-next aria-label="${zh?'下一页':'Next'}">›</button><p class="dots" data-dots aria-hidden="true"></p></div>
 <div class="prompt"><h3>${c.promptTitle}</h3>${c.prompt.map(t=>`<p>${t}</p>`).join('')}<details><summary>${c.promptOpen}</summary><blockquote lang="en">${esc(prompt)}</blockquote></details></div>
 <p class="more"><a href="${r}archive/">${c.archiveLink} ›</a></p></section>
-<section class="section soft lessons" id="learn" aria-labelledby="learn-title">${sectionHead('learn',c.learnLabel,c.learnTitle)}
-<ol class="lesson-grid">${lessons[lang].map(([h,p],i)=>{const f=lessonFrames[i];const art=f.pair?`<figure class="pair">${still(f.pair[0],'',r)}${still(f.pair[1],'',r)}<figcaption>${f.cap[lang]}</figcaption></figure>`:`<figure>${still(f.img,'',r)}</figure>`;return `<li>${art}<div class="lesson-body"><span class="n">${i+1}</span><h3>${h}</h3><p>${p}</p>${seekLink(r,f.t,c.from)}</div></li>`}).join('')}</ol><p class="learn-quote">“${c.learnQuote}” <span>— ${me}</span></p></section>
-<section class="section tools" id="tools" aria-labelledby="tools-title">${sectionHead('tools',c.toolsLabel,c.toolsTitle,c.toolsLead)}
+<section class="section soft craft" id="learn" aria-labelledby="learn-title"><header class="head"><p class="eyebrow">${c.learnLabel}</p><h2 class="qh" id="learn-title">${qt(c.learnTitle)}</h2><p class="lead">“${c.learnLead}” <span class="by">— ${me}</span></p></header>
+<article class="axis"><div class="axis-text"><h3>${axis[lang].term}</h3><blockquote><p>“${axis[lang].def}”</p><p class="by">— ${me}</p></blockquote><p class="in-film"><span>${c.inFilm}</span>${axis[lang].film}</p>${seekLink(r,axis.t,c.from)}</div><figure class="axis-fig">${axisDiagram(c.axisSvg)}<figcaption>${c.axisCap}</figcaption></figure></article>
+<ol class="craft-grid">${craft.map(f=>{const[h,d,x]=f[lang];const art=f.pair||f.pair2?`<figure class="pair">${still(f.pair?f.pair[0]:f.img,'',r)}${still(f.pair?f.pair[1]:f.pair2,'',r)}<figcaption>${f.cap[lang]}</figcaption></figure>`:`<figure>${still(f.img,'',r)}</figure>`;return `<li>${art}<div class="craft-body"><h3>${h}</h3><p class="def">${d}</p><p class="in-film"><span>${c.inFilm}</span>${x}</p>${seekLink(r,f.t,c.from)}</div></li>`}).join('')}</ol></section>
+<section class="section tools" id="tools" aria-labelledby="tools-title"><header class="head"><p class="eyebrow">${c.toolsLabel}</p><h2 class="qh" id="tools-title">${qt(c.toolsTitle)}</h2><p class="lead">“${c.toolsLead}” <span class="by">— ${me}</span></p></header>
 <div class="tool-grid"><article class="tool tool-muse">${icon(ICONS.muse)}<h3>${muse.name}</h3><p>${muse[lang]}</p><div class="invite"><p class="invite-k">${c.invite}</p><p class="invite-code">${muse.code}</p><p class="invite-note">${c.inviteNote}</p></div><a href="${muse.url}" rel="noopener">${c.inviteGo} ↗</a></article>${skills.map((k,i)=>`<article class="tool">${icon(i?ICONS.layers:ICONS.director)}<h3>${k.name}</h3><p>${k[lang]}</p><a href="${k.url}" rel="noopener">${c.repo} ↗</a></article>`).join('')}</div></section>
-<section class="section credits" aria-labelledby="credits-title"><div class="narrow"><h2 id="credits-title">${c.creditsTitle}</h2><dl>${c.credits.map(([t,d])=>`<dt>${t}</dt><dd>${d}</dd>`).join('')}</dl><p class="note-line">${c.creditsNote}</p><p class="credits-links"><a href="${r}archive/">${c.archiveLink} ›</a><a href="${r}${ORIGINAL}" download>${c.download} ↓</a></p></div></section>
+<section class="section coda" aria-labelledby="coda-title"><div class="narrow"><h2 id="coda-title">${c.codaTitle}</h2>${c.coda.map(t=>`<p>“${t}”</p>`).join('')}<p class="by">— ${c.codaSigned}</p></div></section>
+<section class="section credits" aria-labelledby="credits-title"><div class="narrow"><h2 id="credits-title">${c.creditsTitle}</h2><dl>${c.credits.map(([t,d])=>`<dt>${t}</dt><dd>${d}</dd>`).join('')}</dl>${c.creditsNote?`<p class="note-line">${c.creditsNote}</p>`:''}<p class="credits-links"><a href="${r}archive/">${c.archiveLink} ›</a><a href="${r}${ORIGINAL}" download>${c.download} ↓</a></p></div></section>
 </main>${footer(c)}</body></html>`;
 }
 

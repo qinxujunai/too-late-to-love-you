@@ -35,12 +35,15 @@ zh:{lang:'zh-CN',home:'秦徐俊',language:'English',theme:'切换深色或浅�
  promptTitle:'提示词里真正管用的，只有看得见的东西',
  prompt:['整部片子从一条英文提示词开始。它管用的部分是：一个连续镜头，一次推近，一个动作的终点（回头看镜头），会动的交给风和光，没有对白。','没用的部分是一串形容词：cinematic、moody、masterpiece、4k。写了 4k，生成出来是 720p。','后来每一段只写动作。比如第 2 段只写了：她收回目光，一滴泪落下，起身，朝镜头走来，从画面右侧走出去，镜头停在空座位上。'],
  promptOpen:'看原始提示词',archiveLink:'阅读完整制作记录',
- learnLabel:'如果你也想做一部',learnTitle:'六条做法，都是被否掉的版本换来的',
- learnQuote:'你觉得哪里有不对、哪里不舒服，都可以去改……',
- toolsLabel:'工具',toolsTitle:'用到的工具',toolsLead:'生成用 Muse；写提示词时参考了两个开源技能包（都是 MIT 许可）。',
+ learnLabel:'要懂一点影视常识',learnTitle:'当你可以说出|这个问题的时候，|它就可以改好。',
+ learnLead:'一些影视基础知识你得知道，比如景别、切换、越轴，还有一些常用的镜头语言。',
+ inFilm:'在这部片子里',axisCap:'两个机位留在线的同一边，她在两个镜头里都往右走。有一个越过这条线，她在画面里就突然往左走了。',
+ axisSvg:{line:'方向线',walk:'她往右走',a:'机位 A',b:'机位 B',seeA:'A 拍到：往右',seeB:'B 拍到：往左'},
+ toolsLabel:'工具',toolsTitle:'最大的限制，|是自己的想法',toolsLead:'我制作的习惯，开始会让 Muse 去 Github 分别找星级比较高，认可度好的 Skill，一个是导演的，一个是 Seedance 的，不用了解具体，只用说目的，就是要奥斯卡级别影片制作。',
+ codaTitle:'没有任何东西是白费的',coda:['无论是用 Claude 还是 GPT 去做网站，跑一些内容、沟通交流，还是 Muse 这一类智能体，你会发现，其实更重要的是长期以来的积累，比如本身的专业能力。','从最开始，一个代码都看不懂，终端命令行都看着非常恐惧。……亦或是遇到的每一个有意思的小伙伴、看过的书、做过的事情，没有任何东西是白费的。'],codaSigned:'秦徐俊，写在影片上线时',
  invite:'邀请码',inviteNote:'注册后 48 小时内，在「设置」里填写这个邀请码，你和秦徐俊各得 10 亿 Muse 词元。',inviteGo:'加入 Muse',repo:'查看项目',
  creditsTitle:'影片资料',credits:[['导演','秦徐俊'],['剪辑与调色','秦徐俊'],['生成','Muse，七段，每段 10 秒'],['音乐','《来不及爱你》'],['时长','57 秒'],['生成素材','1280 × 720 · 24 fps'],['成片导出','3840 × 2160（由 720p 素材放大）']],
- creditsNote:'页面上的画面都取自成片。',
+ creditsNote:'',
  archiveHeading:'制作全记录',archiveIntro:'七段画面怎样一段段做出来，哪一版被否、为什么。整理自秦徐俊与 AI 协作时的工作记录；他的原话节选收在最后。',backFilm:'返回影片'},
 en:{lang:'en',home:'Qin Xujun',language:'中文',theme:'Switch light or dark appearance',skip:'Skip to content',footer:'Work by Qin Xujun',
  title:'《来不及爱你》 | A short film by Qin Xujun',description:'After the breakup, she takes the ferry home with the only photograph of the two of them. A 57-second AI short film without dialogue, and how it was made.',
@@ -56,12 +59,15 @@ en:{lang:'en',home:'Qin Xujun',language:'中文',theme:'Switch light or dark app
  promptTitle:'In a prompt, only what can be seen does any work',
  prompt:['The whole film started from one English prompt. The part that worked: one continuous shot, one push-in, one clear end to the action (she looks back at the lens), wind and light doing the moving, no dialogue.','The part that did nothing was a string of adjectives: cinematic, moody, masterpiece, 4k. It asked for 4k; it came out at 720p.','After that, each shot described only action. Shot 2 said just this: she looks away, a tear falls, she stands, walks towards the camera, leaves the frame on the right, and the camera stays on the empty seat.'],
  promptOpen:'Show the original prompt',archiveLink:'Read the full production record (Chinese)',
- learnLabel:'If you want to make one',learnTitle:'Six rules, each paid for with a rejected take',
- learnQuote:'Wherever something feels wrong or uncomfortable, you can change it.',
- toolsLabel:'Tools',toolsTitle:'What was used',toolsLead:'Muse for generation; two open-source skill packs (both MIT licensed) shaped how the prompts were written.',
+ learnLabel:'A little film grammar',learnTitle:'Once you can name the problem, it can be fixed.',
+ learnLead:'You need some film basics: shot sizes, cuts, crossing the line, and the common language of the camera.',
+ inFilm:'In this film',axisCap:'Keep both cameras on the same side of the line and she walks right in both shots. Put one across it and on screen she suddenly walks left.',
+ axisSvg:{line:'line of action',walk:'she walks right',a:'Camera A',b:'Camera B',seeA:'A sees: right',seeB:'B sees: left'},
+ toolsLabel:'Tools',toolsTitle:'The biggest limit is your own ideas',toolsLead:'My habit is to start by asking Muse to search GitHub for well-starred, widely trusted skills, one for directing and one for Seedance. You don’t need to know the details, only to say what you want: an Oscar-level film.',
+ codaTitle:'Nothing is wasted',coda:['Whether you use Claude or GPT to build websites, run content and talk things through, or an agent like Muse, you find that what matters more is what you have built up over a long time, such as your own professional skill.','At the start I couldn’t read a line of code, and the terminal scared me. … Every interesting person I met, every book I read, everything I did: none of it was wasted.'],codaSigned:'Qin Xujun, written when the film came out (translated from Chinese)',
  invite:'Invite code',inviteNote:'Enter it under Settings within 48 hours of joining, and you and Qin Xujun each get one billion Muse tokens.',inviteGo:'Join Muse',repo:'View project',
  creditsTitle:'Details',credits:[['Director','Qin Xujun'],['Edit & colour','Qin Xujun'],['Generated with','Muse, seven shots of 10 seconds'],['Music','《来不及爱你》'],['Running time','57 seconds'],['Generated at','1280 × 720 · 24 fps'],['Exported at','3840 × 2160 (upscaled from 720p)']],
- creditsNote:'Every frame on this page is taken from the film.',backFilm:'Back to the film'}
+ creditsNote:'',backFilm:'Back to the film'}
 };
 
 // The seven shots, in film order. Facts: src/archive.md §5. Plain words: what went wrong, what fixed it.
@@ -74,17 +80,34 @@ export const shots = [
   {n:6,img:'sea',t:44.8,zh:['后拉，见到整片海','被否两次','一开始是航拍大远景，来得太突然。他重新设计成从她脸上一级级往后拉；第二版又笑得太快，第三版接着上一段的泪痕慢慢来。'],en:['Pulling back to the sea','Rejected twice','It began as an aerial wide shot that came from nowhere. He redesigned it as a pull-back from her face; the second version smiled too soon, the third carried the tears over and took its time.']},
   {n:7,img:'ending',t:56.4,zh:['下船，走向一扇门','被否两次','码头版人太多太乱；海滨步道版把她的去处说得太清楚。留下的是她走向一扇门，门外是什么，不知道。'],en:['Off the ferry: the door','Rejected twice','The pier version was crowded and messy; the seaside walkway said too clearly where she goes. What stayed: she walks towards a door, and we don’t know what lies beyond.']}
 ];
-// What someone else can take away (src/archive.md §7), in plain words.
-export const lessons = {
-  zh:[['一段只让人物做一件事','装不下就拆成两段。会动的东西交给风、水和光。'],['下一段从上一段的最后一帧开始','拿上一段最后一帧当开头，文字只写接下来的动作。再描述一遍长相、衣服、光线，画面就会变样。'],['情绪也要接上','上一段在哭，下一段开头也得在哭。情绪可以在一段里慢慢变，不能一剪就没了。'],['照片里的人不露正脸','画面里的小照片，人脸最容易变形、显老。用背影或虚化。'],['选参考图先看动作','参考图会把颜色和姿态一起带过来。参考帧里的人站着，生成出来的人就会站起来。'],['情绪最高的地方要克制','含着泪笑一下、一口深呼吸，比大哭更打动人。']],
-  en:[['One action per shot','If it doesn’t fit, split it in two. Let wind, water and light do the rest of the moving.'],['Start each shot from the last frame','Use the previous shot’s last frame as the opening image and describe only what happens next. Describe the face, clothes or light again and the picture drifts.'],['Carry the feeling across the cut','If she was crying at the end of one shot, she is crying at the start of the next. Feeling can change within a shot, not vanish at a cut.'],['No faces in the photograph','Small faces inside the frame distort and age first. Use backs or blur.'],['Pick references by what the person is doing','A reference image brings its colour and its posture. If she is standing in it, she will stand up.'],['Hold back at the peak','A smile through tears, one deep breath: stronger than loud crying.']]
-};
-// One real frame per lesson (v25.2: the six rules were text only). Each frame is where the rule shows in the film,
-// with a link to that second. Rule 3 shows both sides of the 0:13 cut: her tears carry across it.
-export const lessonFrames = [
-  {img:'sea',t:44.8},{img:'rise',t:11.2},
-  {pair:['cut-2-before','cut-2-after'],t:12.5,cap:{zh:'0:13 剪辑点的前一帧和后一帧',en:'The frames either side of the cut at 0:13'}},
-  {img:'photo',t:21.5},{img:'gaze',t:7.5},{img:'breathe',t:35.4}
+// v26 (2026-10-24): he said the page didn't show what he values most: knowing film basics such as 越轴, because
+// "当你可以说出这个问题的时候，它就可以改好" (his post, docs in src/archive.md). The six rules became named craft ideas,
+// each with what happened in this film (src/archive.md §5, §7) and a real frame. 越轴 leads, with a diagram.
+// 越轴 definition: his own words from the post, verbatim. "看起来非常假": archive 原话 补充.
+export const axis = {t:12.5,
+  zh:{term:'越轴',def:'摄影机突然跨过了一条假想的方向线，导致画面中人物的位置或运动方向反过来，让观众产生空间混乱。',
+    film:'第 2 段的第一版，从船舱跳到甲板时越轴了，他觉得“看起来非常假”。之后定下一条规矩：她全程从左往右走，右边出画，左边入画。'},
+  en:{term:'Crossing the line',def:'The camera suddenly crosses an imaginary line of direction, so a person’s position or movement on screen flips, and the audience loses track of the space.',
+    film:'The first take of shot 2 crossed the line when it jumped from the cabin to the deck; to him it “looked really fake”. After that one rule held for the whole film: she always moves left to right, leaving frame on the right and entering on the left.'}};
+export const craft = [
+  {img:'gaze',pair2:'sea',t:44.8,cap:{zh:'0:07 特写 · 0:44 全景',en:'0:07 close-up · 0:44 full shot'},
+   zh:['景别','人在画面里占多大：远景、全景、中景、近景、特写。景别一换，观众和她的距离就变了。','开场从中景推到特写，先让人靠近她。第 6 段原来直接切到航拍大远景，太突然；改成从她脸上一级级往后拉，最后才看到整片海。'],
+   en:['Shot size','How much of the frame a person fills: wide, full, medium, close-up, extreme close-up. Change it and you change how close the audience is to her.','The opening pushes from a medium shot to a close-up so you get near her first. Shot 6 first cut straight to an aerial wide shot, too sudden; it became a pull-back from her face, step by step, until the whole sea is in view.']},
+  {img:'rise',t:11.2,
+   zh:['动作衔接','上一个镜头没做完的动作，下一个镜头接着做完。接得上，观众就感觉不到剪辑。','每一段都拿上一段真实的最后一帧当开头，文字只写接下来的动作。再描述一遍长相、衣服、光线，画面就会变样。'],
+   en:['Matching action','An action left unfinished in one shot is finished in the next. When it matches, the audience doesn’t notice the cut.','Every shot started from the real last frame of the one before, with text describing only what happens next. Describe the face, clothes or light again and the picture drifts.']},
+  {pair:['cut-2-before','cut-2-after'],t:12.5,cap:{zh:'0:13 剪辑点的前一帧和后一帧',en:'The frames either side of the cut at 0:13'},
+   zh:['情绪也要接上','衣服要接得上，情绪也是：上一个镜头在哭，下一个镜头开头也得在哭。','第 3 段的第一版，她一走出舱门就不哭了，眼泪在剪辑点上凭空消失。重做后她出门还在哭，走到栏杆边才擦掉。'],
+   en:['Carry the feeling across the cut','Like the costume, the feeling has to match: if she is crying at the end of one shot, she is crying at the start of the next.','In the first take of shot 3 she stopped crying the moment she stepped out; the tears vanished at the cut. In the remake she is still crying at the door and only wipes them at the railing.']},
+  {img:'cabin',t:6,
+   zh:['色调统一','同一部片子，光和颜色要像同一天、同一个地方拍的。','第 1 段生成出来是偏青橙的清晨色调，后面都是午后日光。他在剪映里自己调色，对照三处：她的脸回到偏粉的米白，座椅回到干净的蓝，窗框回到白色。'],
+   en:['Consistent colour','One film should look as if it was shot on one day in one place.','Shot 1 came out in teal-and-orange morning tones; everything after is afternoon sun. He graded it himself in CapCut against three checks: her face back to a pinkish beige, the seats back to a clean blue, the window frames back to white.']},
+  {img:'photo',t:21.5,
+   zh:['道具会说话','画面里每样东西都在讲故事。道具不对，情绪就不对。','她手里的照片，第一版是两位老人的旧照，他说“我觉得这个情绪就不对”。换成一对情侣，故事才成了分手；又改成海边的背影，因为小照片里的脸最容易变形。'],
+   en:['Props tell the story','Everything in the frame says something. Get a prop wrong and the feeling is wrong.','The photograph in her hand began as an old picture of two elderly people; to him “the feeling was wrong”. A young couple made it a breakup; then their backs by the sea, because small faces inside a frame distort first.']},
+  {img:'breathe',t:35.4,
+   zh:['表演的分寸','情绪最满的地方，往往要收着演。','第 4 段的第一版一开场就是正脸大哭，被否。定版里她只是含着泪笑了一下；第 5 段是一口深呼吸，肩膀松下来。'],
+   en:['Hold back at the peak','Where the feeling is strongest, play it smallest.','The first take of shot 4 opened on loud crying, face to camera, and was rejected. In the final cut she just smiles once through her tears; in shot 5 it is one deep breath and her shoulders dropping.']}
 ];
 // Tools. Muse: named by him as the generator (2026-10-24); the invite code and its terms are his, as he sent them.
 // The two skills: both MIT licensed (LICENSE files checked 2026-10-24).

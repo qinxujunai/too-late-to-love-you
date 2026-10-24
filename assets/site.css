@@ -5,6 +5,7 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--page);color:var(--body);font:17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+p,figcaption,blockquote{text-wrap:pretty}
 a{color:var(--link);text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:4px}
 button{font:inherit;color:inherit;cursor:pointer}
@@ -66,7 +67,9 @@ img{display:block;width:100%;height:auto}
 .lead{margin-top:18px;font-size:clamp(19px,2vw,23px);line-height:1.5}
 /* Why he made it: his words, three short reasons. */
 .why .head{max-width:820px}
-.why .head h2{font-size:clamp(24px,3.2vw,40px);line-height:1.4;text-wrap:balance}
+.why .head{max-width:820px}
+.head .qh{font-size:clamp(26px,3.4vw,44px);line-height:1.3;text-wrap:balance}
+.why .head,.craft .head,.tools .head{max-width:880px}
 /* Chinese has no spaces to break at: each phrase stays whole, lines break between phrases. */
 .ph{display:inline-block}
 .why-list{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1080px;margin:0 auto}
@@ -102,18 +105,42 @@ img{display:block;width:100%;height:auto}
 @media(hover:none){.arrow{display:none}}
 .more{max-width:1200px;margin:24px auto 0;text-align:center;font-size:17px}
 
-/* Lessons */
-.lesson-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1080px;margin:0 auto}
-.lesson-grid li{display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:var(--card);clip-path:inset(0 round 18px)}
-.lesson-grid figure img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
-.lesson-grid .pair{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--card)}
-.lesson-grid .pair img{aspect-ratio:8/9}
-.lesson-grid .pair figcaption{position:absolute;left:12px;bottom:10px;padding:3px 9px;border-radius:980px;background:rgba(0,0,0,.55);color:#fff;font-size:12px}
-.lesson-body{display:flex;flex-direction:column;flex:1;padding:22px 26px 16px}
-.lesson-body .seek{margin-top:auto;padding-top:6px;color:var(--link);font-size:14px}
-.lesson-grid .n{font-size:15px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
-.lesson-grid h3{margin-top:6px;font-size:21px;line-height:1.3}
-.lesson-grid p{margin-top:10px;font-size:15px;line-height:1.65}
+/* Film basics (v26): name the problem and it can be fixed. 越轴 leads, with a diagram; six more, each with a real frame. */
+.head .by,.by{font-size:15px;color:var(--muted);white-space:nowrap}
+.axis{display:grid;grid-template-columns:5fr 6fr;gap:48px;align-items:center;max-width:1080px;margin:0 auto 20px;padding:48px;border-radius:24px;background:var(--card)}
+.axis h3{font-size:clamp(40px,5vw,64px);line-height:1}
+.axis blockquote{margin-top:20px}
+.axis blockquote p:first-child{font-size:clamp(19px,1.9vw,23px);line-height:1.5;color:var(--ink);font-weight:500}
+.axis blockquote .by{margin-top:8px}
+.in-film{margin-top:18px;font-size:15px;line-height:1.7}
+.in-film span{display:block;font-size:13px;font-weight:600;color:var(--muted)}
+.axis .seek{color:var(--link)}
+.axis-fig{color:var(--ink)}
+.axis-svg{display:block;width:100%;height:auto;overflow:visible}
+.axis-svg .muted,.axis-svg .muted-t{color:var(--muted);opacity:.75}
+.axis-svg .muted-t{fill:var(--muted)}
+.axis-svg .dir{stroke:var(--link)}
+.axis-svg .cam-a{fill:var(--card)}
+.axis-svg text{font-family:var(--sans)}
+.axis-fig figcaption{text-wrap:pretty;margin-top:14px;font-size:14px;line-height:1.6;color:var(--muted);text-align:center}
+.craft-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1080px;margin:0 auto}
+.craft-grid li{display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:var(--card);clip-path:inset(0 round 18px)}
+.craft-grid figure img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.craft-grid .pair{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--card)}
+.craft-grid .pair img{aspect-ratio:8/9}
+.craft-grid .pair figcaption{position:absolute;left:12px;bottom:10px;padding:3px 9px;border-radius:980px;background:rgba(0,0,0,.55);color:#fff;font-size:12px}
+.craft-body{display:flex;flex-direction:column;flex:1;padding:22px 26px 16px}
+.craft-body h3{font-size:24px;line-height:1.25}
+.craft-body .def{margin-top:8px;font-size:16px;line-height:1.6;color:var(--ink)}
+.craft-body .in-film{margin-top:14px}
+.craft-body .seek{margin-top:auto;padding-top:8px;color:var(--link);font-size:14px}
+
+/* Coda: his closing words, white on black, like the last card before the credits. */
+.coda{background:#000;color:#d2d2d7;text-align:center}
+.coda h2{color:#f5f5f7;font-size:clamp(32px,4.4vw,56px);line-height:1.1;margin-bottom:32px}
+.coda .narrow{max-width:600px}
+.coda p{font-size:clamp(17px,1.7vw,21px);line-height:1.75;margin-top:16px}
+.coda .by{margin-top:24px;color:#a1a1a6;white-space:normal}
 
 /* Tools */
 .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1080px;margin:0 auto}
@@ -126,8 +153,6 @@ img{display:block;width:100%;height:auto}
 .invite-k{font-size:13px;font-weight:600;color:var(--muted)}
 .invite-code{margin-top:2px;font-size:30px;font-weight:600;letter-spacing:.08em;color:var(--ink);user-select:all}
 .invite-note{margin-top:6px;font-size:13px;line-height:1.6;color:var(--muted)}
-.learn-quote{max-width:1080px;margin:40px auto 0;text-align:center;font-size:19px;color:var(--ink)}
-.learn-quote span{font-size:15px;color:var(--muted)}
 .tool a{display:inline-flex;min-height:44px;align-items:center;margin-top:12px;font-size:15px}
 .prompt{max-width:680px;margin:80px auto 0}
 .prompt h3{font-size:clamp(24px,2.6vw,32px)}
@@ -165,7 +190,8 @@ details blockquote{padding:0 0 24px;font-size:15px;line-height:1.85;overflow-wra
 
 @media(max-width:833px){
  .section{padding:88px 20px}
- .lesson-grid{grid-template-columns:1fr 1fr}
+ .craft-grid{grid-template-columns:1fr 1fr}
+ .axis{grid-template-columns:1fr;gap:32px;padding:36px}
  .why-list{grid-template-columns:1fr;max-width:640px}
  .tool-grid{grid-template-columns:1fr}
 }
@@ -179,11 +205,15 @@ details blockquote{padding:0 0 24px;font-size:15px;line-height:1.85;overflow-wra
  .section{padding:72px 20px}
  .head{margin-bottom:40px}
  .why-list{grid-template-columns:1fr}
- .lesson-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:82%;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 20px;scrollbar-width:none;margin:0 -20px;padding:4px 20px 12px}
- .lesson-grid::-webkit-scrollbar{display:none}
- .lesson-grid li{scroll-snap-align:start}
+ .craft-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:82%;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 20px;scrollbar-width:none;margin:0 -20px;padding:4px 20px 12px}
+ .craft-grid::-webkit-scrollbar{display:none}
+ .craft-grid li{scroll-snap-align:start}
+ .axis{padding:28px 22px;border-radius:20px;margin:0 -4px 20px}
  .tool{padding:24px}
- .lesson-body{padding:20px 22px 14px}
+ .craft-body{padding:20px 22px 14px}
  .credits dl{grid-template-columns:90px 1fr;font-size:14px}
+ .axis-svg text{font-size:24px}
+ .coda p{text-align:left}
+ .coda .by{text-align:left}
  }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.bar,.bar-play{transition:none}}
