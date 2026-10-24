@@ -1,6 +1,8 @@
 // Theme, the bar, the film in the first screen and the shot rail. Without JS: the plain video with its own controls,
 // and a scrollable rail.
 (() => {
+  // Leftover from the removed 线路 switch (v26.1–26.2): forget it on every phone that saved it.
+  try { localStorage.removeItem('qxj.line'); } catch {}
   const root = document.documentElement;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduce) root.classList.add('motion');
@@ -24,7 +26,7 @@
   // Tested 2026-10-24: on a fast link Chromium already downloads the whole film ahead (a service worker forcing a
   // full-speed download changed nothing), so stalls come from links slower than the film's bitrate, not from buffering.
   // The film is the first screen (v24.1, as in v23): tap the picture and it plays right there, with the system
-  // controls for full screen and rotation. Without JS the plain <video> with its own controls is shown.
+  // controls for full screen and rotation. Without JS the plain video element with its own controls is shown.
   if (cover) cover.hidden = false;
   const reveal = () => { if (cover) cover.hidden = true; hero && hero.classList.add('playing'); };
   // v26.1–26.2 tried his Bilibili upload as a domestic line (sandboxed embed); on his phone it would not play, and he
