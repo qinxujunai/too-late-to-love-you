@@ -21,8 +21,7 @@ img{display:block;width:100%;height:auto}
 /* Bar: transparent over the key art, then a slim translucent bar with the title and Play. */
 .bar{position:fixed;inset:0 0 auto;z-index:20;background:#000;display:flex;align-items:center;gap:16px;height:52px;padding:0 max(20px,calc((100% - 1200px)/2));color:#fff;transition:background .3s ease,color .3s ease,box-shadow .3s ease,transform .35s ease,opacity .35s ease}
 .bar a{color:inherit}
-.bar-home{font-size:14px;opacity:.85;white-space:nowrap}
-.bar-title{flex:1;text-align:center;font-size:15px;font-weight:600;opacity:0;transition:opacity .3s ease}
+.bar-home{flex:1;font-size:15px;font-weight:600;white-space:nowrap}
 .bar-tools{display:flex;align-items:center;gap:6px;font-size:14px;white-space:nowrap}
 .bar-tools>a{opacity:.85;padding:0 6px}
 .bar-tools button{display:grid;place-items:center;width:40px;height:44px;border:0;background:none}
@@ -30,7 +29,7 @@ img{display:block;width:100%;height:auto}
 .bar-play svg{width:11px;height:11px}
 .bar.solid{background:rgba(255,255,255,.82);color:var(--ink);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 1px 0 var(--rule)}
 :root[data-theme=dark] .bar.solid{background:rgba(22,22,23,.82)}
-.bar.solid .bar-title,.bar.solid .bar-play{opacity:1;pointer-events:auto}
+.bar.solid .bar-play{opacity:1;pointer-events:auto}
 .plain-page .bar{position:sticky}
 
 /* Hero: the key art, edge to edge, title on it. */
@@ -156,7 +155,6 @@ details blockquote{padding:0 0 24px;font-size:15px;line-height:1.85;overflow-wra
 @media(max-width:600px){
  body{font-size:16px}
  .bar{padding:0 12px 0 16px;gap:8px}
- .bar-title{font-size:14px}
  .hero-copy{padding:28px 20px 44px}
  .disc{width:68px;height:68px;margin:-34px 0 0 -34px}
  .disc svg{width:24px;height:24px}
@@ -167,4 +165,4 @@ details blockquote{padding:0 0 24px;font-size:15px;line-height:1.85;overflow-wra
  .lesson-grid li,.tool{padding:24px}
  .credits dl{grid-template-columns:90px 1fr;font-size:14px}
  }
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.bar,.bar-title,.bar-play,.js.motion .stage img{transition:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.bar,.bar-play{transition:none}}
