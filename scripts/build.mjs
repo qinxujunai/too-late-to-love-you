@@ -26,6 +26,8 @@ const init=`try{var t=localStorage.getItem('qxj.theme');document.documentElement
 const PLAY='media/film-mobile.mp4';
 const SOURCES=['https://media-1416754078.cos.ap-shanghai.myqcloud.com/too-late-to-love-you.mp4','https://media.praxisai.online/too-late-to-love-you.mp4'];
 const DOWNLOAD=SOURCES[0];
+// The address sits on the video's own src, never in <source> children: WeChat's in-app browser on Android (Tencent
+// X5/XWeb) reads only src, and the <source> list did not play there (2026-10-24). site.js tries the next address on failure.
 const playIcon=`<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3.5v13l10.5-6.5Z" fill="currentColor"/></svg>`;
 const moon=`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20.5 14.2A9 9 0 0 1 9.8 3.5 9 9 0 1 0 20.5 14.2Z"/></svg>`;
 
@@ -71,7 +73,7 @@ function page(lang){
 <header class="bar" data-bar><a class="bar-back" data-qxj-back hidden>‹ ${zh?'返回':'Back'}</a><a class="bar-home" href="#top">${film.title}</a><span class="bar-tools"><a href="${other}" lang="${zh?'en':'zh-CN'}">${c.language}</a><button type="button" data-theme-toggle aria-label="${c.theme}">${moon}</button><button class="bar-play" type="button" data-play>${playIcon}${c.play}</button></span></header>
 <main id="main">
 <section class="hero" id="top" aria-labelledby="film-title">
-<div class="screen" id="watch"><video id="film" controls playsinline preload="none" poster="${r}assets/key-1280.webp" width="3840" height="2160" aria-label="${film.title}">${[...SOURCES,r+PLAY].map(u=>`<source src="${u}" type="video/mp4">`).join('')}<track kind="descriptions" src="${r}media/descriptions-${lang}.vtt" srclang="${c.lang}" label="${c.textVersion}"></video><button class="cover" type="button" data-play hidden aria-label="${esc(c.play)} ${film.title}"><img src="${r}assets/key-1280.webp" srcset="${r}assets/key-1280.webp 1280w, ${r}assets/key-2560.webp 2560w" sizes="100vw" width="1280" height="720" alt="${esc(c.coverAlt)}" fetchpriority="high" decoding="async"><span class="disc">${playIcon}</span></button><p class="video-error" id="video-error" role="status" hidden>${c.error}</p></div>
+<div class="screen" id="watch"><video id="film" src="${SOURCES[0]}" data-sources="${[...SOURCES,r+PLAY].join(' ')}" controls playsinline webkit-playsinline x5-playsinline preload="none" poster="${r}assets/key-1280.webp" width="3840" height="2160" aria-label="${film.title}"><track kind="descriptions" src="${r}media/descriptions-${lang}.vtt" srclang="${c.lang}" label="${c.textVersion}"></video><button class="cover" type="button" data-play hidden aria-label="${esc(c.play)} ${film.title}"><img src="${r}assets/key-1280.webp" srcset="${r}assets/key-1280.webp 1280w, ${r}assets/key-2560.webp 2560w" sizes="100vw" width="1280" height="720" alt="${esc(c.coverAlt)}" fetchpriority="high" decoding="async"><span class="disc">${playIcon}</span></button><p class="video-error" id="video-error" role="status" hidden>${c.error}</p></div>
 <div class="hero-copy"><p class="kicker">${c.kicker}</p><h1 id="film-title">${film.title}</h1>${zh?'':`<p class="title-en">${film.titleEn}</p>`}<p class="lede">${c.lede}</p><p class="meta">${c.meta.join('<span aria-hidden="true"> · </span>')}</p>
 <p class="actions"><a class="play" href="${r}${PLAY}" data-play>${playIcon}${c.play}</a><a class="download" href="${DOWNLOAD}" download="too-late-to-love-you.mp4">${c.download} <span aria-hidden="true">↓</span></a></p>
 </section>

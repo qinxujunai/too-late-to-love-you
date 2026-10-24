@@ -31,23 +31,37 @@
   const reveal = () => { if (cover) cover.hidden = true; hero && hero.classList.add('playing'); };
   // v26.1–26.2 tried his Bilibili upload as a domestic line (sandboxed embed); on his phone it would not play, and he
   // does not want a second line or a switch (2026-10-24). Removed: one player, one file.
+  // Addresses in order (Tencent Shanghai, Cloudflare, this repository). WeChat's player reads only src, so the
+  // fallback is ours: when one fails, or gives nothing for 10 seconds after Play, the next one takes over at the same second.
+  const sources = (film.dataset.sources || '').split(' ').filter(Boolean);
+  let at = 0, guard = 0, want = null;
+  const showError = () => { document.getElementById('video-error').hidden = false; };
+  const go = () => {
+    clearTimeout(guard);
+    guard = setTimeout(() => { if (film.readyState < 1) next(); }, 10000);
+    const seek = () => { if (typeof want === 'number') { film.currentTime = Math.min(want, (film.duration || 57.087) - 0.1); want = null; } };
+    if (typeof want === 'number') { if (film.readyState >= 1) seek(); else film.addEventListener('loadedmetadata', seek, { once: true }); }
+    const p = film.play();
+    if (p && p.catch) p.catch((e) => { if (e.name === 'NotSupportedError' && at >= sources.length - 1) showError(); });
+  };
+  const next = () => {
+    clearTimeout(guard);
+    if (at >= sources.length - 1) { showError(); return; }
+    if (want === null && film.currentTime) want = film.currentTime;
+    film.src = sources[++at];
+    film.load();
+    go();
+  };
   const play = (time) => {
     reveal();
-    const go = () => {
-      if (typeof time === 'number') film.currentTime = Math.min(time, (film.duration || 57.087) - 0.1);
-      const p = film.play();
-      if (p && p.catch) p.catch((e) => { if (e.name === 'NotSupportedError') document.getElementById('video-error').hidden = false; });
-    };
-    if (typeof time === 'number' && film.readyState < 1) { film.addEventListener('loadedmetadata', go, { once: true }); film.load(); }
-    else go();
+    if (typeof time === 'number') want = time;
+    go();
     if (scrollY > 0) scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
     film.focus({ preventScroll: true });
   };
   film.addEventListener('play', reveal);
-  film.addEventListener('error', () => { document.getElementById('video-error').hidden = false; });
-  // With several <source>s the error lands on the last one, after the browser has tried them all.
-  const lastSource = film.querySelector('source:last-of-type');
-  if (lastSource) lastSource.addEventListener('error', () => { document.getElementById('video-error').hidden = false; });
+  film.addEventListener('error', next);
+  film.addEventListener('loadedmetadata', () => clearTimeout(guard));
   document.querySelectorAll('[data-play]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); play(); }));
   document.querySelectorAll('[data-seek]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); play(Number(a.dataset.seek)); }));
 

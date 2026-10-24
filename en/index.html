@@ -2,7 +2,7 @@
 <header class="bar" data-bar><a class="bar-back" data-qxj-back hidden>‹ Back</a><a class="bar-home" href="#top">来不及爱你</a><span class="bar-tools"><a href="../" lang="zh-CN">中文</a><button type="button" data-theme-toggle aria-label="Switch light or dark appearance"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20.5 14.2A9 9 0 0 1 9.8 3.5 9 9 0 1 0 20.5 14.2Z"/></svg></button><button class="bar-play" type="button" data-play><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3.5v13l10.5-6.5Z" fill="currentColor"/></svg>Play</button></span></header>
 <main id="main">
 <section class="hero" id="top" aria-labelledby="film-title">
-<div class="screen" id="watch"><video id="film" controls playsinline preload="none" poster="../assets/key-1280.webp" width="3840" height="2160" aria-label="来不及爱你"><source src="https://media-1416754078.cos.ap-shanghai.myqcloud.com/too-late-to-love-you.mp4" type="video/mp4"><source src="https://media.praxisai.online/too-late-to-love-you.mp4" type="video/mp4"><source src="../media/film-mobile.mp4" type="video/mp4"><track kind="descriptions" src="../media/descriptions-en.vtt" srclang="en" label="Scene descriptions (text)"></video><button class="cover" type="button" data-play hidden aria-label="Play 来不及爱你"><img src="../assets/key-1280.webp" srcset="../assets/key-1280.webp 1280w, ../assets/key-2560.webp 2560w" sizes="100vw" width="1280" height="720" alt="来不及爱你: in the ferry cabin she looks into the lens, eyes wet with tears" fetchpriority="high" decoding="async"><span class="disc"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3.5v13l10.5-6.5Z" fill="currentColor"/></svg></span></button><p class="video-error" id="video-error" role="status" hidden>This browser couldn’t play the film. Reload and try again, or download the film.</p></div>
+<div class="screen" id="watch"><video id="film" src="https://media-1416754078.cos.ap-shanghai.myqcloud.com/too-late-to-love-you.mp4" data-sources="https://media-1416754078.cos.ap-shanghai.myqcloud.com/too-late-to-love-you.mp4 https://media.praxisai.online/too-late-to-love-you.mp4 ../media/film-mobile.mp4" controls playsinline webkit-playsinline x5-playsinline preload="none" poster="../assets/key-1280.webp" width="3840" height="2160" aria-label="来不及爱你"><track kind="descriptions" src="../media/descriptions-en.vtt" srclang="en" label="Scene descriptions (text)"></video><button class="cover" type="button" data-play hidden aria-label="Play 来不及爱你"><img src="../assets/key-1280.webp" srcset="../assets/key-1280.webp 1280w, ../assets/key-2560.webp 2560w" sizes="100vw" width="1280" height="720" alt="来不及爱你: in the ferry cabin she looks into the lens, eyes wet with tears" fetchpriority="high" decoding="async"><span class="disc"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3.5v13l10.5-6.5Z" fill="currentColor"/></svg></span></button><p class="video-error" id="video-error" role="status" hidden>This browser couldn’t play the film. Reload and try again, or download the film.</p></div>
 <div class="hero-copy"><p class="kicker">A film by Qin Xujun</p><h1 id="film-title">来不及爱你</h1><p class="title-en">Too Late to Love You</p><p class="lede">After the breakup, she takes the ferry home with the only photograph of the two of them.</p><p class="meta">2026<span aria-hidden="true"> · </span>57 sec<span aria-hidden="true"> · </span>No dialogue<span aria-hidden="true"> · </span>AI short</p>
 <p class="actions"><a class="play" href="../media/film-mobile.mp4" data-play><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3.5v13l10.5-6.5Z" fill="currentColor"/></svg>Play</a><a class="download" href="https://media-1416754078.cos.ap-shanghai.myqcloud.com/too-late-to-love-you.mp4" download="too-late-to-love-you.mp4">Download the film <span aria-hidden="true">↓</span></a></p>
 </section>
@@ -64,23 +64,37 @@
   const reveal = () => { if (cover) cover.hidden = true; hero && hero.classList.add('playing'); };
   // v26.1–26.2 tried his Bilibili upload as a domestic line (sandboxed embed); on his phone it would not play, and he
   // does not want a second line or a switch (2026-10-24). Removed: one player, one file.
+  // Addresses in order (Tencent Shanghai, Cloudflare, this repository). WeChat's player reads only src, so the
+  // fallback is ours: when one fails, or gives nothing for 10 seconds after Play, the next one takes over at the same second.
+  const sources = (film.dataset.sources || '').split(' ').filter(Boolean);
+  let at = 0, guard = 0, want = null;
+  const showError = () => { document.getElementById('video-error').hidden = false; };
+  const go = () => {
+    clearTimeout(guard);
+    guard = setTimeout(() => { if (film.readyState < 1) next(); }, 10000);
+    const seek = () => { if (typeof want === 'number') { film.currentTime = Math.min(want, (film.duration || 57.087) - 0.1); want = null; } };
+    if (typeof want === 'number') { if (film.readyState >= 1) seek(); else film.addEventListener('loadedmetadata', seek, { once: true }); }
+    const p = film.play();
+    if (p && p.catch) p.catch((e) => { if (e.name === 'NotSupportedError' && at >= sources.length - 1) showError(); });
+  };
+  const next = () => {
+    clearTimeout(guard);
+    if (at >= sources.length - 1) { showError(); return; }
+    if (want === null && film.currentTime) want = film.currentTime;
+    film.src = sources[++at];
+    film.load();
+    go();
+  };
   const play = (time) => {
     reveal();
-    const go = () => {
-      if (typeof time === 'number') film.currentTime = Math.min(time, (film.duration || 57.087) - 0.1);
-      const p = film.play();
-      if (p && p.catch) p.catch((e) => { if (e.name === 'NotSupportedError') document.getElementById('video-error').hidden = false; });
-    };
-    if (typeof time === 'number' && film.readyState < 1) { film.addEventListener('loadedmetadata', go, { once: true }); film.load(); }
-    else go();
+    if (typeof time === 'number') want = time;
+    go();
     if (scrollY > 0) scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
     film.focus({ preventScroll: true });
   };
   film.addEventListener('play', reveal);
-  film.addEventListener('error', () => { document.getElementById('video-error').hidden = false; });
-  // With several <source>s the error lands on the last one, after the browser has tried them all.
-  const lastSource = film.querySelector('source:last-of-type');
-  if (lastSource) lastSource.addEventListener('error', () => { document.getElementById('video-error').hidden = false; });
+  film.addEventListener('error', next);
+  film.addEventListener('loadedmetadata', () => clearTimeout(guard));
   document.querySelectorAll('[data-play]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); play(); }));
   document.querySelectorAll('[data-seek]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); play(Number(a.dataset.seek)); }));
 
