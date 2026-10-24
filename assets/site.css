@@ -83,14 +83,17 @@ body.watching{overflow:hidden}
 .step-card p:not(.tc){margin-top:8px;font-size:17px;color:#d2d2d7}
 .seek{display:inline-flex;gap:6px;align-items:center;min-height:44px;margin-top:6px;font-size:15px;color:#2997ff}
 .seek span{font-variant-numeric:tabular-nums}
-.js.motion .stage{display:block;position:sticky;top:0;height:100svh;overflow:hidden}
+/* Wide screens: the picture stays, the scenes scroll over it. Phones and tablets: a swipeable row of scene cards
+   (v24.1: pinned on a phone it was twelve screens of black, twice the old page). */
+@media(max-width:1023px){.steps{grid-auto-flow:column;grid-auto-columns:min(80vw,380px);gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 20px;scrollbar-width:none;padding:0 20px 88px}.steps::-webkit-scrollbar{display:none}.step{scroll-snap-align:start}.step-card h3{font-size:21px}.step-card p:not(.tc){font-size:15px}}
+@media(min-width:1024px){.js.motion .stage{display:block;position:sticky;top:0;height:100svh;overflow:hidden}
 .js.motion .stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.04);transition:opacity .9s ease,transform 6s ease}
 .js.motion .stage img.on{opacity:1;transform:scale(1)}
 .js.motion .stage::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.72),rgba(0,0,0,.15) 60%,rgba(0,0,0,0))}
 .js.motion .steps{position:relative;margin-top:-100svh;max-width:none;padding:0;gap:0}
-.js.motion .step{min-height:100svh;display:flex;align-items:center;padding:0 max(20px,calc((100% - 1200px)/2))}
+.js.motion .step{min-height:80svh;display:flex;align-items:center;padding:0 max(20px,calc((100% - 1200px)/2))}
 .js.motion .step-art{display:none}
-.js.motion .step-card{position:relative;z-index:1;margin:0;padding:28px 0}
+.js.motion .step-card{position:relative;z-index:1;margin:0;padding:28px 0}}
 
 /* Making: seven shots as a rail of cards, paddles on wide screens. */
 .rail-wrap{position:relative}
@@ -190,8 +193,6 @@ details blockquote{padding:0 0 24px;font-size:15px;line-height:1.85;overflow-wra
  .head{margin-bottom:40px}
  .lesson-grid{grid-template-columns:1fr}
  .lesson-grid li,.tool{padding:24px}
- .js.motion .stage::after{background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.2) 55%,rgba(0,0,0,0))}
- .js.motion .step{align-items:flex-end;padding-bottom:10vh}
  .note-copy{margin-top:-12vw;padding-bottom:88px}
  .credits dl{grid-template-columns:90px 1fr;font-size:14px}
  .theatre{padding:0}

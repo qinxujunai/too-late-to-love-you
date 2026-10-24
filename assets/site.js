@@ -24,10 +24,22 @@
   const wide = film.dataset.wide;
   if (wide && matchMedia('(min-width: 1024px)').matches && !(navigator.connection && navigator.connection.saveData)) film.src = wide;
   let opener = null;
+  // Phones: straight into the system player, full screen; it rotates with the phone (iOS), or locks to landscape
+  // (Android). Leaving full screen closes the theatre. Wide screens keep the theatre.
+  const phone = matchMedia('(max-width: 1023px) and (pointer: coarse)').matches;
+  if (phone) film.removeAttribute('playsinline');
+  const fullscreen = () => {
+    if (!phone) return;
+    try {
+      if (film.requestFullscreen) film.requestFullscreen().then(() => screen.orientation?.lock?.('landscape').catch(() => {})).catch(() => {});
+      else if (film.webkitEnterFullscreen) film.webkitEnterFullscreen();
+    } catch {}
+  };
   const open = (time) => {
     opener = document.activeElement;
     theatre.hidden = false;
     document.body.classList.add('watching');
+    fullscreen();
     const go = () => {
       if (typeof time === 'number') film.currentTime = Math.min(time, (film.duration || 57.087) - 0.1);
       const p = film.play();
@@ -43,6 +55,8 @@
     document.body.classList.remove('watching');
     if (opener && opener.focus) opener.focus();
   };
+  document.addEventListener('fullscreenchange', () => { if (phone && !document.fullscreenElement && !theatre.hidden) close(); });
+  film.addEventListener('webkitendfullscreen', () => { if (!theatre.hidden) close(); });
   film.addEventListener('error', () => { document.getElementById('video-error').hidden = false; });
   document.querySelectorAll('[data-play]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); open(); }));
   document.querySelectorAll('[data-seek]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); open(Number(a.dataset.seek)); }));
