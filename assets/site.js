@@ -1,5 +1,5 @@
-// Theme, the bar, the film in the first screen, the scene sequence and the shot rail. Without JS: the plain video with its own controls,
-// every scene with its own picture, and a scrollable rail.
+// Theme, the bar, the film in the first screen and the shot rail. Without JS: the plain video with its own controls,
+// and a scrollable rail.
 (() => {
   const root = document.documentElement;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -43,19 +43,6 @@
   film.addEventListener('error', () => { document.getElementById('video-error').hidden = false; });
   document.querySelectorAll('[data-play]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); play(); }));
   document.querySelectorAll('[data-seek]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); play(Number(a.dataset.seek)); }));
-
-  // Scenes: the step in the middle of the screen decides which frame shows.
-  const frames = [...document.querySelectorAll('[data-frame]')];
-  if (frames.length && 'IntersectionObserver' in window && !reduce) {
-    const io = new IntersectionObserver((entries) => {
-      for (const e of entries) if (e.isIntersecting) {
-        const i = e.target.dataset.step;
-        frames.forEach((f) => f.classList.toggle('on', f.dataset.frame === i));
-        const next = frames[+i + 1]; if (next) next.loading = 'eager';
-      }
-    }, { rootMargin: '-45% 0px -45% 0px' });
-    document.querySelectorAll('[data-step]').forEach((s) => io.observe(s));
-  }
 
   // Shot rail: paddles move one card at a time.
   const rail = document.querySelector('[data-rail]');

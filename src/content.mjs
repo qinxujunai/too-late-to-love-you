@@ -15,75 +15,80 @@ export const chapters = [
   {id:'sea',start:38.5,end:47.083333,t:44.8,img:'sea',zh:['后拉见海','让世界重新比悲伤宽一点','镜头逐渐拉远，露出人物、船体、舱门、栏杆和海面。','无动机的航拍远景被否；重做时钉住上一段末帧，再逐级后拉，保留原有姿态与泪痕。','远景有了来处，才不只是漂亮的空镜。'],en:['Pulling back to the sea','Let the world grow wider again','The camera pulls away to reveal her, the ferry, its door and railings, and the sea.','An abrupt aerial wide shot was rejected. The replacement starts from the previous actual frame and gradually pulls back, retaining posture and tears.','A wide view becomes meaningful when we understand how we arrived there.']},
   {id:'arrival',start:47.083333,end:57.087,t:56.4,img:'ending',zh:['下船与出口','门外的生活，留给她自己','她走下轮渡，穿过航站区，背对镜头走向明亮的入口，没有回头。','海滨步道版曾被否，因为未来被交代得太清楚。当前成片停在真实的航站入口，并没有完全白光吞没的画面。','影片没有替她安排新的恋人，也没有替观众把未来说完。'],en:['Arrival and the exit','Leave the life beyond the door to her','She leaves the ferry, crosses the terminal area and walks towards a bright entrance, her back to the camera. She does not look back.','A seaside walkway ending was rejected for explaining too much. This supplied cut ends at a real terminal entrance, not in a completely abstract white-out.','No new lover arrives; no complete future is prescribed.']}
 ];
-export const making = [
-  {time:0,img:'cabin',zh:['先有十秒，再有故事','一开始只有船舱里一道偏暖的日光、一阵风和一次回眸，故事还没有写。和 AI 一次次讨论、试拍之后，方向才慢慢清楚：她是乘轮渡回家。'],en:['Ten seconds before a story','First came warm cabin light, a gust of wind and one glance. There was no story yet. Only after rounds of discussion and test shots with AI did it become clear: she is taking the ferry home.']},
-  {time:21.5,img:'photo',zh:['一张照片，决定是哪种关系','第一版是两位老人的旧照，情绪一下就偏了。换成年轻情侣，照片里的小脸又容易失真、显老。最后只留海边依偎的背影：看不清脸，也认得出相爱。'],en:['One photograph decides the relationship','The first version showed an elderly couple, and the feeling went wrong at once. A young couple’s small faces came out distorted and aged. In the end, only their backs, leaning together by the sea: no faces, and still unmistakably in love.']},
-  {time:11.2,img:'rise',zh:['接上的不只是脸，还有眼泪','第二个镜头返工最多：越轴、灰掉的光、失控的哭。最后把上一个镜头真实的最后一帧当作起点，文字只写接下来的动作。衣服、光线、眼泪，就都接上了。'],en:['Carry the tears across the cut','The second shot was redone the most: it crossed the line, the light went grey, the crying went too far. The fix was to start from the previous shot’s actual last frame and describe only what happens next. The coat, the light and the tears all carried over.']},
-  {time:7.5,img:'gaze',zh:['最喜欢的开头，也推翻重来','开场是清晨的色调，和后面的午后日光接不上，人坐的位置也不对。为此试了五条路，有一条把该坐着的人带得站了起来。最后用开场自己的画面做参考，才对上。'],en:['Even the favourite opening was redone','The opening had morning tones that didn’t match the afternoon sun after it, and she was sitting on the wrong side. Five approaches were tried; one made her stand when she had to sit. Using the opening’s own frames as reference finally fixed it.']},
-  {time:44.8,img:'sea',zh:['好看的航拍，也可以不要','直接切到渡轮的大远景很壮观，却像突然换了一部片子。改成从她身上一级级往后拉，先露出她，再是舱门，再是整片海。远景有了来处。'],en:['A beautiful aerial shot can still go','Cutting straight to a wide shot of the ferry was spectacular, and felt like another film. Instead the camera pulls back from her in stages: her, then the cabin door, then the whole sea. The wide view now has somewhere to come from.']},
-  {time:56.4,img:'ending',zh:['不把未知拍成答案','海滨步道的结尾更好看，还是没有留下：它把她的去处说得太清楚。她走向一扇门，门外是什么，不知道。这就够了。'],en:['Don’t turn the unknown into an answer','A seaside walkway ending was prettier, and it was cut anyway: it said too clearly where she goes. She walks towards a door. What lies beyond it, we don’t know. That is enough.']}
-];
-// Page copy. v23 (2026-10-23): rewritten to the film-page pattern of Apple TV and A24 (key art, one line,
-// year · runtime, Play, director; then scenes, the making, the director's note, credits). Internal rules
-// (no transcoding, no fabricated frames, quote checks) live in AGENTS.md, not on the page.
-// Quotes are his spoken words from the archive (附录 B/C), trimmed of fillers only; English is translated.
+// v25 (2026-10-24): one telling, not three. The page used to tell the 57-second film three times (story, scenes,
+// making) and spoil the ending before Play; his own reason for making it was missing. Now: the film, why he made
+// it (his words, 2026-10-24 message and archive 附录), how it was made (seven shots, plain words), what to take
+// away, the tools (Muse, which he named as the generator on 2026-10-24, with his invite code), credits.
+// His words: quoted verbatim, fillers cut with「……」. Everything else is plain description, no slogan headings.
 export const copy={
-zh:{lang:'zh-CN',home:'秦徐俊',close:'关闭',watchFrom:'从这里看',
- shotsLabel:'制作',shotsTitle:'七段画面，一段一段做对',shotsLead:'它不是从剧本开始的。最初只有一条十秒的画面，故事在一次次生成、推翻、剪辑里长出来。',record:'完整记录',
- lessonsLabel:'心得',lessonsTitle:'如果你也想做一部',lessonsLead:'这些是踩完坑以后写下的规矩。拿去就能用。',
- skillsLabel:'工具',skillsTitle:'两个开源工具，帮了什么忙',skillsLead:'它们给方法，判断留给人。',solves:'它解决什么',used:'这部片子里怎么用',cannot:'它替你做不了的',
-title:'《来不及爱你》｜秦徐俊导演的 AI 短片',description:'她带着唯一一张合照，乘轮渡回家。一部 57 秒、没有一句台词的 AI 短片，和它是怎么拍出来的。',back:'秦徐俊的作品',language:'English',nav:['影片','场景','制作','手记'],skip:'跳到正文',
- coverAlt:'《来不及爱你》：她在船舱里望向镜头，眼里含着泪',kicker:'秦徐俊 导演作品',lede:'把回忆收好，再往前走',meta:['2026','57 秒','无对白','AI 短片'],play:'播放',playFull:'播放《来不及爱你》',download:'下载原片',director:'导演',error:'这个浏览器没能播放影片。可以刷新再试，或下载原片观看。',
- storyLabel:'故事',storyTitle:'她没有把照片留在海里',story:['分手以后，她带着两个人唯一的一张合照，乘轮渡回家。她在船舱里流泪，在甲板上看着照片，含着泪笑了一下。','她没有撕掉，也没有扔进海里。只是把照片收好，迎着海风深呼吸，然后下船，走向一扇看不清门外的门。'],
- scenesLabel:'场景',scenesTitle:'一张照片，一口呼吸，一扇门',scenesLead:'没有一句台词，情绪全在动作里。点一个画面，从那一刻开始看。',from:'从这里看',
- makingLabel:'制作',makingTitle:'它不是从剧本开始的',makingLead:'最初只有一条十秒的画面。故事是在一次次生成、推翻、剪辑里长出来的。',see:'看这一刻',
- cutCaption:['剪辑点前一帧','剪辑点后一帧'],
- promptTitle:'一切从这一条提示词开始',promptLead:'先定人物和空间，只写一次推近、一个动作终点；剩下的运动，交给风、水和光。',promptTags:['人物与空间','推近与回眸','风、水、光','无对白'],promptOpen:'展开英文原文',
- toolsTitle:'工具给方法，判断留给人',tools:[['DirectorSKILL','把机位、动作、参考帧和质检写成步骤。它给结构，替你判断不了一滴眼泪接不接得上。','https://github.com/wuwangzhang1216/DirectorSKILL'],['seedance2-skill','让参考素材各管一件事，让动作按时间分段。语法对了，姿态和情绪仍要人来看。','https://github.com/dexhunter/seedance2-skill']],repo:'查看项目',
- notesLabel:'导演手记',quotes:['在做 AI 片子，技术本身已经不重要了，重要的是思维。','只有丰富、细腻的情感，才能创造出真正打动人心的作品。','要勇敢地去开始。在这个过程当中，能够创造出很多不一样的火花。','你觉得哪里不对、哪里不舒服，都可以去改。'],signed:'秦徐俊',quoteNote:'整理自口述',
- archiveTitle:'被推翻的，也都留着',archiveLead:'七段画面怎样一段段做出来，哪一版被否、为什么，第一个镜头又是怎样被推翻重做了五次。',archiveLink:'阅读完整制作记录',
- creditsTitle:'影片资料',credits:[['导演','秦徐俊'],['生成','AI 视频模型，七段，每段 10 秒，720p'],['剪辑与调色','秦徐俊'],['音乐','《来不及爱你》'],['时长','57 秒'],['导出','3840 × 2160 · 24 fps']],creditsNote:'页面上的画面都取自成片。',
- textVersion:'画面描述（文字版）',theme:'切换深色或浅色',footer:'秦徐俊的作品',
- archiveHeading:'制作全记录',archiveIntro:'七段画面、五次重做、一次次被否和定版。整理自秦徐俊与 AI 协作时的工作记录；他的原话节选收在最后。',backFilm:'返回影片'},
-en:{lang:'en',home:'Qin Xujun',close:'Close',watchFrom:'Watch from here',
- shotsLabel:'Making',shotsTitle:'Seven shots, made right one at a time',shotsLead:'It didn’t start with a script. There was a ten-second shot; the story grew out of generating, rejecting and editing, again and again.',record:'Full record',
- lessonsLabel:'Lessons',lessonsTitle:'If you want to make one too',lessonsLead:'The rules written down after every mistake. Take them and use them.',
- skillsLabel:'Tools',skillsTitle:'Two open-source tools, and what they did',skillsLead:'They give method. The judgement stays with people.',solves:'What it solves',used:'How it was used here',cannot:'What it can’t do for you',
-title:'《来不及爱你》 | A short film by Qin Xujun',description:'She takes the ferry home with the only photograph of them. A 57-second AI short film without a word of dialogue, and how it was made.',back:'Work by Qin Xujun',language:'中文',nav:['Film','Scenes','Making','Notes'],skip:'Skip to content',
- coverAlt:'来不及爱你: in the ferry cabin she looks into the lens, eyes wet with tears',kicker:'A film by Qin Xujun',lede:'Keep the memory. Keep moving.',meta:['2026','57 sec','No dialogue','AI short'],play:'Play',playFull:'Play 来不及爱你',download:'Download the original',director:'Directed by',error:'This browser couldn’t play the film. Reload and try again, or download the original.',
- storyLabel:'The story',storyTitle:'She does not leave the photograph at sea',story:['After the breakup she takes the ferry home with the only photograph of the two of them. She cries in the cabin, looks at the picture on deck, and smiles once through her tears.','She does not tear it up or throw it into the sea. She puts it away, breathes in the sea wind, and walks off the ferry towards a door she cannot see beyond.'],
- scenesLabel:'Scenes',scenesTitle:'A photograph. A breath. A door.',scenesLead:'Not a word is spoken; the feeling is in what she does. Tap a frame to watch from that moment.',from:'Watch from here',
- makingLabel:'Making',makingTitle:'It didn’t start with a script',makingLead:'There was only a ten-second shot. The story grew out of generating, rejecting and editing, again and again.',see:'Watch this moment',
- cutCaption:['Last frame before the cut','First frame after the cut'],
- promptTitle:'It all started with one prompt',promptLead:'Fix the person and the place. Write one push-in and one final action. Leave the rest of the motion to wind, water and light.',promptTags:['Person & place','Push-in & glance','Wind, water, light','No dialogue'],promptOpen:'Show the original prompt',
- toolsTitle:'Tools give method. People make the call.',tools:[['DirectorSKILL','Turns camera positions, action, reference frames and checks into steps. It gives structure; it can’t tell you whether a tear carries across a cut.','https://github.com/wuwangzhang1216/DirectorSKILL'],['seedance2-skill','Gives each reference one job and splits action into timed beats. Even with the syntax right, someone still has to judge posture and feeling.','https://github.com/dexhunter/seedance2-skill']],repo:'View project',
- notesLabel:'Director’s note',quotes:['In AI filmmaking, the technology itself no longer matters much. What matters is how you think.','Only rich, delicate feeling can make work that truly moves people.','Be brave enough to start. Along the way, all kinds of unexpected sparks appear.','Wherever something feels wrong or uncomfortable, you can change it.'],signed:'Qin Xujun',quoteNote:'Edited from speech, translated from Chinese',
- archiveTitle:'The rejected versions are kept too',archiveLead:'How the seven shots were made one by one, which versions were turned down and why, and how the first shot was rebuilt five times.',archiveLink:'Read the full production record (Chinese)',
- creditsTitle:'Details',credits:[['Director','Qin Xujun'],['Generated','AI video model, seven shots of 10 seconds each, 720p'],['Edit & colour','Qin Xujun'],['Music','《来不及爱你》'],['Running time','57 seconds'],['Export','3840 × 2160 · 24 fps']],creditsNote:'Every frame on this page is taken from the film.',
- textVersion:'Scene descriptions (text)',theme:'Switch light or dark appearance',footer:'Work by Qin Xujun',backFilm:'Back to the film'}
+zh:{lang:'zh-CN',home:'秦徐俊',language:'English',theme:'切换深色或浅色',skip:'跳到正文',footer:'秦徐俊的作品',
+ title:'《来不及爱你》｜秦徐俊导演的 AI 短片',description:'分手以后，她带着两个人唯一的一张合照，乘轮渡回家。一部 57 秒、没有台词的 AI 短片，和它是怎么做出来的。',
+ coverAlt:'《来不及爱你》：她在船舱里望向镜头，眼里含着泪',kicker:'秦徐俊 导演作品',lede:'分手以后，她带着两个人唯一的一张合照，乘轮渡回家。',meta:['2026','57 秒','无对白','AI 短片'],play:'播放',download:'下载原片',
+ error:'这个浏览器没能播放影片。可以刷新再试，或下载原片观看。',textVersion:'画面描述（文字版）',
+ whyLabel:'为什么拍',whyTitle:'用 AI 作为一种作品|去表达自己想表达的创作，|本身就很有意义。',
+ why:[['起点','先有一个镜头，后有故事。','我觉得它做出来感觉比较好的一个镜头，然后我想要去尝试表达一个故事。……从第一个镜头开始，然后再去想故事。'],
+  ['片名','片名取自配乐《来不及爱你》。','最开始可能会爱一个人特别用力，到后来才知道，爱人要先爱己……'],
+  ['结尾','她走进一扇门，门外是什么，片子没有说。','……最后她走开那个门，象征着新的开始，留下空白。']],
+ whySigned:'秦徐俊，整理自口述',
+ makeLabel:'怎么做出来的',makeTitle:'七段画面，每段 10 秒',makeLead:'用 AI 智能体 Muse 生成。没有剧本，故事从第一个镜头往后长：生成，看，否掉，再生成。剪辑和调色是他自己做的。',
+ seg:'第 {n} 段',from:'从 {t} 看',
+ promptTitle:'第一条提示词，和后来的写法',
+ prompt:['整部片子从一条英文提示词开始。它管用的部分是：一个连续镜头，一次推近，一个动作的终点（回头看镜头），会动的交给风和光，没有对白。','没用的部分是一串形容词：cinematic、moody、masterpiece、4k。写了 4k，生成出来是 720p。','后来每一段只写动作。比如第 2 段只写了：她收回目光，一滴泪落下，起身，朝镜头走来，从画面右侧走出去，镜头停在空座位上。'],
+ promptOpen:'看原始提示词',archiveLink:'阅读完整制作记录',
+ learnLabel:'如果你也想做一部',learnTitle:'做完这部片子，留下的六条做法',
+ learnQuote:'你觉得哪里有不对、哪里不舒服，都可以去改……',
+ toolsLabel:'工具',toolsTitle:'用到的工具',toolsLead:'生成用 Muse；写提示词时参考了两个开源技能包（都是 MIT 许可）。',
+ invite:'邀请码',inviteNote:'注册后 48 小时内，在「设置」里填写这个邀请码，你和秦徐俊各得 10 亿 Muse 词元。',inviteGo:'加入 Muse',repo:'查看项目',
+ creditsTitle:'影片资料',credits:[['导演','秦徐俊'],['剪辑与调色','秦徐俊'],['生成','Muse，七段，每段 10 秒'],['音乐','《来不及爱你》'],['时长','57 秒'],['生成素材','1280 × 720 · 24 fps'],['成片导出','3840 × 2160（由 720p 素材放大）']],
+ creditsNote:'页面上的画面都取自成片。',
+ archiveHeading:'制作全记录',archiveIntro:'七段画面怎样一段段做出来，哪一版被否、为什么。整理自秦徐俊与 AI 协作时的工作记录；他的原话节选收在最后。',backFilm:'返回影片'},
+en:{lang:'en',home:'Qin Xujun',language:'中文',theme:'Switch light or dark appearance',skip:'Skip to content',footer:'Work by Qin Xujun',
+ title:'《来不及爱你》 | A short film by Qin Xujun',description:'After the breakup, she takes the ferry home with the only photograph of the two of them. A 57-second AI short film without dialogue, and how it was made.',
+ coverAlt:'来不及爱你: in the ferry cabin she looks into the lens, eyes wet with tears',kicker:'A film by Qin Xujun',lede:'After the breakup, she takes the ferry home with the only photograph of the two of them.',meta:['2026','57 sec','No dialogue','AI short'],play:'Play',download:'Download the original',
+ error:'This browser couldn’t play the film. Reload and try again, or download the original.',textVersion:'Scene descriptions (text)',
+ whyLabel:'Why he made it',whyTitle:'Using AI to make a piece that says what you want to say is worth doing in itself.',
+ why:[['The start','A shot came first; the story came after.','There was one shot that turned out well, and I wanted to try telling a story with it. … Start from the first shot, then think about the story.'],
+  ['The title','The title comes from the song, 《来不及爱你》 (Too Late to Love You).','At first you may love someone with everything you have, and only later learn that to love someone, you first have to love yourself …'],
+  ['The ending','She walks through a door. The film doesn’t say what lies beyond it.','… in the end she walks out through that door. It stands for a new beginning, and leaves a blank.']],
+ whySigned:'Qin Xujun, edited from speech, translated from Chinese',
+ makeLabel:'How it was made',makeTitle:'Seven shots, ten seconds each',makeLead:'Generated with the AI agent Muse. There was no script: the story grew forward from the first shot, generate, watch, reject, generate again. He edited and graded it himself.',
+ seg:'Shot {n}',from:'Watch from {t}',
+ promptTitle:'The first prompt, and how the writing changed',
+ prompt:['The whole film started from one English prompt. The part that worked: one continuous shot, one push-in, one clear end to the action (she looks back at the lens), wind and light doing the moving, no dialogue.','The part that did nothing was a string of adjectives: cinematic, moody, masterpiece, 4k. It asked for 4k; it came out at 720p.','After that, each shot described only action. Shot 2 said just this: she looks away, a tear falls, she stands, walks towards the camera, leaves the frame on the right, and the camera stays on the empty seat.'],
+ promptOpen:'Show the original prompt',archiveLink:'Read the full production record (Chinese)',
+ learnLabel:'If you want to make one',learnTitle:'Six things this film taught',
+ learnQuote:'Wherever something feels wrong or uncomfortable, you can change it.',
+ toolsLabel:'Tools',toolsTitle:'What was used',toolsLead:'Muse for generation; two open-source skill packs (both MIT licensed) shaped how the prompts were written.',
+ invite:'Invite code',inviteNote:'Enter it under Settings within 48 hours of joining, and you and Qin Xujun each get one billion Muse tokens.',inviteGo:'Join Muse',repo:'View project',
+ creditsTitle:'Details',credits:[['Director','Qin Xujun'],['Edit & colour','Qin Xujun'],['Generated with','Muse, seven shots of 10 seconds'],['Music','《来不及爱你》'],['Running time','57 seconds'],['Generated at','1280 × 720 · 24 fps'],['Exported at','3840 × 2160 (upscaled from 720p)']],
+ creditsNote:'Every frame on this page is taken from the film.',backFilm:'Back to the film'}
 };
 
-// v24: the seven shots of the film, in the order they were made right. Facts: src/archive.md (§5).
+// The seven shots, in film order. Facts: src/archive.md §5. Plain words: what went wrong, what fixed it.
 export const shots = [
-  {n:1,img:'gaze',t:7.5,zh:['船舱 · 回眸','最喜欢的开头，推翻重做','本来是母版，可清晨的色调和后面不统一，人坐的位置也不对。试了五条路，最后用它自己的画面做参考才对上。','五条路线'],en:['Cabin · the glance','The favourite opening, rebuilt','It was the master shot, but its morning tones did not match and she sat on the wrong side. Five approaches later, its own frames as reference fixed it.','Five approaches']},
-  {n:2,img:'rise',t:11.2,zh:['船舱 · 起身','两次被否，第三版钉住首帧','越轴、灰掉的光、失控的哭。把上一段真实的最后一帧当起点，文字只写动作，才接上。','被否两次'],en:['Cabin · getting up','Rejected twice; the third pins the first frame','Crossed the line, grey light, crying out of control. Starting from the previous shot’s real last frame, with words for action only, made it join.','Rejected twice']},
-  {n:3,img:'deck',t:15,zh:['甲板 · 栏杆','眼泪不能在剪辑点消失','第一版她走出舱门时已经不哭了。从这里起，情绪和衣服一样要接戏。','被否一次'],en:['Deck · the railing','Tears can’t vanish at a cut','In the first version she stopped crying as she stepped out. From here on, feeling had to carry across like costume.','Rejected once']},
-  {n:4,img:'photo',t:21.5,zh:['甲板 · 照片','含着泪笑了一下','第一版开头成了正脸嚎哭。改成全程侧脸、安静开场，她看着照片，笑了一下。全片的情绪顶点，就这一下。','被否一次'],en:['Deck · the photograph','One smile through tears','The first version opened on loud crying. Redone in profile and quiet, she looks at the photo and smiles once. The emotional peak of the film is that one moment.','Rejected once']},
-  {n:5,img:'breathe',t:35.4,zh:['甲板 · 呼吸','一次过','照片贴在胸口，收进内袋，迎着风深呼吸，肩膀松下来。放下，是身体先松下来。','一次通过'],en:['Deck · breathing','First take','The photo to her chest, back into the pocket, a deep breath in the wind, shoulders dropping. Letting go starts in the body.','First take']},
-  {n:6,img:'sea',t:44.8,zh:['后拉 · 全景','好看的航拍，也可以不要','航拍大远景没有来由。改成从她身上一级级后拉，再钉住上一段的最后一帧，泪痕还在。','被否两次'],en:['Pull back · the sea','A beautiful aerial can still go','The aerial wide shot came from nowhere. Pulling back from her in stages, pinned to the previous last frame, kept the tears.','Rejected twice']},
-  {n:7,img:'ending',t:56.4,zh:['下船 · 那扇门','不把未知拍成答案','码头太乱，被否；海滨步道太明白，也被否。她走向一扇门，门外是什么，不知道。','被否两次'],en:['Off the ferry · the door','Don’t turn the unknown into an answer','The busy pier was rejected; so was the walkway, for saying too much. She walks towards a door. What lies beyond, we don’t know.','Rejected twice']}
+  {n:1,img:'gaze',t:7.5,zh:['船舱，回头看镜头','五条路线','原本是全片的母版，但清晨的冷色和后面的午后日光接不上，她也坐错了一边。试了五种改法，最后拿这一段自己的画面当参考，才对上。'],en:['The cabin: she looks back','Five attempts','It was the master shot, but its cold morning tones didn’t match the afternoon light after it, and she sat on the wrong side. Five approaches later, using its own frames as reference fixed it.']},
+  {n:2,img:'rise',t:11.2,zh:['船舱，起身离开','被否两次','第一版人物方向反了，光也变灰；第二版哭得太过。第三版把上一段真实的最后一帧当作开头，文字只写动作，才接上。'],en:['The cabin: she gets up','Rejected twice','The first version reversed her direction and turned the light grey; the second overplayed the crying. The third started from the previous shot’s real last frame and described only action.']},
+  {n:3,img:'deck',t:15,zh:['甲板，走到栏杆边','被否一次','第一版她一走出舱门就不哭了，上一段的眼泪在剪辑点消失。重拍时她出门还在哭，走到栏杆边才擦掉眼泪。'],en:['The deck: to the railing','Rejected once','In the first version she stopped crying the moment she stepped out. In the remake she is still crying at the door and only wipes her tears at the railing.']},
+  {n:4,img:'photo',t:21.5,zh:['甲板，看照片','被否一次','第一版一开场就是正脸大哭。改成全程侧脸、安静开场：她看着照片，含着泪笑了一下。全片情绪最高的就是这一下。'],en:['The deck: the photograph','Rejected once','The first version opened on loud crying, face to camera. Redone in profile and quiet: she looks at the photograph and smiles once through her tears. That is the film’s high point.']},
+  {n:5,img:'breathe',t:35.4,zh:['甲板，深呼吸','一次通过','照片贴在胸口，收进内袋，迎着风深呼吸，肩膀松下来。放下靠的是身体，不是表情。'],en:['The deck: one breath','First take','The photograph to her chest, back into the pocket, a deep breath into the wind, shoulders dropping. Letting go is done by the body, not the face.']},
+  {n:6,img:'sea',t:44.8,zh:['后拉，见到整片海','被否两次','一开始是航拍大远景，来得太突然。他重新设计成从她脸上一级级往后拉；第二版又笑得太快，第三版接着上一段的泪痕慢慢来。'],en:['Pulling back to the sea','Rejected twice','It began as an aerial wide shot that came from nowhere. He redesigned it as a pull-back from her face; the second version smiled too soon, the third carried the tears over and took its time.']},
+  {n:7,img:'ending',t:56.4,zh:['下船，走向一扇门','被否两次','码头版人太多太乱；海滨步道版把她的去处说得太清楚。留下的是她走向一扇门，门外是什么，不知道。'],en:['Off the ferry: the door','Rejected twice','The pier version was crowded and messy; the seaside walkway said too clearly where she goes. What stayed: she walks towards a door, and we don’t know what lies beyond.']}
 ];
-// What someone else can take away: the working rules written down after the film (src/archive.md §7).
+// What someone else can take away (src/archive.md §7), in plain words.
 export const lessons = {
-  zh:[['一段只做一个动作','装不下就拆段。人物只做一件事，动的东西交给风、水、光。'],['从上一段的最后一帧开始','续接时钉住真实的最后一帧，文字只写动作；一重描长相、衣服、光，就会漂。'],['眼泪也要接戏','情绪和衣服同级：只许在一段之内慢慢减，不许跨段清零。'],['画里的小照片不给正脸','照片里的人只给背影、局部或虚化；小尺寸的脸最容易失真。'],['参考图先看动作，再看脸','参考谁，就会染上谁的调，连姿态也会被带走。'],['表演的上限是克制','含泪的笑、一口呼吸、肩膀松下来，比哭得大声更有力。']],
-  en:[['One action per shot','If it doesn’t fit, split the shot. She does one thing; wind, water and light do the rest.'],['Start from the last frame','Pin the real last frame of the previous shot and describe only the action; re-describing face, clothes or light makes it drift.'],['Tears need continuity too','Treat feeling like costume: it may fade within a shot, never reset across a cut.'],['No small faces in a photo','People in a photo get their backs, a detail or a blur; small faces distort first.'],['Check the action before the face','A reference image brings its colour, and its posture, with it.'],['Restraint is the ceiling','A smile through tears, one breath, shoulders dropping: stronger than loud crying.']]
+  zh:[['一段只让人物做一件事','装不下就拆成两段。会动的东西交给风、水和光。'],['下一段从上一段的最后一帧开始','拿上一段最后一帧当开头，文字只写接下来的动作。再描述一遍长相、衣服、光线，画面就会变样。'],['情绪也要接上','上一段在哭，下一段开头也得在哭。情绪可以在一段里慢慢变，不能一剪就没了。'],['照片里的人不露正脸','画面里的小照片，人脸最容易变形、显老。用背影或虚化。'],['选参考图先看动作','参考图会把颜色和姿态一起带过来。参考帧里的人站着，生成出来的人就会站起来。'],['情绪最高的地方要克制','含着泪笑一下、一口深呼吸，比大哭更打动人。']],
+  en:[['One action per shot','If it doesn’t fit, split it in two. Let wind, water and light do the rest of the moving.'],['Start each shot from the last frame','Use the previous shot’s last frame as the opening image and describe only what happens next. Describe the face, clothes or light again and the picture drifts.'],['Carry the feeling across the cut','If she was crying at the end of one shot, she is crying at the start of the next. Feeling can change within a shot, not vanish at a cut.'],['No faces in the photograph','Small faces inside the frame distort and age first. Use backs or blur.'],['Pick references by what the person is doing','A reference image brings its colour and its posture. If she is standing in it, she will stand up.'],['Hold back at the peak','A smile through tears, one deep breath: stronger than loud crying.']]
 };
-// The two open-source skills, taken apart: what each solves, how it was used here, what it can't do.
+// Tools. Muse: named by him as the generator (2026-10-24); the invite code and its terms are his, as he sent them.
+// The two skills: both MIT licensed (LICENSE files checked 2026-10-24).
+export const muse = {name:'Muse',url:'https://muse.ai/join',code:'OE9XK3',
+  zh:'这部片子的七段画面都是用 Muse 生成的。它是一个个人 AI 智能体，说话就能用。',
+  en:'All seven shots of this film were generated with Muse, a personal AI agent you can simply talk to.'};
 export const skills = [
   {name:'DirectorSKILL',url:'https://github.com/wuwangzhang1216/DirectorSKILL',
-   zh:['把「感觉」写成模型能执行的镜头','AI 视频最怕「形容词汤」：忧郁的、电影感的、高级的，模型无从执行。它要求只写看得见的事实：谁、在哪、做什么、镜头怎么动、光从哪来。','开拍前写好「环境圣经」：蓝座椅、左舷见海、舱门在左、全程左进右出；续接时首帧承载画面，文字只写动作；每段按清单验收。','判断不了一滴眼泪接没接上。这一步只能人来看。'],
-   en:['Turns a feeling into shots a model can execute','AI video fails on adjective soup: moody, cinematic, premium. It asks for visible facts only: who, where, doing what, how the camera moves, where the light comes from.','A continuity bible before shooting: blue seats, sea to port, the door on the left, always left to right; the first frame carries the look and the words carry only action; every shot checked against a list.','It can’t tell whether a tear carries across a cut. Only a person can.']},
+   zh:'让提示词只写看得见的事：谁、在哪、做什么、镜头怎么动、光从哪来。这部片子开拍前先写好了场景的固定事实：蓝座椅、海在左舷、舱门在左、人物一直从左往右走。',
+   en:'Keeps prompts to what can be seen: who, where, doing what, how the camera moves, where the light comes from. Before shooting, this film fixed its set: blue seats, the sea to port, the door on the left, always moving left to right.'},
   {name:'seedance2-skill',url:'https://github.com/dexhunter/seedance2-skill',
-   zh:['把参考素材和动作分好工','生成平台能同时吃好几张参考图和一段文字，乱给就互相打架。它教你让每张参考只管一件事，动作按秒分段写。','一张参考定脸，一张定构图；文字里只写这几秒里发生的动作。','语法对了，姿态和情绪还是可能错：有一版就把该坐着的人带得站了起来。'],
-   en:['Gives each reference one job','The platform takes several reference images and text at once; given carelessly, they fight. It assigns each reference a single job and splits action into timed beats.','One reference for the face, one for the framing; the text only for what happens in those seconds.','Correct syntax can still give the wrong posture or feeling: one version made her stand when she had to sit.']}
+   zh:'同时给几张参考图时，让每张只管一件事，动作按秒分段写。这部片子里一张参考定脸，一张定构图。',
+   en:'When several reference images go in at once, gives each a single job and splits action into timed beats. Here, one reference fixed the face and one the framing.'}
 ];

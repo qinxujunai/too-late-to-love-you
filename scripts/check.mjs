@@ -19,7 +19,7 @@ for(const p of pages.slice(0,2)){
   const h=read(p);
   assert.ok(/<video[^>]*preload="none"/.test(h),`${p}: user chooses when video downloads`);
   assert.ok(!/<video[^>]*autoplay/.test(h),`${p}: no autoplay`);
-  assert.equal((h.match(/data-seek="/g)||[]).length>=9,true,`${p}: real timecode navigation`);
+  assert.equal((h.match(/data-seek="/g)||[]).length>=7,true,`${p}: real timecode navigation`);
   assert.ok(h.includes('kind="descriptions"'),`${p}: scene descriptions available`);
   assert.ok(/<video[^>]*src="(?:\.\.\/)?media\/film-mobile\.mp4"/.test(h),`${p}: plays the creator's 4K web version`);
   assert.ok(/href="(?:\.\.\/)?media\/film-original\.mp4" download/.test(h),`${p}: download is the full original`);
