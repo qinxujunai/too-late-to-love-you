@@ -49,6 +49,13 @@
   const lastSource = film.querySelector('source:last-of-type');
   if (lastSource) lastSource.addEventListener('error', () => { document.getElementById('video-error').hidden = false; });
   document.querySelectorAll('[data-play]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); play(); }));
+  // Glass touch: the play disc lights up from the side the finger lands on.
+  const disc = cover && cover.querySelector('.disc');
+  if (disc) cover.addEventListener('pointerdown', (e) => {
+    const r = disc.getBoundingClientRect(), clamp = (v) => Math.max(0, Math.min(100, v));
+    disc.style.setProperty('--gx', `${clamp((e.clientX - r.left) / r.width * 100).toFixed(0)}%`);
+    disc.style.setProperty('--gy', `${clamp((e.clientY - r.top) / r.height * 100).toFixed(0)}%`);
+  });
   document.querySelectorAll('[data-seek]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); play(Number(a.dataset.seek)); }));
 
   // Shot carousel: arrows turn a whole page; dots show where you are. Arrows vanish at either end.
