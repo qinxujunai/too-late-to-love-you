@@ -25,7 +25,7 @@ export const chapters = [
 export const copy={
 zh:{lang:'zh-CN',home:'秦徐俊',language:'English',theme:'切换深色或浅色',skip:'跳到正文',footer:'秦徐俊的作品',
  title:'《来不及爱你》｜秦徐俊导演的 AI 短片',description:'分手以后，她带着两个人唯一的一张合照，乘轮渡回家。一部 57 秒、没有台词的 AI 短片，和它是怎么做出来的。',
- coverAlt:'《来不及爱你》：她在船舱里望向镜头，眼里含着泪',kicker:'秦徐俊 导演作品',lede:'分手以后，她带着两个人唯一的一张合照，乘轮渡回家。',meta:['2026','57 秒','无对白','AI 短片'],play:'播放',download:'下载原片',mirrorOn:'卡顿？换国内线路',mirrorOff:'换回原画',
+ coverAlt:'《来不及爱你》：她在船舱里望向镜头，眼里含着泪',kicker:'秦徐俊 导演作品',lede:'分手以后，她带着两个人唯一的一张合照，乘轮渡回家。',meta:['2026','57 秒','无对白','AI 短片'],play:'播放',download:'下载原片',line:'线路',lineOrig:'原画',lineCn:'国内',
  error:'这个浏览器没能播放影片。可以刷新再试，或下载原片观看。',textVersion:'画面描述（文字版）',
  whyLabel:'为什么拍',whyTitle:'用 AI 作为一种作品|去表达自己想表达的创作，|本身就很有意义。',
  why:[['起点','先有一个镜头，后有故事。','我觉得它做出来感觉比较好的一个镜头，然后我想要去尝试表达一个故事。……从第一个镜头开始，然后再去想故事。'],
@@ -49,7 +49,7 @@ zh:{lang:'zh-CN',home:'秦徐俊',language:'English',theme:'切换深色或浅�
  archiveHeading:'制作全记录',archiveIntro:'七段画面怎样一段段做出来，哪一版被否、为什么。整理自秦徐俊与 AI 协作时的工作记录；他的原话节选收在最后。',backFilm:'返回影片'},
 en:{lang:'en',home:'Qin Xujun',language:'中文',theme:'Switch light or dark appearance',skip:'Skip to content',footer:'Work by Qin Xujun',
  title:'《来不及爱你》 | A short film by Qin Xujun',description:'After the breakup, she takes the ferry home with the only photograph of the two of them. A 57-second AI short film without dialogue, and how it was made.',
- coverAlt:'来不及爱你: in the ferry cabin she looks into the lens, eyes wet with tears',kicker:'A film by Qin Xujun',lede:'After the breakup, she takes the ferry home with the only photograph of the two of them.',meta:['2026','57 sec','No dialogue','AI short'],play:'Play',download:'Download the original',mirrorOn:'Stuttering? Use the China line',mirrorOff:'Back to the original',
+ coverAlt:'来不及爱你: in the ferry cabin she looks into the lens, eyes wet with tears',kicker:'A film by Qin Xujun',lede:'After the breakup, she takes the ferry home with the only photograph of the two of them.',meta:['2026','57 sec','No dialogue','AI short'],play:'Play',download:'Download the original',line:'Source',lineOrig:'Original',lineCn:'China',
  error:'This browser couldn’t play the film. Reload and try again, or download the original.',textVersion:'Scene descriptions (text)',
  whyLabel:'Why he made it',whyTitle:'Using AI to make a piece that says what you want to say is worth doing in itself.',
  why:[['The start','A shot came first; the story came after.','There was one shot that turned out well, and I wanted to try telling a story with it. … Start from the first shot, then think about the story.'],
