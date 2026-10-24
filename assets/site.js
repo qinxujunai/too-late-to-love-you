@@ -89,3 +89,18 @@
     sync();
   }
 })();
+
+// 「‹ 返回」 to his personal site, only for visitors who came from it: that site leaves 'qxj.back' in this tab's
+// sessionStorage when someone clicks through. A link someone was sent directly opens with nothing set, so this page
+// shows no way to his personal site (his rule, 2026-10-24). Contract: personal site repo, docs/back-link.md.
+(function () {
+  try {
+    var u = sessionStorage.getItem('qxj.back'), a = document.querySelector('[data-qxj-back]');
+    if (!u || !a || u.indexOf(location.origin + '/') !== 0) return;
+    a.href = u;
+    a.hidden = false;
+    a.addEventListener('click', function (e) {
+      if (document.referrer && document.referrer.split('#')[0] === u.split('#')[0]) { e.preventDefault(); history.back(); }
+    });
+  } catch (e) {}
+})();

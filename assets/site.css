@@ -22,6 +22,8 @@ img{display:block;width:100%;height:auto}
 /* Bar: transparent over the key art, then a slim translucent bar with the title and Play. */
 .bar{position:fixed;inset:0 0 auto;z-index:20;background:#000;display:flex;align-items:center;gap:16px;height:52px;padding:0 max(20px,calc((100% - 1200px)/2));color:#fff;transition:background .3s ease,color .3s ease,box-shadow .3s ease,transform .35s ease,opacity .35s ease}
 .bar a{color:inherit}
+.bar-back{display:inline-flex;align-items:center;min-height:44px;font-size:15px;white-space:nowrap;opacity:.85}
+.bar-back[hidden]{display:none}
 .bar-home{flex:1;font-size:15px;font-weight:600;white-space:nowrap}
 .bar-tools{display:flex;align-items:center;gap:6px;font-size:14px;white-space:nowrap}
 .bar-tools>a{opacity:.85;padding:0 6px}
