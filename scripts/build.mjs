@@ -41,6 +41,10 @@ const ICONS={
  layers:'<path d="M12 4 3.5 8.5 12 13l8.5-4.5z"/><path d="m3.5 12.5 8.5 4.5 8.5-4.5"/><path d="m3.5 16.5 8.5 4.5 8.5-4.5"/>'};
 const footer=c=>`<footer class="foot"><span>${film.title}</span><span>© 2026</span></footer>`;
 const seekLink=(r,t,text)=>`<a class="seek" href="${r}${PLAY}#t=${t}" data-seek="${t}">${text.replace('{t}',mmss(t))} ›</a>`;
+// The seven shots on the film's own timeline, right under the player: a tick at each shot, the still on hover,
+// a tap jumps there, and the shot that is playing stays lit. Without JS each tick is a plain link to the file.
+const DUR=57.087;
+const shotMap=(c,lang,r)=>`<nav class="shotmap" aria-label="${lang==='zh'?'七段':'Seven shots'}" data-map><span class="map-track" aria-hidden="true"><i class="map-fill"></i></span><ol>${shots.map(s=>`<li style="--at:${(s.t/DUR*100).toFixed(2)}%${s.t/DUR>.85?';--x:-85%':''}"><a href="${r}${PLAY}#t=${s.t}" data-seek="${s.t}" aria-label="${esc(c.seg.replace('{n}',s.n))} · ${esc(s[lang][0])} · ${mmss(s.t)}"><span class="map-thumb" aria-hidden="true">${still(s.img,'',r)}<span>${c.seg.replace('{n}',s.n)} · ${mmss(s.t)}</span></span><span class="map-n" aria-hidden="true">${s.n}</span></a></li>`).join('')}</ol></nav>`;
 const sectionHead=(id,label,title,lead='')=>`<header class="head"><p class="eyebrow">${label}</p><h2 id="${id}-title">${title}</h2>${lead?`<p class="lead">${lead}</p>`:''}</header>`;
 // Chinese has no spaces: a '|' in a title marks where a line may break; each phrase stays whole.
 const phr=t=>t.includes('|')?t.split('|').map(x=>`<span class="ph">${x}</span>`).join(''):t;
@@ -50,18 +54,18 @@ const qt=t=>phr(`“${t}”`);
 function axisDiagram(L){
  const cam=(x,y,up)=>`<g transform="translate(${x} ${y})${up?'':' rotate(180)'}"><rect x="-17" y="-2" width="34" height="22" rx="4"/><path d="M-9 -2 L0 -16 L9 -2"/></g>`;
  const fig=(x,dir)=>`<g transform="translate(${x} 0)"><circle cx="0" cy="-14" r="6"/><path d="M0 -8v18M-8 0h16M0 10l-6 12M0 10l6 12"/><path d="M${dir*16} 4H${dir*42}M${dir*35} -2L${dir*42} 4L${dir*35} 10" class="dir"/></g>`;
- return `<svg class="axis-svg" viewBox="0 0 600 312" role="img" aria-label="${esc(L.walk)}: ${esc(L.seeA)}; ${esc(L.seeB)}"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+ return `<svg class="axis-svg" data-cam="a" viewBox="0 0 600 312" role="img" aria-label="${esc(L.walk)}: ${esc(L.seeA)}; ${esc(L.seeB)}"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 <path d="M24 150H336" stroke-dasharray="6 8" class="muted"/>
 <circle cx="180" cy="150" r="9" fill="currentColor" stroke="none"/><path d="M196 150h44m-8-7 8 7-8 7" class="dir"/>
-<g class="cam-a">${cam(180,236,true)}</g><g class="cam-b muted">${cam(180,64,false)}</g>
-<path d="M180 222V172M180 78V128" stroke-dasharray="2 6" class="muted"/>
-<rect x="388" y="168" width="188" height="106" rx="10"/><g transform="translate(482 228)">${fig(-24,1)}</g>
-<rect x="388" y="26" width="188" height="106" rx="10" class="muted"/><g transform="translate(482 86)" class="muted">${fig(24,-1)}</g>
+<g class="cam va">${cam(180,236,true)}</g><g class="cam vb">${cam(180,64,false)}</g>
+<path d="M180 222V172" stroke-dasharray="2 6" class="va"/><path d="M180 78V128" stroke-dasharray="2 6" class="vb"/>
+<g class="va"><rect x="388" y="168" width="188" height="106" rx="10"/><g transform="translate(482 228)">${fig(-24,1)}</g></g>
+<g class="vb"><rect x="388" y="26" width="188" height="106" rx="10"/><g transform="translate(482 86)">${fig(24,-1)}</g></g>
 </g><g font-size="15" fill="currentColor" class="labels">
 <text x="24" y="138" class="muted-t">${esc(L.line)}</text><text x="206" y="138">${esc(L.walk)}</text>
-<text x="210" y="262">${esc(L.a)}</text><text x="210" y="48" class="muted-t">${esc(L.b)}</text>
-<text x="482" y="304" text-anchor="middle">${esc(L.seeA)}</text><text x="482" y="18" text-anchor="middle" class="muted-t">${esc(L.seeB)}</text>
-</g></svg>`;
+<text x="210" y="262" class="va">${esc(L.a)}</text><text x="210" y="48" class="vb">${esc(L.b)}</text>
+<text x="482" y="304" text-anchor="middle" class="va">${esc(L.seeA)}</text><text x="482" y="18" text-anchor="middle" class="vb">${esc(L.seeB)}</text>
+</g></svg><p class="axis-cams" role="group" aria-label="${esc(L.a)} / ${esc(L.b)}" hidden><button type="button" data-cam="a" aria-pressed="true">${esc(L.a)}</button><button type="button" data-cam="b" aria-pressed="false">${esc(L.b)}</button></p>`;
 }
 
 function page(lang){
@@ -72,13 +76,14 @@ function page(lang){
 <main id="main">
 <section class="hero" id="top" aria-labelledby="film-title">
 <div class="screen" id="watch"><video id="film" controls playsinline preload="none" poster="${r}assets/key-1280.webp" width="3840" height="2160" aria-label="${film.title}">${[...SOURCES,r+PLAY].map(u=>`<source src="${u}" type="video/mp4">`).join('')}<track kind="descriptions" src="${r}media/descriptions-${lang}.vtt" srclang="${c.lang}" label="${c.textVersion}"></video><button class="cover" type="button" data-play hidden aria-label="${esc(c.play)} ${film.title}"><img src="${r}assets/key-1280.webp" srcset="${r}assets/key-1280.webp 1280w, ${r}assets/key-2560.webp 2560w" sizes="100vw" width="1280" height="720" alt="${esc(c.coverAlt)}" fetchpriority="high" decoding="async"><span class="disc">${playIcon}</span></button><p class="video-error" id="video-error" role="status" hidden>${c.error}</p></div>
+${shotMap(c,lang,r)}
 <div class="hero-copy"><p class="kicker">${c.kicker}</p><h1 id="film-title">${film.title}</h1>${zh?'':`<p class="title-en">${film.titleEn}</p>`}<p class="lede">${c.lede}</p><p class="meta">${c.meta.join('<span aria-hidden="true"> · </span>')}</p>
 <p class="actions"><a class="play" href="${r}${PLAY}" data-play>${playIcon}${c.play}</a><a class="download" href="${DOWNLOAD}" download="too-late-to-love-you.mp4">${c.download} <span aria-hidden="true">↓</span></a></p>
 </section>
 <section class="section why" id="why" aria-labelledby="why-title"><header class="head"><p class="eyebrow">${c.whyLabel}</p><h2 class="qh" id="why-title">${qt(c.whyTitle)}</h2></header>
 <ol class="why-list">${c.why.map(([k,h,q,n])=>`<li><p class="why-k">${k}</p><h3>${h}</h3><blockquote><p>“${q}”</p></blockquote>${n?`<p class="why-note">${n}</p>`:''}</li>`).join('')}</ol><p class="signed">— ${c.whySigned}</p></section>
 <section class="section making" id="making" aria-labelledby="making-title">${sectionHead('making',c.makeLabel,c.makeTitle,c.makeLead)}
-<div class="rail-wrap"><ol class="rail" tabindex="0" aria-label="${c.makeTitle}" data-rail>${shots.map(s=>`<li class="card"><figure>${still(s.img,s[lang][0],r)}</figure><div class="card-body"><p class="card-kicker">${c.seg.replace('{n}',s.n)} · ${s[lang][1]}</p><h3>${s[lang][0]}</h3><p>${s[lang][2]}</p>${seekLink(r,s.t,c.from)}</div></li>`).join('')}</ol>
+<div class="rail-wrap"><ol class="rail" tabindex="0" aria-label="${c.makeTitle}" data-rail>${shots.map(s=>`<li class="card"><figure>${still(s.img,s[lang][0],r)}<span class="card-play" aria-hidden="true">${playIcon}</span></figure><div class="card-body"><p class="card-kicker">${c.seg.replace('{n}',s.n)} · ${s[lang][1]}</p><h3>${s[lang][0]}</h3><p>${s[lang][2]}</p>${seekLink(r,s.t,c.from)}</div></li>`).join('')}</ol>
 <button class="arrow prev" type="button" data-rail-prev aria-label="${zh?'上一页':'Previous'}">‹</button><button class="arrow next" type="button" data-rail-next aria-label="${zh?'下一页':'Next'}">›</button><p class="dots" data-dots aria-hidden="true"></p></div>
 <div class="prompt"><h3>${c.promptTitle}</h3>${c.prompt.map(t=>`<p>${t}</p>`).join('')}<details><summary>${c.promptOpen}</summary><blockquote lang="en">${esc(prompt)}</blockquote></details></div>
 <p class="more"><a href="${r}archive/">${c.archiveLink} ›</a></p></section>

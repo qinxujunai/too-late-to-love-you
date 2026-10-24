@@ -2,5 +2,11 @@
   "name": "too-late-to-love-you",
   "private": true,
   "type": "module",
-  "scripts": {"build":"node scripts/build.mjs","check":"node scripts/check.mjs","qa":"node scripts/qa.cjs","serve":"node scripts/serve.mjs"}
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "qa": "node scripts/qa.cjs",
+    "serve": "node scripts/serve.mjs",
+    "ship": "bash scripts/ship.sh"
+  }
 }

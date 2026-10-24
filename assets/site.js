@@ -58,6 +58,27 @@
   });
   document.querySelectorAll('[data-seek]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); play(Number(a.dataset.seek)); }));
 
+  // Shot map: light the shot that is playing and fill the timeline.
+  const map = document.querySelector('[data-map]');
+  if (map) {
+    const items = [...map.querySelectorAll('li')], fill = map.querySelector('.map-fill');
+    const times = items.map((li) => Number(li.querySelector('[data-seek]').dataset.seek));
+    let last = -2;
+    film.addEventListener('timeupdate', () => {
+      const t = film.currentTime;
+      if (fill) fill.style.width = `${Math.min(100, t / (film.duration || 57.087) * 100)}%`;
+      let i = -1; times.forEach((x, k) => { if (t + 0.05 >= x) i = k; });
+      if (i === last) return; last = i;
+      items.forEach((li, k) => { li.classList.toggle('on', k === i); const a = li.querySelector('a'); if (k === i) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+    });
+  }
+  // Whole shot card plays from its time (unless text is being selected or a link was hit).
+  document.querySelectorAll('.card').forEach((card) => card.addEventListener('click', (e) => {
+    const link = card.querySelector('[data-seek]');
+    if (!link || e.target.closest('a') || String(getSelection())) return;
+    link.click();
+  }));
+
   // Shot carousel: arrows turn a whole page; dots show where you are. Arrows vanish at either end.
   const rail = document.querySelector('[data-rail]');
   if (rail) {
@@ -110,4 +131,15 @@
       if (document.referrer && document.referrer.split('#')[0] === u.split('#')[0]) { e.preventDefault(); history.back(); }
     });
   } catch (e) {}
+})();
+
+// 越轴 diagram: switch between camera A and camera B to see which way she walks in each.
+(() => {
+  const svg = document.querySelector('.axis-svg'), group = document.querySelector('.axis-cams');
+  if (!svg || !group) return;
+  group.hidden = false;
+  group.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => {
+    svg.dataset.cam = b.dataset.cam;
+    group.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+  }));
 })();
