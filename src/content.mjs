@@ -79,6 +79,13 @@ export const lessons = {
   zh:[['一段只让人物做一件事','装不下就拆成两段。会动的东西交给风、水和光。'],['下一段从上一段的最后一帧开始','拿上一段最后一帧当开头，文字只写接下来的动作。再描述一遍长相、衣服、光线，画面就会变样。'],['情绪也要接上','上一段在哭，下一段开头也得在哭。情绪可以在一段里慢慢变，不能一剪就没了。'],['照片里的人不露正脸','画面里的小照片，人脸最容易变形、显老。用背影或虚化。'],['选参考图先看动作','参考图会把颜色和姿态一起带过来。参考帧里的人站着，生成出来的人就会站起来。'],['情绪最高的地方要克制','含着泪笑一下、一口深呼吸，比大哭更打动人。']],
   en:[['One action per shot','If it doesn’t fit, split it in two. Let wind, water and light do the rest of the moving.'],['Start each shot from the last frame','Use the previous shot’s last frame as the opening image and describe only what happens next. Describe the face, clothes or light again and the picture drifts.'],['Carry the feeling across the cut','If she was crying at the end of one shot, she is crying at the start of the next. Feeling can change within a shot, not vanish at a cut.'],['No faces in the photograph','Small faces inside the frame distort and age first. Use backs or blur.'],['Pick references by what the person is doing','A reference image brings its colour and its posture. If she is standing in it, she will stand up.'],['Hold back at the peak','A smile through tears, one deep breath: stronger than loud crying.']]
 };
+// One real frame per lesson (v25.2: the six rules were text only). Each frame is where the rule shows in the film,
+// with a link to that second. Rule 3 shows both sides of the 0:13 cut: her tears carry across it.
+export const lessonFrames = [
+  {img:'sea',t:44.8},{img:'rise',t:11.2},
+  {pair:['cut-2-before','cut-2-after'],t:12.5,cap:{zh:'0:13 剪辑点的前一帧和后一帧',en:'The frames either side of the cut at 0:13'}},
+  {img:'photo',t:21.5},{img:'gaze',t:7.5},{img:'breathe',t:35.4}
+];
 // Tools. Muse: named by him as the generator (2026-10-24); the invite code and its terms are his, as he sent them.
 // The two skills: both MIT licensed (LICENSE files checked 2026-10-24).
 export const muse = {name:'Muse',url:'https://muse.ai/join',code:'OE9XK3',

@@ -2,7 +2,7 @@
 // v25 (2026-10-24): the film is the first screen; then why he made it, how (seven shots), what to take away, tools, credits.
 // The stylesheet is inlined so the first screen needs one request.
 import fs from 'node:fs';
-import {film,copy,chapters,shots,lessons,skills,muse,prompt} from '../src/content.mjs';
+import {film,copy,chapters,shots,lessons,lessonFrames,skills,muse,prompt} from '../src/content.mjs';
 
 const esc=s=>String(s).replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
 const tc=n=>`00:${n.toFixed(2).padStart(5,'0')}`;
@@ -24,6 +24,11 @@ function head(c,p,r,{title=c.title,description=c.description,hero=false}={}){
 }
 const still=(name,alt,r,cls='')=>`<img${cls?` class="${cls}"`:''} src="${r}assets/${name}.webp" width="1440" height="810" alt="${esc(alt)}" loading="lazy" decoding="async">`;
 // No link back to his personal site (2026-10-24: he shares this film on its own). The personal site links here, one way.
+const icon=d=>`<span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">${d}</svg></span>`;
+const ICONS={
+ muse:'<path d="M12 3.5l1.6 4.4L18 9.5l-4.4 1.6L12 15.5l-1.6-4.4L6 9.5l4.4-1.6z"/><path d="M18.5 15l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/>',
+ director:'<rect x="3.5" y="9" width="17" height="11" rx="2"/><path d="M3.5 9l2-4.5h15l-2 4.5"/><path d="M9 4.5 7.5 9M14.5 4.5 13 9"/>',
+ layers:'<path d="M12 4 3.5 8.5 12 13l8.5-4.5z"/><path d="m3.5 12.5 8.5 4.5 8.5-4.5"/><path d="m3.5 16.5 8.5 4.5 8.5-4.5"/>'};
 const footer=c=>`<footer class="foot"><span>${film.title}</span><span>© 2026</span></footer>`;
 const seekLink=(r,t,text)=>`<a class="seek" href="${r}${PLAY}#t=${t}" data-seek="${t}">${text.replace('{t}',mmss(t))} ›</a>`;
 const sectionHead=(id,label,title,lead='')=>`<header class="head"><p class="eyebrow">${label}</p><h2 id="${id}-title">${title}</h2>${lead?`<p class="lead">${lead}</p>`:''}</header>`;
@@ -47,9 +52,9 @@ function page(lang){
 <div class="prompt"><h3>${c.promptTitle}</h3>${c.prompt.map(t=>`<p>${t}</p>`).join('')}<details><summary>${c.promptOpen}</summary><blockquote lang="en">${esc(prompt)}</blockquote></details></div>
 <p class="more"><a href="${r}archive/">${c.archiveLink} ›</a></p></section>
 <section class="section soft lessons" id="learn" aria-labelledby="learn-title">${sectionHead('learn',c.learnLabel,c.learnTitle)}
-<ol class="lesson-grid">${lessons[lang].map(([h,p],i)=>`<li><span class="n">${i+1}</span><h3>${h}</h3><p>${p}</p></li>`).join('')}</ol><p class="learn-quote">“${c.learnQuote}” <span>— ${me}</span></p></section>
+<ol class="lesson-grid">${lessons[lang].map(([h,p],i)=>{const f=lessonFrames[i];const art=f.pair?`<figure class="pair">${still(f.pair[0],'',r)}${still(f.pair[1],'',r)}<figcaption>${f.cap[lang]}</figcaption></figure>`:`<figure>${still(f.img,'',r)}</figure>`;return `<li>${art}<div class="lesson-body"><span class="n">${i+1}</span><h3>${h}</h3><p>${p}</p>${seekLink(r,f.t,c.from)}</div></li>`}).join('')}</ol><p class="learn-quote">“${c.learnQuote}” <span>— ${me}</span></p></section>
 <section class="section tools" id="tools" aria-labelledby="tools-title">${sectionHead('tools',c.toolsLabel,c.toolsTitle,c.toolsLead)}
-<div class="tool-grid"><article class="tool tool-muse"><h3>${muse.name}</h3><p>${muse[lang]}</p><div class="invite"><p class="invite-k">${c.invite}</p><p class="invite-code">${muse.code}</p><p class="invite-note">${c.inviteNote}</p></div><a href="${muse.url}" rel="noopener">${c.inviteGo} ↗</a></article>${skills.map(k=>`<article class="tool"><h3>${k.name}</h3><p>${k[lang]}</p><a href="${k.url}" rel="noopener">${c.repo} ↗</a></article>`).join('')}</div></section>
+<div class="tool-grid"><article class="tool tool-muse">${icon(ICONS.muse)}<h3>${muse.name}</h3><p>${muse[lang]}</p><div class="invite"><p class="invite-k">${c.invite}</p><p class="invite-code">${muse.code}</p><p class="invite-note">${c.inviteNote}</p></div><a href="${muse.url}" rel="noopener">${c.inviteGo} ↗</a></article>${skills.map((k,i)=>`<article class="tool">${icon(i?ICONS.layers:ICONS.director)}<h3>${k.name}</h3><p>${k[lang]}</p><a href="${k.url}" rel="noopener">${c.repo} ↗</a></article>`).join('')}</div></section>
 <section class="section credits" aria-labelledby="credits-title"><div class="narrow"><h2 id="credits-title">${c.creditsTitle}</h2><dl>${c.credits.map(([t,d])=>`<dt>${t}</dt><dd>${d}</dd>`).join('')}</dl><p class="note-line">${c.creditsNote}</p><p class="credits-links"><a href="${r}archive/">${c.archiveLink} ›</a><a href="${r}${ORIGINAL}" download>${c.download} ↓</a></p></div></section>
 </main>${footer(c)}</body></html>`;
 }

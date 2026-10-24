@@ -57,7 +57,24 @@
       if (dots.children.length !== n) dots.innerHTML = '<i></i>'.repeat(n);
       [...dots.children].forEach((d, i) => d.classList.toggle('on', i === at));
     };
-    const turn = (dir) => rail.scrollBy({ left: dir * (rail.clientWidth + 20), behavior: reduce ? 'auto' : 'smooth' });
+    // Apple-style page turn: one eased glide (fast out, slow in, 0.65 s) instead of the browser's linear smooth scroll.
+    // Snapping is paused while it moves so the two don't fight.
+    let anim = 0;
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const turn = (dir) => {
+      const from = rail.scrollLeft;
+      const to = Math.max(0, Math.min(rail.scrollWidth - rail.clientWidth, (page() + dir) * (rail.clientWidth + 20)));
+      if (reduce) { rail.scrollLeft = to; return; }
+      cancelAnimationFrame(anim);
+      rail.style.scrollSnapType = 'none';
+      const t0 = performance.now(), dur = 650;
+      const step = (now) => {
+        const k = Math.min(1, (now - t0) / dur);
+        rail.scrollLeft = from + (to - from) * ease(k);
+        if (k < 1) anim = requestAnimationFrame(step); else rail.style.scrollSnapType = '';
+      };
+      anim = requestAnimationFrame(step);
+    };
     prev.addEventListener('click', () => turn(-1));
     next.addEventListener('click', () => turn(1));
     rail.addEventListener('scroll', sync, { passive: true });
