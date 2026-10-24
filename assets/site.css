@@ -7,7 +7,7 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--page);color:var(--body);font:17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 p,figcaption,blockquote{text-wrap:pretty}
 a{color:var(--link);text-decoration:none}
-a:hover{text-decoration:underline;text-underline-offset:4px}
+@media(hover:hover) and (pointer:fine) and (min-width:735px){a:hover{text-decoration:underline;text-underline-offset:4px}}
 button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:3px solid var(--link);outline-offset:4px}
 h1,h2,h3,p,figure,blockquote,ol,ul,dl,dd{margin:0;padding:0}
@@ -42,15 +42,12 @@ img{display:block;width:100%;height:auto}
 .cover{position:absolute;inset:0;display:block;width:100%;height:100%;padding:0;border:0;background:#000;cursor:pointer}
 .cover img{width:100%;height:100%;object-fit:cover;object-position:50% 40%}
 /* Glass play button over the film's own frame (2026-10-24): light tint, blur with a saturation lift, a bright rim on the
-   top edge, a hairline and a soft shadow; touched, it lights up from where the finger lands (--gx/--gy, site.js). */
-.disc{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:84px;height:84px;margin:-42px 0 0 -42px;overflow:hidden;border-radius:50%;color:#fff;background:rgba(255,255,255,.16);-webkit-backdrop-filter:blur(16px) saturate(180%);backdrop-filter:blur(16px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 0 0 1px rgba(255,255,255,.22),0 10px 28px -8px rgba(0,0,0,.45);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
-.disc::after{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.45),rgba(255,255,255,0) 65%);opacity:0;transition:opacity .35s ease;pointer-events:none}
-.cover:active .disc{transform:scale(.94);transition-duration:.1s}
-.cover:active .disc::after{opacity:1;transition-duration:.08s}
-.actions .play:active,.actions .download:active,.bar .bar-play:active{transform:scale(.97)}
+   top edge, a hairline and a soft shadow; pressed, it gives a little (0.95, as Apple's inline play button). */
+.disc{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:84px;height:84px;margin:-42px 0 0 -42px;overflow:hidden;border-radius:50%;color:#fff;background:rgba(255,255,255,.16);-webkit-backdrop-filter:blur(16px) saturate(180%);backdrop-filter:blur(16px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 0 0 1px rgba(255,255,255,.22),0 10px 28px -8px rgba(0,0,0,.45);transition:transform .3s cubic-bezier(0,0,.5,1),background-color .3s}
+.cover:active .disc{transform:scale(.95)}
 @media (prefers-reduced-motion:reduce){.disc{transition:none}.cover:active .disc,.cover:hover .disc,.actions .play:active,.actions .download:active,.bar .bar-play:active{transform:none}}
 .disc svg{width:30px;height:30px;margin-left:4px}
-.cover:hover .disc{transform:scale(1.06)}
+@media(hover:hover) and (pointer:fine){.cover:hover .disc{background:rgba(255,255,255,.24)}}
 .cover:focus-visible{outline-offset:-6px}
 .video-error{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);width:min(92%,520px);padding:12px 16px;border-radius:12px;background:#1d1d1f;color:#f5f5f7;font-size:15px;text-align:center}
 .hero-copy{position:relative;z-index:1;width:100%;padding:clamp(28px,4vw,40px) max(20px,calc((100% - 1200px)/2)) clamp(36px,6vw,72px)}
@@ -181,7 +178,6 @@ details blockquote{padding:0 0 24px;font-size:15px;line-height:1.85;overflow-wra
 .credits dd{color:var(--ink)}
 .note-line{margin-top:24px;font-size:13px;color:var(--muted)}
 .credits-links{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:20px;font-size:17px}
-.foot{max-width:1200px;margin:0 auto;padding:28px 20px 40px;display:flex;justify-content:space-between;gap:20px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
 
 /* Production record */
 .archive{max-width:720px;margin:0 auto;padding:80px 20px 96px}
@@ -226,33 +222,14 @@ details blockquote{padding:0 0 24px;font-size:15px;line-height:1.85;overflow-wra
  .coda .by{text-align:left}
  }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.bar,.bar-play{transition:none}}
-/* v27.16: the seven shots on the film's timeline, under the player */
-.shotmap{position:relative;overflow-x:clip;padding:18px max(20px,calc((100% - 1200px)/2)) 0}
-.map-track{position:absolute;left:max(20px,calc((100% - 1200px)/2));right:max(20px,calc((100% - 1200px)/2));top:38px;height:2px;border-radius:1px;background:rgba(255,255,255,.22);overflow:hidden}
-.map-fill{display:block;height:100%;width:0;background:#fff;transition:width .25s linear}
-.shotmap ol{position:relative;height:44px;list-style:none;margin:0;padding:0}
-.shotmap li{position:absolute;left:var(--at);top:0;transform:translateX(-50%)}
-.shotmap a{position:relative;display:grid;place-items:center;width:44px;height:44px;color:rgba(255,255,255,.6)}
-.map-n{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#000;box-shadow:inset 0 0 0 1.5px currentColor;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;transition:color .2s,background .2s,transform .2s}
-.shotmap a:hover,.shotmap .on a{color:#fff}
-.shotmap .on .map-n{background:#fff;color:#000;box-shadow:none}
-.map-thumb{position:absolute;bottom:calc(100% + 8px);left:50%;width:200px;padding:4px;border-radius:12px;background:rgba(40,40,42,.82);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 12px 30px rgba(0,0,0,.4);opacity:0;visibility:hidden;transform:translate(var(--x,-50%),6px);transition:opacity .2s,transform .2s,visibility 0s .2s;pointer-events:none;z-index:2}
-.map-thumb img{display:block;width:100%;height:auto;border-radius:8px}
-.map-thumb span{display:block;padding:6px 4px 2px;font-size:12px;color:#fff;text-align:center;font-variant-numeric:tabular-nums}
-@media(hover:hover) and (pointer:fine){.shotmap a:hover .map-thumb,.shotmap a:focus-visible .map-thumb{opacity:1;visibility:visible;transform:translate(var(--x,-50%),0);transition:opacity .2s,transform .2s}.shotmap a:hover .map-n{transform:scale(1.15)}}
-@media(max-width:733px){.map-fill{display:none}.shotmap ol{display:flex;justify-content:space-between;height:44px}.shotmap li{position:static;transform:none}.map-thumb{display:none}}
 /* 越轴: switch between the two cameras */
 .axis-svg .va,.axis-svg .vb{transition:opacity .35s,color .35s}
 .axis-svg[data-cam=a] .vb,.axis-svg[data-cam=b] .va{color:var(--muted);opacity:.4}
 .axis-cams{display:flex;justify-content:center;gap:4px;width:max-content;margin:16px auto 0;padding:3px;border-radius:999px;background:var(--soft)}
 .axis-cams button{min-height:36px;padding:0 18px;border:0;border-radius:999px;background:none;color:var(--body);font:inherit;font-size:14px;cursor:pointer;transition:background .2s,color .2s}
 .axis-cams button[aria-pressed=true]{background:var(--card);color:var(--ink);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.12)}
-/* Whole shot card plays from its time */
-.card{cursor:pointer;transition:transform .2s}
-.card figure{position:relative;overflow:hidden}
-.card figure img{transition:transform .5s cubic-bezier(.2,.8,.2,1)}
-.card-play{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.22);-webkit-backdrop-filter:blur(16px) saturate(180%);backdrop-filter:blur(16px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.4);color:#fff;opacity:0;transform:translate(-50%,-50%) scale(.9);transition:opacity .25s,transform .25s}
-.card-play svg{width:20px;height:20px;margin-left:3px}
-@media(hover:hover) and (pointer:fine){.card:hover figure img{transform:scale(1.04)}.card:hover .card-play{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-.card:active{transform:scale(.985)}
-@media(prefers-reduced-motion:reduce){.map-fill,.map-n,.map-thumb,.axis-svg .va,.axis-svg .vb,.card figure img,.card-play{transition:none}.card:hover figure img,.card:active{transform:none}}
+/* Hover (apple.com.cn, measured 2026-10-24): only cards that are clickable as a whole respond, only to a mouse:
+   they grow by about 1 %, 0.3 s ease-out. No zoom inside, no glyph, no shadow. */
+.card,.craft-grid>li{cursor:pointer;transition:transform .3s cubic-bezier(0,0,.5,1)}
+@media(hover:hover) and (pointer:fine){.card:hover,.craft-grid>li:hover{transform:scale(1.01)}}
+@media(prefers-reduced-motion:reduce){.axis-svg .va,.axis-svg .vb,.card,.craft-grid>li{transition:none}.card:hover,.craft-grid>li:hover{transform:none}}

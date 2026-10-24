@@ -36,4 +36,8 @@ const mobile=JSON.parse(read('src/mobile-media-manifest.json'));
 assert.equal(crypto.createHash('sha256').update(fs.readFileSync('media/film-mobile.mp4')).digest('hex'),mobile.video.sha256,'web version is the creator supplied file, byte for byte');
 assert.equal(crypto.createHash('sha256').update(fs.readFileSync('assets/poster-mobile.jpg')).digest('hex'),mobile.cover.sha256,'cover is the creator supplied file, byte for byte');
 for(const p of pages.slice(0,2))assert.ok(Buffer.byteLength(read(p))<180000,'readable HTML budget');
-console.log('PASS: 3 pages, bilingual structure, local references, one deferred player on the creator\'s web version, one video file for play and download, descriptions, timecodes, byte-identical web version and cover');
+// Copy lock (2026-10-24): the copy is final; a changed word fails until the owner agrees and `npm run lock` records it.
+const {checkCopy}=await import('./copy-lock.mjs');
+const copyProblems=checkCopy(pages);
+assert.equal(copyProblems.length,0,copyProblems.join('\n'));
+console.log('PASS: copy matches copy.lock.json, no relative time words, 3 pages, bilingual structure, local references, one deferred player on the creator\'s web version, one video file for play and download, descriptions, timecodes, byte-identical web version and cover');

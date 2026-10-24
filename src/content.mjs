@@ -30,7 +30,7 @@ zh:{lang:'zh-CN',home:'秦徐俊',language:'English',theme:'切换深色或浅�
   ['片名','先学会爱自己，才来得及爱别人。','最开始可能会爱一个人特别用力，到后来才知道，爱人要先爱己……','片名取自配乐《来不及爱你》。'],
   ['结尾','结尾不给答案，只给她一扇门。','……最后她走开那个门，象征着新的开始，留下空白。']],
  whySigned:'秦徐俊，整理自口述',
- makeLabel:'怎么做出来的',makeTitle:'七段画面，每段 10 秒',makeLead:'用 AI 智能体 Muse 生成。没有剧本，故事是从第一个镜头往后长出来的：生成，看，否掉，再生成。剪辑和调色，他自己来。',
+ makeLabel:'怎么做出来的',makeTitle:'七段画面，每段 10 秒',makeLead:'用 AI 智能体 Muse 生成。没有剧本，故事是从第一个镜头往后长出来的：生成，看，否掉，再生成。剪辑和调色由秦徐俊完成。',
  seg:'第 {n} 段',from:'从 {t} 看',
  promptTitle:'提示词里真正管用的，只有看得见的东西',
  prompt:['整部片子从一条英文提示词开始。它管用的部分是：一个连续镜头，一次推近，一个动作的终点（回头看镜头），会动的交给风和光，没有对白。','没用的部分是一串形容词：cinematic、moody、masterpiece、4k。写了 4k，生成出来是 720p。','后来每一段只写动作。比如第 2 段只写了：她收回目光，一滴泪落下，起身，朝镜头走来，从画面右侧走出去，镜头停在空座位上。'],
@@ -41,7 +41,7 @@ zh:{lang:'zh-CN',home:'秦徐俊',language:'English',theme:'切换深色或浅�
  axisSvg:{line:'方向线',walk:'她往右走',a:'机位 A',b:'机位 B',seeA:'A 拍到：往右',seeB:'B 拍到：往左'},
  toolsLabel:'工具',toolsTitle:'最大的限制，|是自己的想法',toolsLead:'我制作的习惯，开始会让 Muse 去 Github 分别找星级比较高，认可度好的 Skill，一个是导演的，一个是 Seedance 的，不用了解具体，只用说目的，就是要奥斯卡级别影片制作。',
  codaTitle:'没有任何东西是白费的',coda:['无论是用 Claude 还是 GPT 去做网站，跑一些内容、沟通交流，还是 Muse 这一类智能体，……其实更重要的是长期以来的积累，比如本身的专业能力。','从最开始，一个代码都看不懂，终端命令行都看着非常恐惧。……亦或是遇到的每一个有意思的小伙伴、看过的书、做过的事情，没有任何东西是白费的。'],codaSigned:'秦徐俊，写在影片上线时',
- invite:'邀请码',inviteNote:'注册后 48 小时内，在「设置」里填写这个邀请码，你和秦徐俊各得 10 亿 Muse 词元。',inviteGo:'加入 Muse',repo:'查看项目',
+ invite:'邀请码',inviteNote:'注册后 48 小时内，在「设置」里填写这个邀请码，注册的人和秦徐俊各得 10 亿 Muse 词元。',inviteGo:'加入 Muse',repo:'查看项目',
  creditsTitle:'影片资料',credits:[['导演','秦徐俊'],['剪辑与调色','秦徐俊'],['生成','Muse，七段，每段 10 秒'],['音乐','《来不及爱你》'],['时长','57 秒'],['生成素材','1280 × 720 · 24 fps'],['成片导出','3840 × 2160（由 720p 素材放大）']],
  creditsNote:'',
  archiveHeading:'制作全记录',archiveIntro:'七段画面怎样一段段做出来，哪一版被否、为什么。整理自秦徐俊与 AI 协作时的工作记录；他的原话节选收在最后。',backFilm:'返回影片'},
@@ -54,7 +54,7 @@ en:{lang:'en',home:'Qin Xujun',language:'中文',theme:'Switch light or dark app
   ['The title','Learn to love yourself first, or it is too late to love anyone.','At first you may love someone with everything you have, and only later learn that to love someone, you first have to love yourself …','The title comes from the song 《来不及爱你》.'],
   ['The ending','The ending gives no answer, only a door.','… in the end she walks out through that door. It stands for a new beginning, and leaves a blank.']],
  whySigned:'Qin Xujun, edited from speech, translated from Chinese',
- makeLabel:'How it was made',makeTitle:'Seven shots, ten seconds each',makeLead:'Generated with the AI agent Muse. There was no script: the story grew forward from the first shot, generate, watch, reject, generate again. He edited and graded it himself.',
+ makeLabel:'How it was made',makeTitle:'Seven shots, ten seconds each',makeLead:'Generated with the AI agent Muse. There was no script: the story grew forward from the first shot, generate, watch, reject, generate again. Qin Xujun edited and graded it.',
  seg:'Shot {n}',from:'Watch from {t}',
  promptTitle:'In a prompt, only what can be seen does any work',
  prompt:['The whole film started from one English prompt. The part that worked: one continuous shot, one push-in, one clear end to the action (she looks back at the lens), wind and light doing the moving, no dialogue.','The part that did nothing was a string of adjectives: cinematic, moody, masterpiece, 4k. It asked for 4k; it came out at 720p.','After that, each shot described only action. Shot 2 said just this: she looks away, a tear falls, she stands, walks towards the camera, leaves the frame on the right, and the camera stays on the empty seat.'],
@@ -65,20 +65,20 @@ en:{lang:'en',home:'Qin Xujun',language:'中文',theme:'Switch light or dark app
  axisSvg:{line:'line of action',walk:'she walks right',a:'Camera A',b:'Camera B',seeA:'A sees: right',seeB:'B sees: left'},
  toolsLabel:'Tools',toolsTitle:'The real limit is one’s own ideas',toolsLead:'My habit is to start by asking Muse to search GitHub for well-starred, widely trusted skills, one for directing and one for Seedance. No need to know the details, only to say the goal: an Oscar-level film.',
  codaTitle:'Nothing is wasted',coda:['Whether it is Claude or GPT building websites, running content and talking things through, or an agent like Muse, … what matters more is what has been built up over a long time, such as real professional skill.','At the start I couldn’t read a line of code, and the terminal scared me. … Every interesting person I met, every book I read, everything I did: none of it was wasted.'],codaSigned:'Qin Xujun, written when the film came out (translated from Chinese)',
- invite:'Invite code',inviteNote:'Enter it under Settings within 48 hours of joining, and you and Qin Xujun each get one billion Muse tokens.',inviteGo:'Join Muse',repo:'View project',
+ invite:'Invite code',inviteNote:'Enter it under Settings within 48 hours of joining, and the new member and Qin Xujun each get one billion Muse tokens.',inviteGo:'Join Muse',repo:'View project',
  creditsTitle:'Details',credits:[['Director','Qin Xujun'],['Edit & colour','Qin Xujun'],['Generated with','Muse, seven shots of 10 seconds'],['Music','《来不及爱你》'],['Running time','57 seconds'],['Generated at','1280 × 720 · 24 fps'],['Exported at','3840 × 2160 (upscaled from 720p)']],
  creditsNote:'',backFilm:'Back to the film'}
 };
 
 // The seven shots, in film order. Facts: src/archive.md §5. Plain words: what went wrong, what fixed it.
 export const shots = [
-  {n:1,img:'gaze',t:7.5,zh:['船舱，回头看镜头','五条路线','原本是全片的母版，但清晨的冷色和后面的午后日光接不上，她也坐错了一边。试了五种改法，最后拿这一段自己的画面当参考，才对上。'],en:['The cabin: she looks back','Five attempts','It was the master shot, but its cold morning tones didn’t match the afternoon light after it, and she sat on the wrong side. Five approaches later, using its own frames as reference fixed it.']},
-  {n:2,img:'rise',t:11.2,zh:['船舱，起身离开','被否两次','第一版人物方向反了，光也变灰；第二版哭得太过。第三版把上一段真实的最后一帧当作开头，文字只写动作，才接上。'],en:['The cabin: she gets up','Rejected twice','The first version reversed her direction and turned the light grey; the second overplayed the crying. The third started from the previous shot’s real last frame and described only action.']},
-  {n:3,img:'deck',t:15,zh:['甲板，走到栏杆边','被否一次','第一版她一走出舱门就不哭了，上一段的眼泪在剪辑点消失。重拍时她出门还在哭，走到栏杆边才擦掉眼泪。'],en:['The deck: to the railing','Rejected once','In the first version she stopped crying the moment she stepped out. In the remake she is still crying at the door and only wipes her tears at the railing.']},
-  {n:4,img:'photo',t:21.5,zh:['甲板，看照片','被否一次','第一版一开场就是正脸大哭。改成全程侧脸、安静开场：她看着照片，含着泪笑了一下。全片情绪最高的就是这一下。'],en:['The deck: the photograph','Rejected once','The first version opened on loud crying, face to camera. Redone in profile and quiet: she looks at the photograph and smiles once through her tears. That is the film’s high point.']},
+  {n:1,img:'gaze',t:7.5,zh:['船舱，回头看镜头','试了五版','原本是全片的母版，但清晨的冷色和后面的午后日光接不上，她也坐错了一边。试了五种改法，最后拿这一段自己的画面当参考，才对上。'],en:['The cabin: she looks back','Five versions','It was the master shot, but its cold morning tones didn’t match the afternoon light after it, and she sat on the wrong side. Five approaches later, using its own frames as reference fixed it.']},
+  {n:2,img:'rise',t:11.2,zh:['船舱，起身离开','改了两次','第一版人物方向反了，光也变灰；第二版哭得太过。第三版把上一段真实的最后一帧当作开头，文字只写动作，才接上。'],en:['The cabin: she gets up','Redone twice','The first version reversed her direction and turned the light grey; the second overplayed the crying. The third started from the previous shot’s real last frame and described only action.']},
+  {n:3,img:'deck',t:15,zh:['甲板，走到栏杆边','改了一次','第一版她一走出舱门就不哭了，上一段的眼泪在剪辑点消失。重拍时她出门还在哭，走到栏杆边才擦掉眼泪。'],en:['The deck: to the railing','Redone once','In the first version she stopped crying the moment she stepped out. In the remake she is still crying at the door and only wipes her tears at the railing.']},
+  {n:4,img:'photo',t:21.5,zh:['甲板，看照片','改了一次','第一版一开场就是正脸大哭。改成全程侧脸、安静开场：她看着照片，含着泪笑了一下。全片情绪最高的就是这一下。'],en:['The deck: the photograph','Redone once','The first version opened on loud crying, face to camera. Redone in profile and quiet: she looks at the photograph and smiles once through her tears. That is the film’s high point.']},
   {n:5,img:'breathe',t:35.4,zh:['甲板，深呼吸','一次通过','照片贴在胸口，收进内袋，迎着风深呼吸，肩膀松下来。放下靠的是身体，不是表情。'],en:['The deck: one breath','First take','The photograph to her chest, back into the pocket, a deep breath into the wind, shoulders dropping. Letting go is done by the body, not the face.']},
-  {n:6,img:'sea',t:44.8,zh:['后拉，见到整片海','被否两次','一开始是航拍大远景，来得太突然。他重新设计成从她脸上一级级往后拉；第二版又笑得太快，第三版接着上一段的泪痕慢慢来。'],en:['Pulling back to the sea','Rejected twice','It began as an aerial wide shot that came from nowhere. He redesigned it as a pull-back from her face; the second version smiled too soon, the third carried the tears over and took its time.']},
-  {n:7,img:'ending',t:56.4,zh:['下船，走向一扇门','被否两次','码头版人太多太乱；海滨步道版把她的去处说得太清楚。留下的是她走向一扇门，门外是什么，不知道。'],en:['Off the ferry: the door','Rejected twice','The pier version was crowded and messy; the seaside walkway said too clearly where she goes. What stayed: she walks towards a door, and we don’t know what lies beyond.']}
+  {n:6,img:'sea',t:44.8,zh:['后拉，见到整片海','改了两次','一开始是航拍大远景，来得太突然。他重新设计成从她脸上一级级往后拉；第二版又笑得太快，第三版接着上一段的泪痕慢慢来。'],en:['Pulling back to the sea','Redone twice','It began as an aerial wide shot that came from nowhere. He redesigned it as a pull-back from her face; the second version smiled too soon, the third carried the tears over and took its time.']},
+  {n:7,img:'ending',t:56.4,zh:['下船，走向一扇门','改了两次','码头版人太多太乱；海滨步道版把她的去处说得太清楚。留下的是她走向一扇门，门外是什么，不知道。'],en:['Off the ferry: the door','Redone twice','The pier version was crowded and messy; the seaside walkway said too clearly where she goes. What stayed: she walks towards a door, and we don’t know what lies beyond.']}
 ];
 // v26 (2026-10-24): he said the page didn't show what he values most: knowing film basics such as 越轴, because
 // "当你可以说出这个问题的时候，它就可以改好" (his post, docs in src/archive.md). The six rules became named craft ideas,

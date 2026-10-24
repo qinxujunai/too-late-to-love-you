@@ -49,31 +49,10 @@
   const lastSource = film.querySelector('source:last-of-type');
   if (lastSource) lastSource.addEventListener('error', () => { document.getElementById('video-error').hidden = false; });
   document.querySelectorAll('[data-play]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); play(); }));
-  // Glass touch: the play disc lights up from the side the finger lands on.
-  const disc = cover && cover.querySelector('.disc');
-  if (disc) cover.addEventListener('pointerdown', (e) => {
-    const r = disc.getBoundingClientRect(), clamp = (v) => Math.max(0, Math.min(100, v));
-    disc.style.setProperty('--gx', `${clamp((e.clientX - r.left) / r.width * 100).toFixed(0)}%`);
-    disc.style.setProperty('--gy', `${clamp((e.clientY - r.top) / r.height * 100).toFixed(0)}%`);
-  });
   document.querySelectorAll('[data-seek]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); play(Number(a.dataset.seek)); }));
 
-  // Shot map: light the shot that is playing and fill the timeline.
-  const map = document.querySelector('[data-map]');
-  if (map) {
-    const items = [...map.querySelectorAll('li')], fill = map.querySelector('.map-fill');
-    const times = items.map((li) => Number(li.querySelector('[data-seek]').dataset.seek));
-    let last = -2;
-    film.addEventListener('timeupdate', () => {
-      const t = film.currentTime;
-      if (fill) fill.style.width = `${Math.min(100, t / (film.duration || 57.087) * 100)}%`;
-      let i = -1; times.forEach((x, k) => { if (t + 0.05 >= x) i = k; });
-      if (i === last) return; last = i;
-      items.forEach((li, k) => { li.classList.toggle('on', k === i); const a = li.querySelector('a'); if (k === i) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
-    });
-  }
-  // Whole shot card plays from its time (unless text is being selected or a link was hit).
-  document.querySelectorAll('.card').forEach((card) => card.addEventListener('click', (e) => {
+  // A whole shot or craft card plays from its time (unless text is being selected or a link was hit).
+  document.querySelectorAll('.card, .craft-grid > li').forEach((card) => card.addEventListener('click', (e) => {
     const link = card.querySelector('[data-seek]');
     if (!link || e.target.closest('a') || String(getSelection())) return;
     link.click();
