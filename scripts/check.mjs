@@ -7,7 +7,10 @@ for(const p of pages){
   assert.ok(fs.existsSync(p),`${p} must be built`);
   const h=read(p);
   assert.equal((h.match(/<h1\b/g)||[]).length,1,`${p}: one h1`);
-  assert.ok(!/<(?:script|img|source|video|iframe)\b[^>]*\s(?:src|poster)="https?:/i.test(h),`${p}: same-origin resources only`);
+  // The only other-origin resources: the film itself on Tencent Cloud and Cloudflare R2 (AGENTS.md「视频放在哪」).
+  const FILM_HOSTS=/^https:\/\/(media-1416754078\.cos\.ap-shanghai\.myqcloud\.com|media\.praxisai\.online)\/too-late-to-love-you\.mp4$/;
+  const foreign=[...h.matchAll(/<(?:script|img|source|video|iframe)\b[^>]*\s(?:src|poster)="(https?:[^"]+)"/gi)].map(m=>m[1]).filter(u=>!FILM_HOSTS.test(u));
+  assert.ok(!foreign.length,`${p}: same-origin resources only (${foreign.join(', ')})`);
   for(const m of h.matchAll(/(?:src|href|poster)="([^"#]+)"/g)){
     const u=m[1].split('#')[0];
     if(/^(https?:|data:)/.test(u))continue;
@@ -21,8 +24,8 @@ for(const p of pages.slice(0,2)){
   assert.ok(!/<video[^>]*autoplay/.test(h),`${p}: no autoplay`);
   assert.equal((h.match(/data-seek="/g)||[]).length>=7,true,`${p}: real timecode navigation`);
   assert.ok(h.includes('kind="descriptions"'),`${p}: scene descriptions available`);
-  assert.ok(/<video[^>]*src="(?:\.\.\/)?media\/film-mobile\.mp4"/.test(h),`${p}: plays the creator's 4K web version`);
-  assert.ok(/href="(?:\.\.\/)?media\/film-mobile\.mp4" download/.test(h),`${p}: download is the same single file`);
+  assert.ok(/<video[^>]*>(?:<source src="https:[^"]+too-late-to-love-you\.mp4" type="video\/mp4">){2}<source src="(?:\.\.\/)?media\/film-mobile\.mp4"/.test(h),`${p}: plays the creator's 4K web version: Tencent, then Cloudflare, then this repository`);
+  assert.ok(/href="https:\/\/media-1416754078\.cos\.ap-shanghai\.myqcloud\.com\/too-late-to-love-you\.mp4" download/.test(h),`${p}: download is the same single file`);
   assert.ok(!h.includes('film-original'),`${p}: the 100 MB file is gone (his decision, 2026-10-24)`);
   assert.equal((h.match(/<video\b/g)||[]).length,1,`${p}: one player`);
 }

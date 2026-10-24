@@ -18,8 +18,14 @@ const css=fs.readFileSync('assets/site.css','utf8').replace(/\/\*[\s\S]*?\*\//g,
 const init=`try{var t=localStorage.getItem('qxj.theme');document.documentElement.dataset.theme=t==='dark'||t==='light'?t:matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}catch(e){}document.documentElement.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion')`;
 
 // One file for everything (his decision, 2026-10-24: 「100 兆的那个版本直接删了……只保留一个视频，所有链接都指向这一个视频」):
-// his 4K web version, about 7 Mbps, 51 MB. Playing, jumping to a second and downloading all use it. Never re-encoded here.
+// his 4K web version, about 7 Mbps, 51 MB. Never re-encoded here.
+// The same bytes are served from three places, in order (2026-10-24): Tencent Cloud Shanghai first (mainland viewers;
+// measured in WeChat without VPN: 1.0 s to first frame, 9.1 Mbps vs Cloudflare 4.2 s, 4.2 Mbps; GitHub Pages barely
+// plays there), Cloudflare R2 if Tencent fails (free traffic), then this repository. The browser moves down the list
+// by itself; no buttons, no switch. Download uses Tencent (its default domain already answers with "attachment").
 const PLAY='media/film-mobile.mp4';
+const SOURCES=['https://media-1416754078.cos.ap-shanghai.myqcloud.com/too-late-to-love-you.mp4','https://media.praxisai.online/too-late-to-love-you.mp4'];
+const DOWNLOAD=SOURCES[0];
 const playIcon=`<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3.5v13l10.5-6.5Z" fill="currentColor"/></svg>`;
 const moon=`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20.5 14.2A9 9 0 0 1 9.8 3.5 9 9 0 1 0 20.5 14.2Z"/></svg>`;
 
@@ -65,9 +71,9 @@ function page(lang){
 <header class="bar" data-bar><a class="bar-home" href="#top">${film.title}</a><span class="bar-tools"><a href="${other}" lang="${zh?'en':'zh-CN'}">${c.language}</a><button type="button" data-theme-toggle aria-label="${c.theme}">${moon}</button><button class="bar-play" type="button" data-play>${playIcon}${c.play}</button></span></header>
 <main id="main">
 <section class="hero" id="top" aria-labelledby="film-title">
-<div class="screen" id="watch"><video id="film" controls playsinline preload="none" poster="${r}assets/key-1280.webp" width="3840" height="2160" aria-label="${film.title}" src="${r}${PLAY}"><track kind="descriptions" src="${r}media/descriptions-${lang}.vtt" srclang="${c.lang}" label="${c.textVersion}"></video><button class="cover" type="button" data-play hidden aria-label="${esc(c.play)} ${film.title}"><img src="${r}assets/key-1280.webp" srcset="${r}assets/key-1280.webp 1280w, ${r}assets/key-2560.webp 2560w" sizes="100vw" width="1280" height="720" alt="${esc(c.coverAlt)}" fetchpriority="high" decoding="async"><span class="disc">${playIcon}</span></button><p class="video-error" id="video-error" role="status" hidden>${c.error}</p></div>
+<div class="screen" id="watch"><video id="film" controls playsinline preload="none" poster="${r}assets/key-1280.webp" width="3840" height="2160" aria-label="${film.title}">${[...SOURCES,r+PLAY].map(u=>`<source src="${u}" type="video/mp4">`).join('')}<track kind="descriptions" src="${r}media/descriptions-${lang}.vtt" srclang="${c.lang}" label="${c.textVersion}"></video><button class="cover" type="button" data-play hidden aria-label="${esc(c.play)} ${film.title}"><img src="${r}assets/key-1280.webp" srcset="${r}assets/key-1280.webp 1280w, ${r}assets/key-2560.webp 2560w" sizes="100vw" width="1280" height="720" alt="${esc(c.coverAlt)}" fetchpriority="high" decoding="async"><span class="disc">${playIcon}</span></button><p class="video-error" id="video-error" role="status" hidden>${c.error}</p></div>
 <div class="hero-copy"><p class="kicker">${c.kicker}</p><h1 id="film-title">${film.title}</h1>${zh?'':`<p class="title-en">${film.titleEn}</p>`}<p class="lede">${c.lede}</p><p class="meta">${c.meta.join('<span aria-hidden="true"> · </span>')}</p>
-<p class="actions"><a class="play" href="${r}${PLAY}" data-play>${playIcon}${c.play}</a><a class="download" href="${r}${PLAY}" download>${c.download} <span aria-hidden="true">↓</span></a></p>
+<p class="actions"><a class="play" href="${r}${PLAY}" data-play>${playIcon}${c.play}</a><a class="download" href="${DOWNLOAD}" download="too-late-to-love-you.mp4">${c.download} <span aria-hidden="true">↓</span></a></p>
 </section>
 <section class="section why" id="why" aria-labelledby="why-title"><header class="head"><p class="eyebrow">${c.whyLabel}</p><h2 class="qh" id="why-title">${qt(c.whyTitle)}</h2></header>
 <ol class="why-list">${c.why.map(([k,h,q,n])=>`<li><p class="why-k">${k}</p><h3>${h}</h3><blockquote><p>“${q}”</p></blockquote>${n?`<p class="why-note">${n}</p>`:''}</li>`).join('')}</ol><p class="signed">— ${c.whySigned}</p></section>
@@ -82,7 +88,7 @@ function page(lang){
 <section class="section tools" id="tools" aria-labelledby="tools-title"><header class="head"><p class="eyebrow">${c.toolsLabel}</p><h2 class="qh" id="tools-title">${qt(c.toolsTitle)}</h2><p class="lead">“${c.toolsLead}” <span class="by">— ${me}</span></p></header>
 <div class="tool-grid"><article class="tool tool-muse">${icon(ICONS.muse)}<h3>${muse.name}</h3><p>${muse[lang]}</p><div class="invite"><p class="invite-k">${c.invite}</p><p class="invite-code">${muse.code}</p><p class="invite-note">${c.inviteNote}</p></div><a href="${muse.url}" rel="noopener">${c.inviteGo} ↗</a></article>${skills.map((k,i)=>`<article class="tool">${icon(i?ICONS.layers:ICONS.director)}<h3>${k.name}</h3><p>${k[lang]}</p><a href="${k.url}" rel="noopener">${c.repo} ↗</a></article>`).join('')}</div></section>
 <section class="section coda" aria-labelledby="coda-title"><div class="narrow"><h2 id="coda-title">${c.codaTitle}</h2>${c.coda.map(t=>`<p>“${t}”</p>`).join('')}<p class="by">— ${c.codaSigned}</p></div></section>
-<section class="section credits" aria-labelledby="credits-title"><div class="narrow"><h2 id="credits-title">${c.creditsTitle}</h2><dl>${c.credits.map(([t,d])=>`<dt>${t}</dt><dd>${d}</dd>`).join('')}</dl>${c.creditsNote?`<p class="note-line">${c.creditsNote}</p>`:''}<p class="credits-links"><a href="${r}archive/">${c.archiveLink} ›</a><a href="${r}${PLAY}" download>${c.download} ↓</a></p></div></section>
+<section class="section credits" aria-labelledby="credits-title"><div class="narrow"><h2 id="credits-title">${c.creditsTitle}</h2><dl>${c.credits.map(([t,d])=>`<dt>${t}</dt><dd>${d}</dd>`).join('')}</dl>${c.creditsNote?`<p class="note-line">${c.creditsNote}</p>`:''}<p class="credits-links"><a href="${r}archive/">${c.archiveLink} ›</a><a href="${DOWNLOAD}" download="too-late-to-love-you.mp4">${c.download} ↓</a></p></div></section>
 </main>${footer(c)}${js}</body></html>`;
 }
 

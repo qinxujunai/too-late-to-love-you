@@ -45,6 +45,9 @@
   };
   film.addEventListener('play', reveal);
   film.addEventListener('error', () => { document.getElementById('video-error').hidden = false; });
+  // With several <source>s the error lands on the last one, after the browser has tried them all.
+  const lastSource = film.querySelector('source:last-of-type');
+  if (lastSource) lastSource.addEventListener('error', () => { document.getElementById('video-error').hidden = false; });
   document.querySelectorAll('[data-play]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); play(); }));
   document.querySelectorAll('[data-seek]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); play(Number(a.dataset.seek)); }));
 
