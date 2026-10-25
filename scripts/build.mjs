@@ -110,7 +110,7 @@ function markdown(raw){
 }
 for(const lang of ['zh','en']){
  write(lang==='zh'?'index.html':'en/index.html',page(lang));
- const vtt='WEBVTT\n\n'+chapters.map(s=>`${tc(s.start).replace('00:','00:00:').replace(/\.(\d\d)$/g,'.$10')} --> ${tc(s.end).replace('00:','00:00:').replace(/\.(\d\d)$/g,'.$10')}\n${s[lang][2]}\n`).join('\n');
+ const vtt='WEBVTT\n\n'+chapters.map(s=>`${tc(s.start).replace('00:','00:00:').replace(/\.(\d\d)$/g,'.$10')} --> ${tc(s.end).replace('00:','00:00:').replace(/\.(\d\d)$/g,'.$10')}\n${s[lang]}\n`).join('\n');
  write(`media/descriptions-${lang}.vtt`,vtt);
 }
 const c=copy.zh;
