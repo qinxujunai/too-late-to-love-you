@@ -23,12 +23,16 @@ export function pageText(html) {
   return [...meta.map(decode), ...lines].join('\n');
 }
 
+// Words a template prints when a field is missing (v27.20: the 404 page showed 「undefined」 and the lock froze it).
+const BROKEN = /\bundefined\b|\bNaN\b|\[object \w+\]|\bnull\b/g;
+
 const RELATIVE = /今年(?!（\d{4})|明年|去年|至今|如今|\bthis year\b|\blast year\b|\bnext year\b|\bto date\b/gi;
 
 export function checkCopy(files, lockFile = 'copy.lock.json', { write = false } = {}) {
   const now = Object.fromEntries(files.map((f) => [f, pageText(fs.readFileSync(f, 'utf8'))]));
   const problems = [];
   for (const [f, t] of Object.entries(now)) for (const m of t.matchAll(RELATIVE)) problems.push(`${f}: 「${t.slice(Math.max(0, m.index - 12), m.index + 16).replace(/\n/g, ' ')}」 uses a relative time word; write the year`);
+  for (const [f, t] of Object.entries(now)) for (const m of t.matchAll(BROKEN)) problems.push(`${f}: 「${t.slice(Math.max(0, m.index - 12), m.index + 16).replace(/\n/g, ' ')}」 shows a template error (${m[0]}); a field is missing`);
   if (write) { fs.writeFileSync(lockFile, JSON.stringify(now, null, 1) + '\n'); return problems; }
   if (!fs.existsSync(lockFile)) return [...problems, `${lockFile} is missing: run npm run lock`];
   const locked = JSON.parse(fs.readFileSync(lockFile, 'utf8'));

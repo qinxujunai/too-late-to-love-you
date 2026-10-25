@@ -22,7 +22,8 @@
   const film = document.getElementById('film');
   const cover = document.querySelector('.cover');
   if (!film) return;
-  // One file everywhere: the creator's 4K web version (about 7 Mbps); the 14 Mbps original is the download only.
+  // One file everywhere: the creator's 4K web version (about 7 Mbps), for playing and for the download (the 14 Mbps
+  // original was deleted on 2026-10-24).
   // Tested 2026-10-24: on a fast link Chromium already downloads the whole film ahead (a service worker forcing a
   // full-speed download changed nothing), so stalls come from links slower than the film's bitrate, not from buffering.
   // The film is the first screen (v24.1, as in v23): tap the picture and it plays right there, with the system
@@ -31,23 +32,29 @@
   const reveal = () => { if (cover) cover.hidden = true; hero && hero.classList.add('playing'); };
   // v26.1–26.2 tried his Bilibili upload as a domestic line (sandboxed embed); on his phone it would not play, and he
   // does not want a second line or a switch (2026-10-24). Removed: one player, one file.
-  // Addresses in order (Tencent Shanghai, Cloudflare, this repository). WeChat's player reads only src, so the
-  // fallback is ours: when one fails, or gives nothing for 10 seconds after Play, the next one takes over at the same second.
+  // Addresses in order (Cloudflare R2, Tencent Shanghai, this repository). WeChat's player reads only src, so the
+  // fallback is ours. An address is replaced by the next one, from the same second, when it errors, when it shows no
+  // picture within 10 s of Play (nothing at all, or only the file's metadata), or when playback has been stuck for
+  // 15 s; ordinary buffering resumes well inside that. Each address is tried once (scripts/test-player.cjs).
   const sources = (film.dataset.sources || '').split(' ').filter(Boolean);
-  let at = 0, guard = 0, want = null;
+  let at = 0, guard = 0, stuck = 0, want = null, played = false;
+  const last = () => at >= sources.length - 1;
   const showError = () => { document.getElementById('video-error').hidden = false; };
+  const clearTimers = () => { clearTimeout(guard); clearTimeout(stuck); };
+  // Armed by every 'play' event (the cover, the buttons, the native controls, a resume after pause) until the
+  // address has shown a picture once. Pressing Play on a film that is already playing fires no 'play', arms nothing.
+  const arm = () => { if (played || last()) return; clearTimeout(guard); guard = setTimeout(next, 10000); };
   const go = () => {
-    clearTimeout(guard);
-    guard = setTimeout(() => { if (film.readyState < 1) next(); }, 10000);
     const seek = () => { if (typeof want === 'number') { film.currentTime = Math.min(want, (film.duration || 57.087) - 0.1); want = null; } };
     if (typeof want === 'number') { if (film.readyState >= 1) seek(); else film.addEventListener('loadedmetadata', seek, { once: true }); }
     const p = film.play();
-    if (p && p.catch) p.catch((e) => { if (e.name === 'NotSupportedError' && at >= sources.length - 1) showError(); });
+    if (p && p.catch) p.catch((e) => { if (e.name === 'NotSupportedError' && last()) showError(); });
   };
   const next = () => {
-    clearTimeout(guard);
-    if (at >= sources.length - 1) { showError(); return; }
+    clearTimers();
+    if (last()) { showError(); return; }
     if (want === null && film.currentTime) want = film.currentTime;
+    played = false;
     film.src = sources[++at];
     film.load();
     go();
@@ -60,8 +67,12 @@
     film.focus({ preventScroll: true });
   };
   film.addEventListener('play', reveal);
+  film.addEventListener('play', arm);
   film.addEventListener('error', next);
-  film.addEventListener('loadedmetadata', () => clearTimeout(guard));
+  film.addEventListener('playing', () => { played = true; clearTimers(); });
+  film.addEventListener('pause', clearTimers);
+  // Stuck for 15 s after it had played: try the next address. On the last one there is nothing to switch to, so wait.
+  film.addEventListener('waiting', () => { if (film.paused || !played || last()) return; clearTimeout(stuck); stuck = setTimeout(next, 15000); });
   document.querySelectorAll('[data-play]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); play(); }));
   document.querySelectorAll('[data-seek]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); play(Number(a.dataset.seek)); }));
 

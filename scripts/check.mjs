@@ -37,6 +37,10 @@ const mobile=JSON.parse(read('src/mobile-media-manifest.json'));
 assert.equal(crypto.createHash('sha256').update(fs.readFileSync('media/film-mobile.mp4')).digest('hex'),mobile.video.sha256,'web version is the creator supplied file, byte for byte');
 assert.equal(crypto.createHash('sha256').update(fs.readFileSync('assets/poster-mobile.jpg')).digest('hex'),mobile.cover.sha256,'cover is the creator supplied file, byte for byte');
 for(const p of pages.slice(0,2))assert.ok(Buffer.byteLength(read(p))<180000,'readable HTML budget');
+// scripts/push.sh says "pushed" only after a real push (2026-10-25: the old loop printed it after four refused pushes).
+{ const {execSync}=await import('node:child_process'); try{execSync('bash scripts/test-push.sh',{stdio:'pipe'})}catch(e){assert.fail('push.sh: '+(e.stdout||e.message))} }
+// The docs describe the current site (2026-10-25: the README still described a 9-part timeline and no external requests).
+{ const r=read('README.md'); assert.ok(!/9 段|6 项制作决定|无外部资源请求|laibuji-aini\//.test(r),'README describes an old version of the site'); }
 // Copy lock (2026-10-24): the copy is final; a changed word fails until the owner agrees and `npm run lock` records it.
 const {checkCopy}=await import('./copy-lock.mjs');
 const copyProblems=checkCopy(pages);
