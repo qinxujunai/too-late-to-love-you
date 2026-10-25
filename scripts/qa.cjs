@@ -4,13 +4,13 @@
 //
 // What it checks, on zh / en / archive × phone 390 / desktop 1440 × light / dark:
 //   no video request before Play · same-origin only · no console or HTTP errors · no sideways scroll · axe WCAG AA ·
-//   the theme switch works · Play plays in place (first address requested is Cloudflare, the page stays at the top).
+//   the theme switch works · Play plays in place (the first address requested is the active host, src/hosts.json).
 // Seeking: every card and "从 0:12 看" link is clicked and must land on its second. The page is served through a small
 //   local proxy that swaps the film for scripts/fixtures/seek.webm, a 60-second synthetic test pattern (VP9, which
 //   this Chromium can decode). That proves the page logic, not the film file.
 // The film itself: only played when the browser can decode H.264 (canPlayType). The cloud Chromium cannot, and then
 //   the result is printed as NOT TESTED, never as passed. A phone or WeChat is never simulated by changing the UA.
-// Also: without JS the video and every card are still there; the three film addresses answer Range requests.
+// Also: without JS the video and every card are still there; both hosts serve the exact file.
 const fs = require('node:fs');
 const path = require('node:path');
 const http = require('node:http');
@@ -23,7 +23,8 @@ if (!axePath) { console.error('axe-core is missing: run npm install'); process.e
 const axe = fs.readFileSync(axePath, 'utf8');
 const exe = [process.env.CHROME_PATH, '/opt/pw-browsers/chromium-1194/chrome-linux/chrome', 'C:/Program Files/Google/Chrome/Application/chrome.exe'].find((p) => p && fs.existsSync(p));
 const seekClip = fs.readFileSync(path.join(__dirname, 'fixtures', 'seek.webm'));
-const SOURCES = ['https://media.praxisai.online/too-late-to-love-you.mp4', 'https://media-1416754078.cos.ap-shanghai.myqcloud.com/too-late-to-love-you.mp4'];
+const hosts = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'src', 'hosts.json'), 'utf8'));
+const ACTIVE = hosts.hosts[hosts.active];
 
 const issues = [];
 const notTested = [];
@@ -79,11 +80,11 @@ function proxy() {
     check(await page.evaluate((b) => (document.documentElement.dataset.theme || '') !== b, before), `${id} theme switches`);
     if (p !== 'archive/') {
       check(await page.locator('#film').count() === 1 && await page.locator('video').count() === 1, `${id} one player`);
-      // Play in place: the cover goes, the first address asked for is Cloudflare, the page does not move.
+      // Play in place: the cover goes, the first address asked for is the active host, the page does not move.
       await page.locator('.cover').click();
       await page.waitForTimeout(800);
       check(await page.locator('.cover').isHidden(), `${id} the cover makes way for the film`);
-      check(video[0] === SOURCES[0], `${id} first address is Cloudflare (${video[0] || 'none'})`);
+      check(video[0] === ACTIVE.play, `${id} first address is the active host, ${hosts.active} (${video[0] || 'none'})`);
       check(await page.evaluate(() => scrollY) < 5, `${id} plays in place at the top`);
       if (w === 1440 && theme === 'light') {
         const h264 = await page.locator('#film').evaluate((v) => v.canPlayType('video/mp4; codecs="avc1.640033"'));
@@ -140,13 +141,25 @@ function proxy() {
   await nojs.close();
   await browser.close();
 
-  // Range (needed for seeking): the local copy and both hosts answer 1 KB of the same file.
-  for (const u of [new URL('media/film-mobile.mp4', base).href, ...SOURCES]) {
+  // The active host must serve the exact file (Range for seeking, size, MD5 ETag), and its download address must say
+  // "attachment". The other host is only reported: when the active one has died and npm run host is switching away
+  // from it, the dead one must not block the switch.
+  const warnings = [];
+  for (const [name, h] of Object.entries(hosts.hosts)) for (const [what, u] of [['play', h.play], ['download', h.download]]) {
+    let good = false, why = '';
     try {
-      const r = await fetch(u, { headers: { Range: 'bytes=0-1023' } });
-      check(r.status === 206 && Number(r.headers.get('content-length')) === 1024 && /\/51065030$/.test(r.headers.get('content-range') || ''), `Range ${u}`);
-    } catch (e) { check(false, `Range ${u} (${e.message})`); }
+      const r = await fetch(u, { headers: { Range: 'bytes=0-1023' }, signal: AbortSignal.timeout(20000) });
+      const etag = (r.headers.get('etag') || '').replace(/"/g, '');
+      good = r.status === 206 && (r.headers.get('content-range') || '').endsWith(`/${hosts.file.bytes}`) && etag === hosts.file.md5 && (what === 'play' || /attachment/i.test(r.headers.get('content-disposition') || ''));
+      why = `status ${r.status}`;
+      await r.body?.cancel();
+    } catch (e) { why = e.message; }
+    const label = `${name} ${what}: the film, byte-identical${what === 'download' ? ', as a download' : ''} (${u})`;
+    if (name === hosts.active) check(good, label + (good ? '' : ` ${why}`));
+    else if (!good) warnings.push(`the backup host does not serve the film: ${label} ${why}`);
+    else console.log(`PASS ${label} (backup)`);
   }
+  for (const w of warnings) console.log(`WARN ${w}`);
 
   for (const n of notTested) console.log(`NOT TESTED ${n}`);
   if (issues.length) { console.error(`\n${issues.length} check(s) failed`); process.exit(1); }

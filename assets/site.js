@@ -1,8 +1,6 @@
 // Theme, the bar, the film in the first screen and the shot rail. Without JS: the plain video with its own controls,
 // and a scrollable rail.
 (() => {
-  // Leftover from the removed 线路 switch (v26.1–26.2): forget it on every phone that saved it.
-  try { localStorage.removeItem('qxj.line'); } catch {}
   const root = document.documentElement;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduce) root.classList.add('motion');
@@ -22,39 +20,35 @@
   const film = document.getElementById('film');
   const cover = document.querySelector('.cover');
   if (!film) return;
-  // One file everywhere: the creator's 4K web version (about 7 Mbps), for playing and for the download (the 14 Mbps
-  // original was deleted on 2026-10-24).
-  // Tested 2026-10-24: on a fast link Chromium already downloads the whole film ahead (a service worker forcing a
-  // full-speed download changed nothing), so stalls come from links slower than the film's bitrate, not from buffering.
-  // The film is the first screen (v24.1, as in v23): tap the picture and it plays right there, with the system
-  // controls for full screen and rotation. Without JS the plain video element with its own controls is shown.
+  // The film is the first screen (v24.1): tap the picture and it plays right there, with the system controls for
+  // full screen and rotation. Without JS the plain video element with its own controls is shown.
   if (cover) cover.hidden = false;
   const reveal = () => { if (cover) cover.hidden = true; hero && hero.classList.add('playing'); };
-  // v26.1–26.2 tried his Bilibili upload as a domestic line (sandboxed embed); on his phone it would not play, and he
-  // does not want a second line or a switch (2026-10-24). Removed: one player, one file.
-  // Addresses in order (Cloudflare R2, Tencent Shanghai, this repository). WeChat's player reads only src, so the
-  // fallback is ours. An address is replaced by the next one, from the same second, when it errors, when it shows no
-  // picture within 10 s of Play (nothing at all, or only the file's metadata), or when playback has been stuck for
-  // 15 s; ordinary buffering resumes well inside that. Each address is tried once (scripts/test-player.cjs).
+  // Hosts (src/hosts.json): the active one is on src, the other follows it in data-sources. The other is used only when
+  // the active one cannot be reached at all: an error, or nothing at all (not even the file's header) within 10 s of
+  // Play. A slow host is never switched away from (his rule, 2026-10-25). scripts/test-player.cjs checks each case.
   const sources = (film.dataset.sources || '').split(' ').filter(Boolean);
-  let at = 0, guard = 0, stuck = 0, want = null, played = false;
+  let at = 0, guard = 0, want = null;
   const last = () => at >= sources.length - 1;
   const showError = () => { document.getElementById('video-error').hidden = false; };
-  const clearTimers = () => { clearTimeout(guard); clearTimeout(stuck); };
-  // Armed by every 'play' event (the cover, the buttons, the native controls, a resume after pause) until the
-  // address has shown a picture once. Pressing Play on a film that is already playing fires no 'play', arms nothing.
-  const arm = () => { if (played || last()) return; clearTimeout(guard); guard = setTimeout(next, 10000); };
+  // Armed by every 'play' (the cover, the buttons, the native controls) while nothing has arrived; cleared as soon as
+  // any bytes arrive ('progress': a slow host is not a dead one), by the file's header and by a pause. On the last
+  // address there is nothing to switch to: the message shows instead.
+  let arrived = false;
+  const arm = () => { if (film.readyState > 0 || arrived) return; clearTimeout(guard); guard = setTimeout(() => { if (film.readyState === 0 && !arrived) next(); }, 10000); };
   const go = () => {
     const seek = () => { if (typeof want === 'number') { film.currentTime = Math.min(want, (film.duration || 57.087) - 0.1); want = null; } };
     if (typeof want === 'number') { if (film.readyState >= 1) seek(); else film.addEventListener('loadedmetadata', seek, { once: true }); }
+    // A failing address also rejects play(); the 'error' event below handles it, so the rejection is ignored here
+    // (reading it as "the last address failed" showed the error over a film that was playing, 2026-10-25).
     const p = film.play();
-    if (p && p.catch) p.catch((e) => { if (e.name === 'NotSupportedError' && last()) showError(); });
+    if (p && p.catch) p.catch(() => {});
   };
   const next = () => {
-    clearTimers();
+    clearTimeout(guard);
     if (last()) { showError(); return; }
     if (want === null && film.currentTime) want = film.currentTime;
-    played = false;
+    arrived = false;
     film.src = sources[++at];
     film.load();
     go();
@@ -69,10 +63,10 @@
   film.addEventListener('play', reveal);
   film.addEventListener('play', arm);
   film.addEventListener('error', next);
-  film.addEventListener('playing', () => { played = true; clearTimers(); });
-  film.addEventListener('pause', clearTimers);
-  // Stuck for 15 s after it had played: try the next address. On the last one there is nothing to switch to, so wait.
-  film.addEventListener('waiting', () => { if (film.paused || !played || last()) return; clearTimeout(stuck); stuck = setTimeout(next, 15000); });
+  film.addEventListener('progress', () => { arrived = true; clearTimeout(guard); });
+  // The last address may still answer late, after its message showed: then the message goes.
+  film.addEventListener('loadedmetadata', () => { clearTimeout(guard); document.getElementById('video-error').hidden = true; });
+  film.addEventListener('pause', () => clearTimeout(guard));
   document.querySelectorAll('[data-play]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); play(); }));
   document.querySelectorAll('[data-seek]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); play(Number(a.dataset.seek)); }));
 

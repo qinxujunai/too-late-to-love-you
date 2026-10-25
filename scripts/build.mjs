@@ -17,20 +17,13 @@ const js=`<script>${fs.readFileSync('assets/site.js','utf8')}</script>`;
 const css=fs.readFileSync('assets/site.css','utf8').replace(/\/\*[\s\S]*?\*\//g,'').replace(/\s+/g,' ').replace(/\s*([{}:;,>])\s*/g,'$1').replace(/;}/g,'}').trim();
 const init=`try{var t=localStorage.getItem('qxj.theme');document.documentElement.dataset.theme=t==='dark'||t==='light'?t:matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}catch(e){}document.documentElement.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion')`;
 
-// One file for everything (his decision, 2026-10-24: 「100 兆的那个版本直接删了……只保留一个视频，所有链接都指向这一个视频」):
-// his 4K web version, about 7 Mbps, 51 MB. Never re-encoded here.
-// The same bytes are served from three places, in order (2026-10-24): Tencent Cloud Shanghai first (mainland viewers;
-// measured in WeChat without VPN: 1.0 s to first frame, 9.1 Mbps vs Cloudflare 4.2 s, 4.2 Mbps; GitHub Pages barely
-// plays there), Cloudflare R2 if Tencent fails (free traffic), then this repository. The browser moves down the list
-// by itself; no buttons, no switch. Download uses Tencent (its default domain already answers with "attachment").
-const PLAY='media/film-mobile.mp4';
-// 2026-10-25: Cloudflare first (no traffic fee; he tested it in WeChat, 「完全没有问题」), Tencent next, this repository last.
-// The download stays on Tencent: a cross-site download link only downloads when the server says attachment, which
-// Tencent's default address does and Cloudflare does not.
-const SOURCES=['https://media.praxisai.online/too-late-to-love-you.mp4','https://media-1416754078.cos.ap-shanghai.myqcloud.com/too-late-to-love-you.mp4'];
-const DOWNLOAD=SOURCES[1];
-// The address sits on the video's own src, never in <source> children: WeChat's in-app browser on Android (Tencent
-// X5/XWeb) reads only src, and the <source> list did not play there (2026-10-24). site.js tries the next address on failure.
+// Where the film comes from: src/hosts.json, the one file that decides it for this site and the personal site
+// (see its "about"). One file, the creator's own 4K web export, never re-encoded. The active host sits on the video's
+// own src, never in <source> children: WeChat's in-app browser on Android reads only src (2026-10-24). The other host
+// is in data-sources; site.js moves to it only when the active one cannot be reached at all.
+const hosts=JSON.parse(fs.readFileSync('src/hosts.json','utf8'));
+const ACTIVE=hosts.hosts[hosts.active];
+const BACKUP=Object.entries(hosts.hosts).find(([k])=>k!==hosts.active)[1];
 const playIcon=`<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3.5v13l10.5-6.5Z" fill="currentColor"/></svg>`;
 const moon=`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20.5 14.2A9 9 0 0 1 9.8 3.5 9 9 0 1 0 20.5 14.2Z"/></svg>`;
 
@@ -45,7 +38,7 @@ const ICONS={
  director:'<rect x="3.5" y="9" width="17" height="11" rx="2"/><path d="M3.5 9l2-4.5h15l-2 4.5"/><path d="M9 4.5 7.5 9M14.5 4.5 13 9"/>',
  layers:'<path d="M12 4 3.5 8.5 12 13l8.5-4.5z"/><path d="m3.5 12.5 8.5 4.5 8.5-4.5"/><path d="m3.5 16.5 8.5 4.5 8.5-4.5"/>'};
 const footer=()=>'';
-const seekLink=(r,t,text)=>`<a class="seek" href="${r}${PLAY}#t=${t}" data-seek="${t}">${text.replace('{t}',mmss(t))} ›</a>`;
+const seekLink=(r,t,text)=>`<a class="seek" href="${ACTIVE.play}#t=${t}" data-seek="${t}">${text.replace('{t}',mmss(t))} ›</a>`;
 const sectionHead=(id,label,title,lead='')=>`<header class="head"><p class="eyebrow">${label}</p><h2 id="${id}-title">${title}</h2>${lead?`<p class="lead">${lead}</p>`:''}</header>`;
 // Chinese has no spaces: a '|' in a title marks where a line may break; each phrase stays whole.
 const phr=t=>t.includes('|')?t.split('|').map(x=>`<span class="ph">${x}</span>`).join(''):t;
@@ -76,9 +69,9 @@ function page(lang){
 <header class="bar" data-bar><a class="bar-back" data-qxj-back hidden>‹ ${zh?'返回':'Back'}</a><a class="bar-home" href="#top">${film.title}</a><span class="bar-tools"><a href="${other}" lang="${zh?'en':'zh-CN'}">${c.language}</a><button type="button" data-theme-toggle aria-label="${c.theme}">${moon}</button><button class="bar-play" type="button" data-play>${playIcon}${c.play}</button></span></header>
 <main id="main">
 <section class="hero" id="top" aria-labelledby="film-title">
-<div class="screen" id="watch"><video id="film" src="${SOURCES[0]}" data-sources="${[...SOURCES,r+PLAY].join(' ')}" controls playsinline webkit-playsinline x5-playsinline preload="none" poster="${r}assets/key-1280.webp" width="3840" height="2160" aria-label="${film.title}"><track kind="descriptions" src="${r}media/descriptions-${lang}.vtt" srclang="${c.lang}" label="${c.textVersion}"></video><button class="cover" type="button" data-play hidden aria-label="${esc(c.play)} ${film.title}"><img src="${r}assets/key-1280.webp" srcset="${r}assets/key-1280.webp 1280w, ${r}assets/key-2560.webp 2560w" sizes="100vw" width="1280" height="720" alt="${esc(c.coverAlt)}" fetchpriority="high" decoding="async"><span class="disc">${playIcon}</span></button><p class="video-error" id="video-error" role="status" hidden>${c.error}</p></div>
+<div class="screen" id="watch"><video id="film" src="${ACTIVE.play}" data-sources="${ACTIVE.play} ${BACKUP.play}" controls playsinline webkit-playsinline x5-playsinline preload="none" poster="${r}assets/key-1280.webp" width="3840" height="2160" aria-label="${film.title}"><track kind="descriptions" src="${r}media/descriptions-${lang}.vtt" srclang="${c.lang}" label="${c.textVersion}"></video><button class="cover" type="button" data-play hidden aria-label="${esc(c.play)} ${film.title}"><img src="${r}assets/key-1280.webp" srcset="${r}assets/key-1280.webp 1280w, ${r}assets/key-2560.webp 2560w" sizes="100vw" width="1280" height="720" alt="${esc(c.coverAlt)}" fetchpriority="high" decoding="async"><span class="disc">${playIcon}</span></button><p class="video-error" id="video-error" role="status" hidden>${c.error}</p></div>
 <div class="hero-copy"><p class="kicker">${c.kicker}</p><h1 id="film-title">${film.title}</h1>${zh?'':`<p class="title-en">${film.titleEn}</p>`}<p class="lede">${c.lede}</p><p class="meta">${c.meta.join('<span aria-hidden="true"> · </span>')}</p>
-<p class="actions"><a class="play" href="${r}${PLAY}" data-play>${playIcon}${c.play}</a><a class="download" href="${DOWNLOAD}" download="too-late-to-love-you.mp4">${c.download} <span aria-hidden="true">↓</span></a></p>
+<p class="actions"><a class="play" href="${ACTIVE.play}" data-play>${playIcon}${c.play}</a><a class="download" href="${esc(ACTIVE.download)}" download="too-late-to-love-you.mp4">${c.download} <span aria-hidden="true">↓</span></a></p>
 </section>
 <section class="section why" id="why" aria-labelledby="why-title"><header class="head"><p class="eyebrow">${c.whyLabel}</p><h2 class="qh" id="why-title">${qt(c.whyTitle)}</h2></header>
 <ol class="why-list">${c.why.map(([k,h,q,n])=>`<li><p class="why-k">${k}</p><h3>${h}</h3><blockquote><p>“${q}”</p></blockquote>${n?`<p class="why-note">${n}</p>`:''}</li>`).join('')}</ol><p class="signed">— ${c.whySigned}</p></section>
@@ -93,7 +86,7 @@ function page(lang){
 <section class="section tools" id="tools" aria-labelledby="tools-title"><header class="head"><p class="eyebrow">${c.toolsLabel}</p><h2 class="qh" id="tools-title">${qt(c.toolsTitle)}</h2><p class="lead">“${c.toolsLead}” <span class="by">— ${me}</span></p></header>
 <div class="tool-grid"><article class="tool tool-muse">${icon(ICONS.muse)}<h3>${muse.name}</h3><p>${muse[lang]}</p><div class="invite"><p class="invite-k">${c.invite}</p><p class="invite-code">${muse.code}</p><p class="invite-note">${c.inviteNote}</p></div><a href="${muse.url}" rel="noopener">${c.inviteGo} ↗</a></article>${skills.map((k,i)=>`<article class="tool">${icon(i?ICONS.layers:ICONS.director)}<h3>${k.name}</h3><p>${k[lang]}</p><a href="${k.url}" rel="noopener">${c.repo} ↗</a></article>`).join('')}</div></section>
 <section class="section coda" aria-labelledby="coda-title"><div class="narrow"><h2 id="coda-title">${c.codaTitle}</h2>${c.coda.map(t=>`<p>“${t}”</p>`).join('')}<p class="by">— ${c.codaSigned}</p></div></section>
-<section class="section credits" aria-labelledby="credits-title"><div class="narrow"><h2 id="credits-title">${c.creditsTitle}</h2><dl>${c.credits.map(([t,d])=>`<dt>${t}</dt><dd>${d}</dd>`).join('')}</dl>${c.creditsNote?`<p class="note-line">${c.creditsNote}</p>`:''}<p class="credits-links"><a href="${r}archive/">${c.archiveLink} ›</a><a href="${DOWNLOAD}" download="too-late-to-love-you.mp4">${c.download} ↓</a></p></div></section>
+<section class="section credits" aria-labelledby="credits-title"><div class="narrow"><h2 id="credits-title">${c.creditsTitle}</h2><dl>${c.credits.map(([t,d])=>`<dt>${t}</dt><dd>${d}</dd>`).join('')}</dl>${c.creditsNote?`<p class="note-line">${c.creditsNote}</p>`:''}<p class="credits-links"><a href="${r}archive/">${c.archiveLink} ›</a><a href="${esc(ACTIVE.download)}" download="too-late-to-love-you.mp4">${c.download} ↓</a></p></div></section>
 </main>${footer(c)}${js}</body></html>`;
 }
 
@@ -123,4 +116,6 @@ for(const lang of ['zh','en']){
 const c=copy.zh;
 write('archive/index.html',`${head(c,'archive/','../',{title:'《来不及爱你》｜制作全记录',description:'七段画面怎样一段段做出来：被否的版本、定版的理由，和导演的原话。'})}<body class="plain-page"><a class="skip" href="#main">跳到正文</a><header class="bar solid"><a class="bar-home" href="../">‹ ${film.title}</a><span class="bar-tools"><button type="button" data-theme-toggle aria-label="${c.theme}">${moon}</button></span></header><main class="archive" id="main"><p class="eyebrow">${film.title}</p><h1>${c.archiveHeading}</h1><p class="lead">${c.archiveIntro}</p><div class="archive-body">${markdown(fs.readFileSync('src/archive.md','utf8'))}</div><p class="archive-back"><a href="../">${c.backFilm} ›</a></p></main>${footer(c)}${js}</body></html>`);
 write('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${['','en/','archive/'].map(p=>`<url><loc>${SITE}${p}</loc></url>`).join('')}</urlset>`);
-console.log('Built Chinese and English film pages, production archive, scene descriptions and sitemap.');
+// The published copy the personal site reads, so both sites always play from the same host.
+write('hosts.json',JSON.stringify({active:hosts.active,hosts:hosts.hosts,file:hosts.file},null,2)+'\n');
+console.log(`Built Chinese and English film pages, production archive, scene descriptions, sitemap and hosts.json (active: ${hosts.active}).`);

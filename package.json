@@ -8,6 +8,7 @@
     "qa": "node scripts/qa.cjs",
     "serve": "node scripts/serve.mjs",
     "ship": "bash scripts/ship.sh",
+    "host": "node scripts/host.mjs",
     "lock": "node -e \"import('./scripts/copy-lock.mjs').then(m=>{const r=m.checkCopy(['index.html','en/index.html','archive/index.html'],'copy.lock.json',{write:true});r.forEach(x=>console.error(x));console.log('copy.lock.json written');process.exit(r.length?1:0)})\""
   },
   "devDependencies": {

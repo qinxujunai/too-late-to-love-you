@@ -1,0 +1,28 @@
+{
+  "about": "Where the film is played and downloaded from. One file decides it for both sites: this site and the creator's personal site (which reads the published copy, hosts.json). Switch with: npm run host -- tencent | cloudflare. The other host is used only when the active one cannot be reached at all (an error, or nothing at all within 10 s of Play), never because it is slow. Manual: personal site repository, docs/film-hosting.md.",
+  "active": "tencent",
+  "hosts": {
+    "tencent": {
+      "name": "腾讯云上海（轻量对象存储）",
+      "play": "https://media-1416754078.cos.ap-shanghai.myqcloud.com/too-late-to-love-you.mp4",
+      "download": "https://media-1416754078.cos.ap-shanghai.myqcloud.com/too-late-to-love-you.mp4"
+    },
+    "cloudflare": {
+      "name": "Cloudflare R2",
+      "play": "https://media.praxisai.online/too-late-to-love-you.mp4",
+      "download": "https://media.praxisai.online/too-late-to-love-you.mp4?download=1"
+    }
+  },
+  "file": {
+    "about": "The creator's own 4K web export, never re-encoded, re-muxed or compressed by an agent (2026-10-23). Both hosts hold this exact file; the ETag both return is its MD5.",
+    "bytes": 51065030,
+    "sha256": "bf20447b5b94491280cef9ade0b1cd5bdad553aa8183b2f3d60335cd154768a8",
+    "md5": "cfa2405e94f83841b82b54084b82dbca",
+    "codec": "H.264 Main, AAC",
+    "width": 3840,
+    "height": 2160,
+    "fps": 24,
+    "durationSeconds": 57.087,
+    "cuts": [9.458333, 13.458333, 23.041667, 27.833333, 47.083333]
+  }
+}

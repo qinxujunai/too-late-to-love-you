@@ -2,7 +2,7 @@
 # One command from a finished change to live: build, check, commit as the owner, rebase on GitHub, rebuild, then
 # browser QA and the player test on a local server serving exactly that tree, then push. Anything failing stops it
 # before the push: nothing is published (a commit may stay local, which the next ship builds on).
-# Needs the network: QA also checks that Cloudflare and Tencent answer Range requests for the film.
+# Needs the network: QA also checks that the active host serves the exact film (size, MD5, download header).
 # Usage: npm run ship -- "what changed"
 set -euo pipefail
 msg="${1:?usage: npm run ship -- \"what changed\"}"
@@ -12,7 +12,13 @@ port=4174
 npm run -s build >/dev/null
 npm run -s check
 git add -A
-git "${who[@]}" commit -q -m "$msg"
+# Nothing new and nothing left unpushed from an earlier run: nothing to ship. A commit left by a run that stopped
+# before its push is shipped now.
+if git diff --cached --quiet; then
+  if [ -z "$(git rev-list "@{u}..HEAD" 2>/dev/null)" ]; then echo "nothing changed: nothing to ship"; exit 0; fi
+else
+  git "${who[@]}" commit -q -m "$msg"
+fi
 git pull -q --rebase origin "$branch"
 npm run -s build >/dev/null
 if ! git diff --quiet; then git add -A; git "${who[@]}" commit -q -m "Rebuild after rebase"; fi
