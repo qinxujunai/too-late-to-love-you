@@ -24,7 +24,7 @@ for(const p of pages.slice(0,2)){
   assert.ok(!/<video[^>]*autoplay/.test(h),`${p}: no autoplay`);
   assert.equal((h.match(/data-seek="/g)||[]).length>=7,true,`${p}: real timecode navigation`);
   assert.ok(h.includes('kind="descriptions"'),`${p}: scene descriptions available`);
-  assert.ok(/<video id="film" src="https:\/\/media-1416754078\.cos\.ap-shanghai\.myqcloud\.com\/too-late-to-love-you\.mp4" data-sources="https:[^" ]+too-late-to-love-you\.mp4 https:[^" ]+too-late-to-love-you\.mp4 (?:\.\.\/)?media\/film-mobile\.mp4"[^>]*x5-playsinline/.test(h),`${p}: plays the creator's 4K web version from src (WeChat reads only src): Tencent, then Cloudflare, then this repository`);
+  assert.ok(/<video id="film" src="https:\/\/media\.praxisai\.online\/too-late-to-love-you\.mp4" data-sources="https:[^" ]+too-late-to-love-you\.mp4 https:[^" ]+too-late-to-love-you\.mp4 (?:\.\.\/)?media\/film-mobile\.mp4"[^>]*x5-playsinline/.test(h),`${p}: plays the creator's 4K web version from src (WeChat reads only src): Cloudflare, then Tencent, then this repository`);
   assert.ok(!/<source\b/.test(h),`${p}: no <source> children (WeChat's player ignores them)`);
   assert.ok(/href="https:\/\/media-1416754078\.cos\.ap-shanghai\.myqcloud\.com\/too-late-to-love-you\.mp4" download/.test(h),`${p}: download is the same single file`);
   assert.ok(!h.includes('film-original'),`${p}: the 100 MB file is gone (his decision, 2026-10-24)`);

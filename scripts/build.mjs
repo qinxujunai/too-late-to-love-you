@@ -24,8 +24,11 @@ const init=`try{var t=localStorage.getItem('qxj.theme');document.documentElement
 // plays there), Cloudflare R2 if Tencent fails (free traffic), then this repository. The browser moves down the list
 // by itself; no buttons, no switch. Download uses Tencent (its default domain already answers with "attachment").
 const PLAY='media/film-mobile.mp4';
-const SOURCES=['https://media-1416754078.cos.ap-shanghai.myqcloud.com/too-late-to-love-you.mp4','https://media.praxisai.online/too-late-to-love-you.mp4'];
-const DOWNLOAD=SOURCES[0];
+// 2026-10-25: Cloudflare first (no traffic fee; he tested it in WeChat, 「完全没有问题」), Tencent next, this repository last.
+// The download stays on Tencent: a cross-site download link only downloads when the server says attachment, which
+// Tencent's default address does and Cloudflare does not.
+const SOURCES=['https://media.praxisai.online/too-late-to-love-you.mp4','https://media-1416754078.cos.ap-shanghai.myqcloud.com/too-late-to-love-you.mp4'];
+const DOWNLOAD=SOURCES[1];
 // The address sits on the video's own src, never in <source> children: WeChat's in-app browser on Android (Tencent
 // X5/XWeb) reads only src, and the <source> list did not play there (2026-10-24). site.js tries the next address on failure.
 const playIcon=`<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3.5v13l10.5-6.5Z" fill="currentColor"/></svg>`;
