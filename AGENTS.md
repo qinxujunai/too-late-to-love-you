@@ -1,5 +1,7 @@
 # 来不及爱你 · 协作规则
 
+**提交者只有他一个人（2026-11-02 他的要求，所有仓库、以后每一次）**：作者和提交者都只能是 `qinxujunai <266454737+qinxujunai@users.noreply.github.com>`。智能体（Claude、Codex 等）、定时任务（不用 `github-actions[bot]`）、合并都一样；提交说明里不加 `Co-Authored-By`、`Claude-Session` 或任何工具署名。不要在网页上点合并（会让 GitHub 成为提交者），在本地合并后推送。
+
 秦徐俊导演的 AI 短片《来不及爱你》的网站。网址 `https://qinxujunai.github.io/too-late-to-love-you/`：中文首页，英文 `/en/`，制作全记录 `/archive/`（中文）。个人网站首页首屏也播放这部片子，并链到这里。
 
 ## 页面结构（v26，2026-10-24；骨架 v24，对标 A24《Past Lives》、Apple TV、Runway AI 电影节、DeepMind《ANCESTRA》幕后页）
